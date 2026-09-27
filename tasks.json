@@ -59,9 +59,9 @@
    "title": "All personal accounts + 2FA",
    "status": "agreed",
    "created": "2026-09-26",
-   "updated": "2026-09-26",
+   "updated": "2026-09-27",
    "due": null,
-   "detail": "No paid business tiers to start; two-factor authentication enabled during setup.",
+   "detail": "No paid business tiers to start. Two-factor authentication is required during account setup \u2014 but universal completion across all personal accounts is unconfirmed.",
    "where": "Short Video thread · 2026-09-26"
   },
   {
@@ -255,12 +255,16 @@
    "created": "2026-09-25",
    "updated": "2026-09-27",
    "due": null,
-   "detail": "Unparks when you supply a GitHub username and registration email.",
+   "detail": "Account technology-consults verified working via API on 2026-09-27 (classic PAT authenticates; repo creation confirmed). The new-account signup flow is abandoned — no username/email needed. Remaining: create the docs repo, push the 40-doc site, enable Pages — queued behind the docs-set review.",
    "where": "Short Video thread · 2026-09-25",
    "blockedBy": [
     {
+     "kind": "task",
+     "id": "sv.docs-full-set.2026-09-27"
+    },
+    {
      "kind": "external",
-     "note": "Waiting on you: GitHub username + registration email"
+     "note": "After docs review: create repo + push site + enable Pages (API-ready since 2026-09-27)"
     }
    ]
   },
