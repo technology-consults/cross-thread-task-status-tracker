@@ -195,7 +195,7 @@ function matches(t, today){
 function sortTasks(list, today){
   const by={};
   const key={
-    status:t=>((t.isOverdue?0:STATUS[t.status].rank)*100000 - t.pri.level),
+    status:t=>((t.isOverdue?0:(STATUS[t.status]||{rank:5}).rank)*100000 - t.pri.level),
     thread:t=>(t.thread+t.title),
     priority:t=>{const d=t.due?+t.due.replace(/-/g,""):99999999;return -t.pri.level*1e10+d;},
     due:t=>(t.due||"9999-99-99"),
@@ -253,7 +253,7 @@ function depSection(t, byId){
   return h;
 }
 function cardHTML(t, threads, today){
-  const st=STATUS[t.status];
+  const st=STATUS[t.status]||{label:t.status||"unknown", cls:"b-todo"};
   const th=threads[t.thread];
   let badges='<span class="badge '+st.cls+'">'+esc(st.label)+'</span>';
   if(t.isOverdue) badges+='<span class="badge b-overdue">OVERDUE</span>';
