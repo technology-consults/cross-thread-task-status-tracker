@@ -283,12 +283,19 @@ function renderChips(today){
     return true;
   });
   const counts={};
-  for(const k of Object.keys(STATUS)) counts[k]=base.filter(t=>t.status===k).length;
+  counts[""]=base.length;
+  // chips are generated from the statuses actually present in the data;
+  // the predefined STATUS list is preserved as the source of labels/colors/ranks.
+  const present=[...new Set(base.map(t=>t.status))];
+  present.sort((a,b)=>((STATUS[a]||{rank:99}).rank-(STATUS[b]||{rank:99}).rank));
+  for(const k of present) counts[k]=base.filter(t=>t.status===k).length;
   counts["overdue"]=base.filter(t=>t.isOverdue).length;
   counts["next_dues"]=base.filter(t=>isNextDue(t,today,state.nDays)).length;
-  counts[""]=base.length;
   let h='<button class="chip'+(state.status===""?" active":"")+'" data-s="">All statuses <span class="n">'+counts[""]+'</span></button>';
-  for(const k of Object.keys(STATUS)) h+='<button class="chip'+(state.status===k?" active":"")+'" data-s="'+k+'">'+STATUS[k].label+' <span class="n">'+counts[k]+'</span></button>';
+  for(const k of present){
+    const meta=STATUS[k]||{label:String(k), cls:"b-todo"};
+    h+='<button class="chip'+(state.status===k?" active":"")+'" data-s="'+esc(k)+'">'+esc(meta.label)+' <span class="n">'+counts[k]+'</span></button>';
+  }
   for(const s of SMART) h+='<button class="chip'+(state.status===s.key?" active":"")+'" data-s="'+s.key+'">'+s.label+' <span class="n">'+counts[s.key]+'</span></button>';
   $("statusChips").innerHTML=h;
   document.querySelectorAll("#statusChips .chip").forEach(c=>c.addEventListener("click",()=>{state.status=c.dataset.s;render();}));
