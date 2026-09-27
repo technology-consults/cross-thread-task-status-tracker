@@ -81,6 +81,12 @@ label.toggle{display:inline-flex;align-items:center;gap:6px;font-size:13px;color
 .composer .hint.ok{color:#1b5e20;font-weight:600}
 .copied{font-size:12px;color:#16a34a;margin-top:4px;display:none}
 .empty{background:var(--card);border:1px dashed var(--line);border-radius:var(--radius);padding:24px;text-align:center;color:var(--muted)}
+details.blocked-sec{margin-top:18px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:4px 16px}
+details.blocked-sec summary{cursor:pointer;padding:12px 0;font-weight:600;color:var(--muted);font-size:14px;list-style:none}
+details.blocked-sec summary::-webkit-details-marker{display:none}
+details.blocked-sec summary:before{content:"▸ ";color:var(--muted)}
+details.blocked-sec[open] summary:before{content:"▾ "}
+details.blocked-sec .bcards{padding:2px 0 12px;display:grid;gap:12px}
 footer{margin:18px 2px 8px;font-size:12px;color:var(--muted)}
 .viewtoggle{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
 .viewtoggle button{border:0;background:var(--bg);color:var(--ink);padding:8px 14px;font-size:13px;cursor:pointer}
@@ -295,6 +301,14 @@ function render(){
   $("countLine").textContent=list.length+" of "+data.tasks.length+" items";
   const board=$("board");
   board.className=state.view==="flat"?"flat":"";
+  // blocked tasks sit in a collapsed section unless explicitly filtered for
+  const showBlockedInline = state.status==="blocked";
+  const blocked = showBlockedInline ? [] : list.filter(t=>t.status==="blocked");
+  const rest = showBlockedInline ? list : list.filter(t=>t.status!=="blocked");
+  const blockedSec=()=> blocked.length
+    ? '<details class="blocked-sec"><summary>Blocked ('+blocked.length+') — tap to expand</summary><div class="bcards">'
+      + blocked.map(t=>cardHTML(t,data.threads,today)).join("") + "</div></details>"
+    : "";
   if(state.status==="pending_me"){
     board.innerHTML='<div class="empty">Nothing here right now.</div>';
   }else if(!list.length){
@@ -302,15 +316,15 @@ function render(){
   }else if(state.view==="grouped"){
     let h="";
     for(const tk of Object.keys(data.threads)){
-      const items=list.filter(t=>t.thread===tk);
+      const items=rest.filter(t=>t.thread===tk);
       if(!items.length) continue;
       h+='<section class="thread-group"><h2>'+esc(data.threads[tk].name)+' <span class="tracker">Tracker: '+esc(data.threads[tk].tracker)+' · '+items.length+' items</span></h2><div class="cards">';
       for(const t of items) h+=cardHTML(t,data.threads,today);
       h+='</div></section>';
     }
-    board.innerHTML=h;
+    board.innerHTML=h+blockedSec();
   }else{
-    board.innerHTML=list.map(t=>cardHTML(t,data.threads,today)).join("");
+    board.innerHTML=rest.map(t=>cardHTML(t,data.threads,today)).join("")+blockedSec();
   }
   // due soon strip
   const soon=data.tasks.filter(t=>t.due&&!TERMINAL.has(t.status)&&daysBetween(today,t.due)>=0&&daysBetween(today,t.due)<=14)
