@@ -1,32 +1,248 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cross-Thread Task Status Tracker</title>
-<style>
-  body { font-family: system-ui, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; }
-  h1 { font-size: 1.4rem; }
-  table { border-collapse: collapse; width: 100%; margin-top: 1rem; }
-  th, td { border: 1px solid #ccc; padding: 0.5rem 0.75rem; text-align: left; }
-  th { background: #f4f4f4; }
-  .ok { color: #1a7f37; font-weight: bold; }
-  .pending { color: #9a6700; font-weight: bold; }
-  footer { margin-top: 2rem; font-size: 0.8rem; color: #666; }
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="icon" href="data:," />
+  <title>All Threads Status Board</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg:#f3f5f7; --paper:#ffffff; --ink:#12202c; --muted:#566575; --line:#d8dee5;
+      --navy:#142d42; --navy2:#203f58; --focus:#0b66d6; --shadow:0 12px 28px rgba(20,45,66,.09);
+      --green:#176b4d; --green-bg:#dff4ea; --amber:#8a4a00; --amber-bg:#fff0cf;
+      --blue:#175a99; --blue-bg:#dcecff; --teal:#0d6b6a; --teal-bg:#d8f2ef;
+      --gray:#5e6670; --gray-bg:#e9ecef; --red:#9a2834; --red-bg:#fde3e6;
+      --purple:#684092; --purple-bg:#eee2f9;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg:#0e141a; --paper:#16212a; --ink:#eef4f7; --muted:#aab7c2; --line:#34424d;
+        --navy:#dceaf5; --navy2:#bcd0df; --focus:#74b6ff; --shadow:0 14px 30px rgba(0,0,0,.28);
+        --green:#9be2c4; --green-bg:#153d30; --amber:#ffd38b; --amber-bg:#493411;
+        --blue:#a8d2ff; --blue-bg:#153754; --teal:#8fe0da; --teal-bg:#143d3b;
+        --gray:#c4cbd2; --gray-bg:#30383f; --red:#ffb0ba; --red-bg:#4a2027;
+        --purple:#d6b5f5; --purple-bg:#3b2950;
+      }
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:"Aptos","Segoe UI",system-ui,sans-serif;line-height:1.45}
+    button,select,input{font:inherit;color:inherit}
+    button{cursor:pointer}
+    .topband{height:8px;background:linear-gradient(90deg,#eea527 0 19%,#1a6a65 19% 47%,#2b5f86 47% 76%,#9b3844 76%)}
+    main{width:min(1180px,100%);margin:0 auto;padding:clamp(20px,4vw,52px) clamp(16px,3vw,34px) 44px}
+    .masthead{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px;align-items:start;padding-bottom:24px;border-bottom:1px solid var(--line)}
+    h1{margin:0;color:var(--navy);font-family:Georgia,"Times New Roman",serif;font-size:clamp(2rem,5vw,4.25rem);font-weight:700;letter-spacing:-.045em;line-height:.98;max-width:820px}
+    .subtitle{margin:14px 0 0;color:var(--muted);font-size:clamp(1rem,2vw,1.2rem)}
+    .stamp{min-width:210px;padding:12px 14px;border:1px solid var(--line);background:var(--paper);box-shadow:var(--shadow);font-size:.79rem;color:var(--muted);line-height:1.5}
+    .stamp strong{display:block;color:var(--ink);font-size:.82rem}
+    .freshness{margin:18px 0 0;padding:13px 16px;background:var(--navy);color:var(--bg);font-weight:700;border-radius:2px}
+    @media (prefers-color-scheme:dark){.freshness{background:#dceaf5;color:#12202c}}
+    .note{margin:12px 0 0;color:var(--muted);font-size:.88rem}
+    .due-wrap{margin:24px 0;background:var(--paper);border:1px solid var(--line);box-shadow:var(--shadow);display:grid;grid-template-columns:132px 1fr}
+    .due-label{padding:18px;background:var(--amber-bg);color:var(--amber);font-family:Georgia,serif;font-size:1.08rem;font-weight:700;display:flex;align-items:center}
+    .due-links{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:12px}
+    .due-link{flex:0 1 auto;border:1px solid var(--line);background:var(--bg);color:var(--ink);padding:8px 11px;text-decoration:none;font-size:.82rem;border-radius:999px;white-space:normal}
+    .due-link:hover,.due-link:focus-visible{border-color:var(--focus);outline:none}
+    .toolbar{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 94%,transparent);backdrop-filter:blur(10px);padding:14px 0 12px;border-bottom:1px solid var(--line)}
+    .controls{display:grid;grid-template-columns:minmax(210px,1.5fr) minmax(150px,.7fr) minmax(170px,.8fr);gap:10px}
+    .field label{display:block;margin:0 0 5px;color:var(--muted);font-size:.75rem;font-weight:700}
+    .field input,.field select{width:100%;height:44px;padding:0 12px;border:1px solid var(--line);background:var(--paper);border-radius:2px;outline:none}
+    .field input:focus,.field select:focus{border-color:var(--focus);box-shadow:0 0 0 3px color-mix(in srgb,var(--focus) 20%,transparent)}
+    .chips{display:flex;gap:7px;flex-wrap:wrap;padding:12px 1px 3px}
+    .chip{flex:0 1 auto;border:1px solid var(--line);background:var(--paper);padding:7px 11px;border-radius:999px;font-size:.78rem;font-weight:700}
+    .chip[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:var(--bg)}
+    @media (prefers-color-scheme:dark){.chip[aria-pressed="true"]{background:#dceaf5;color:#12202c}}
+    .summaryline{display:flex;justify-content:space-between;gap:12px;align-items:center;margin:20px 0 12px;color:var(--muted);font-size:.86rem}
+    #resultCount{font-weight:800;color:var(--ink)}
+    .section{margin:30px 0 0}
+    .section-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;border-bottom:2px solid var(--ink);padding-bottom:8px;margin-bottom:12px}
+    .section h2{margin:0;font-family:Georgia,"Times New Roman",serif;font-size:clamp(1.25rem,2vw,1.65rem);color:var(--navy)}
+    .section-count{color:var(--muted);font-size:.78rem}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+    .card{scroll-margin-top:195px;background:var(--paper);border:1px solid var(--line);box-shadow:0 4px 12px rgba(20,45,66,.05);padding:16px;min-width:0;position:relative}
+    .card::before{content:"";position:absolute;left:-1px;top:-1px;bottom:-1px;width:4px;background:var(--status-color)}
+    .card h3{margin:10px 0 8px;font-size:1rem;line-height:1.28;color:var(--ink)}
+    .meta{display:flex;align-items:center;flex-wrap:wrap;gap:6px;color:var(--muted);font-size:.74rem}
+    .badge,.thread{display:inline-flex;align-items:center;border-radius:999px;font-weight:800;padding:4px 8px;line-height:1.1}
+    .badge{background:var(--status-bg);color:var(--status-color)}
+    .thread{background:var(--bg);border:1px solid var(--line);color:var(--muted)}
+    .date::before{content:"·";margin-right:6px}.due{margin-left:auto;color:var(--amber);font-weight:800}.due::before{content:"Due ";font-weight:600}
+    .detail{margin:0;color:var(--muted);font-size:.9rem}
+    .empty-card{grid-column:1/-1;padding:28px;text-align:center;background:var(--paper);border:1px dashed var(--line);color:var(--muted)}
+    .no-results{display:none;padding:40px 16px;text-align:center;border-top:1px solid var(--line);color:var(--muted)}
+    footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:.82rem}
+    footer p{margin:5px 0}.footer-time{font-size:.75rem}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    @media (max-width:760px){
+      .masthead{grid-template-columns:1fr}.stamp{min-width:0}.due-wrap{grid-template-columns:1fr}.due-label{padding:11px 14px}.controls{grid-template-columns:1fr 1fr}.searchfield{grid-column:1/-1}.grid{grid-template-columns:1fr}.toolbar{top:0}.card{scroll-margin-top:260px}.due{width:100%;margin-left:0}.date::before{content:"";margin:0}.summaryline{align-items:flex-start}.sorthint{display:none}
+    }
+    @media (max-width:430px){main{padding-left:12px;padding-right:12px}.controls{grid-template-columns:1fr}.searchfield{grid-column:auto}.freshness{margin-left:-12px;margin-right:-12px;padding-left:16px}.toolbar{margin-left:-12px;margin-right:-12px;padding-left:12px;padding-right:12px}.card{padding:14px}.chips{margin-right:-12px}}
+    @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  </style>
 </head>
 <body>
-<h1>Cross-Thread Task Status Tracker</h1>
-<p>Test page published through the GitHub API: feature branch, pull request, merge, and Pages hosting.</p>
-<table>
-  <tr><th>Platform</th><th>Access mechanism</th><th>Status</th></tr>
-  <tr><td>GitHub</td><td>Fine-grained personal access token</td><td class="ok">Validated</td></tr>
-  <tr><td>Instagram</td><td>Accounts Center link</td><td class="pending">Pending</td></tr>
-  <tr><td>Facebook</td><td>Accounts Center link</td><td class="pending">Pending</td></tr>
-  <tr><td>YouTube</td><td>Data API + OAuth</td><td class="pending">Pending</td></tr>
-  <tr><td>TikTok</td><td>Developer API + OAuth</td><td class="pending">Pending</td></tr>
-  <tr><td>X</td><td>Developer API tokens</td><td class="pending">Pending</td></tr>
-</table>
-<footer>Created 2026-09-27 as a permissions test for the short-video publishing pipeline.</footer>
+  <div class="topband" aria-hidden="true"></div>
+  <main>
+    <header class="masthead">
+      <div>
+        <h1>All Threads Status Board</h1>
+        <p class="subtitle">Every tracked item across all threads, grouped by state.</p>
+      </div>
+      <div class="stamp"><strong>Board record</strong>Created: Sep 27, 2026 · 10:08 AM EDT<br>Last modified: Sep 27, 2026 · 10:10 AM EDT</div>
+    </header>
+
+    <p class="freshness">Last updated: 2026-09-27 — refreshed by Bandhu on every status change.</p>
+    <p class="note">Entries describe where each discussion lives; the board cannot deep-link into individual chat messages.</p>
+
+    <section class="due-wrap" aria-labelledby="dueSoonTitle">
+      <div class="due-label" id="dueSoonTitle">Due soon</div>
+      <div class="due-links" id="dueLinks" aria-label="Items due within 14 days"></div>
+    </section>
+
+    <section class="toolbar" aria-label="Board controls">
+      <div class="controls">
+        <div class="field searchfield"><label for="search">Search title or details</label><input id="search" type="search" placeholder="Try “tagline” or “scorecard”" autocomplete="off"></div>
+        <div class="field"><label for="threadFilter">Thread</label><select id="threadFilter"><option>All threads</option><option>Short Video</option><option>Trading</option><option>Vehicle</option></select></div>
+        <div class="field"><label for="sort">Sort</label><select id="sort"><option value="status">by Status</option><option value="thread">by Thread</option><option value="date">by Date (newest first)</option><option value="due">by Due date (soonest first)</option></select></div>
+      </div>
+      <div class="chips" id="statusChips" aria-label="Filter by status"></div>
+    </section>
+
+    <div class="summaryline"><span id="resultCount" aria-live="polite"></span><span class="sorthint">Select a status to see its items across every thread.</span></div>
+    <div id="board"></div>
+    <div class="no-results" id="noResults"><strong>No matching items.</strong><br>Try clearing the search or choosing another filter.</div>
+
+    <footer>
+      <p>Threads covered: Short Video, Trading, Vehicle. Other threads (Main, Health, Finance, Templates) appear here once they have tracked items.</p>
+      <p class="footer-time">Created: 2026-09-27 10:08 EDT · Last modified: 2026-09-27 10:10 EDT</p>
+    </footer>
+  </main>
+
+<script>
+(function(){
+  'use strict';
+  var items = [
+    {s:'Agreed/Finalized',t:'Short Video',n:'Brand name: The Intelligently Artificial',d:'2026-09-26',x:'Locked after full clearance: USPTO/CIPO trademark screens clean, domains available, no same-niche competitor.'},
+    {s:'Agreed/Finalized',t:'Short Video',n:'All 5 platform handles secured',d:'2026-09-27',x:'YouTube @the_intelligently_artificial · Instagram the_intelligently_artificial · Facebook the.intelligently.artificial · TikTok @the_intelligently (24-char cap) · X @intlgt_artfcial (15-char cap, defensive hold only).'},
+    {s:'Agreed/Finalized',t:'Short Video',n:'Brand email',d:'2026-09-26',x:'intelligently.artificial.collab@gmail.com — for platform logins, communication, and leads.'},
+    {s:'Agreed/Finalized',t:'Short Video',n:'All personal accounts + 2FA',d:'2026-09-26',x:'No paid business tiers to start; two-factor authentication enabled during setup.'},
+    {s:'Agreed/Finalized',t:'Short Video',n:'Narrator voice-crisp',d:'2026-09-26',x:'Confident, dynamic, chipper female American voice.'},
+    {s:'Agreed/Finalized',t:'Short Video',n:'Channel niche',d:'2026-09-24',x:'Primary: AI Technology Education. Backups: history/mythology explainers, carefully guarded real-world crime news.'},
+    {s:'Agreed/Finalized',t:'Short Video',n:'Universal content guardrails',d:'2026-09-24',x:'No sensitive/objectionable content, nothing involving children, no current politics, nothing controversial — every niche, enforced at ideation.'},
+    {s:'Agreed/Finalized',t:'Short Video',n:'News scope',d:'2026-09-24',x:'Product/feature announcements, launches, new tools, pricing changes only. No scandals or reputational stories.'},
+    {s:'Agreed/Finalized',t:'Short Video',n:'Real-human UGC ruled out',d:'2026-09-24',x:'Only disclosed AI-avatar/generated UGC may be considered, or UGC stays deprioritized.'},
+    {s:'Agreed/Finalized',t:'Short Video',n:'Publishing gate',d:'standing',x:'Per-video approval during the pilot; full automation only after “go auto” / “lock the vision”.'},
+    {s:'Agreed/Finalized',t:'Short Video',n:'100% original media',d:'standing',x:'AI illustrations + own automated screen captures. Never internet video; never present an AI mock interface as a genuine screenshot.'},
+    {s:'Agreed/Finalized',t:'Short Video',n:'Min cost, max impact',d:'standing',x:'Every cost shown upfront plus recurring.'},
+    {s:'Agreed/Finalized',t:'Short Video',n:'Five independent pipelines',d:'2026-09-24',x:'Create-and-publish, promotion, housekeeping, performance-monitoring, earnings-improvement — each with anomaly detection, failure history, bounded retries/fallbacks/quarantine, self-healing, severity-tiered alerts.'},
+    {s:'Agreed/Finalized',t:'Short Video',n:'Reporting split',d:'2026-09-25',x:'Each pipeline owns its operational reports; performance-monitoring owns shared formats and R1/R2/R3 rollups (R1/R2/R3 still proposals).'},
+    {s:'Agreed/Finalized',t:'Short Video',n:'Stale-content policy',d:'2026-09-24',x:'Never delete. Unlist only when fully outdated AND misleading; otherwise redirect strategies.'},
+    {s:'Agreed/Finalized',t:'Short Video',n:'Docs packaging formats',d:'2026-09-27',x:'Approved; the full 40-document set still awaits review.'},
+    {s:'Agreed/Finalized',t:'Trading',n:'ETF alert format locked',d:'standing',x:'Stacked QQQ/SPY/GLD cards, price + day-change pill, S/R (20-session) in header, 1M + 3M daily charts, latest econ markers on 1M only, unlabeled S/R lines on 3M, Upcoming CPI/PPI footnote.'},
+    {s:'Agreed/Finalized',t:'Trading',n:'Alert schedule',d:'standing',x:'NYSE trading days at 08:00, 10:00, 12:00, 14:00, 15:30, 18:00, 20:00 ET.'},
+    {s:'Agreed/Finalized',t:'Trading',n:'Trading signals',d:'2026-09-24',x:'Morning report 07:30 ET always sends; intraday every 2h from 09:30 ET, silent unless a BUY/SELL signal at ≥80% confidence changed or rides a major event.'},
+    {s:'Agreed/Finalized',t:'Trading',n:'Signal scorecard',d:'2026-09-25',x:'Runs daily ~08:42 ET; posts only when something changed, otherwise silent.'},
+    {s:'Agreed/Finalized',t:'Trading',n:'ETF live web app',d:'2026-09-26',x:'Single-file page with server-baked data bundle, refreshed every 5 min on weekdays.'},
+    {s:'Agreed/Finalized',t:'Trading',n:'Chat-only delivery',d:'2026-09-22',x:'Email alerts disabled; everything lands in the Trading chat.'},
+    {s:'Agreed/Finalized',t:'Vehicle',n:'Daily deal scan',d:'standing',x:'08:00 ET scan with locked qualification rules: 48-mo lease at 20,000 km/yr + 72/84-mo finance, sub-3% rate, $150–$200 biweekly tax-included, $5,000 down, ~$45k net, above-base trim, Kia-only loyalty.'},
+    {s:'Agreed/Finalized',t:'Vehicle',n:'Report format',d:'2026-09-24',x:'Collapsible static-data panel + per-deal tables; qualifying payment bolded.'},
+    {s:'Agreed/Finalized',t:'Vehicle',n:'Calculator-verified figures',d:'2026-09-27',x:'Niro EV Wind+ $189.49 lease / $290.08 finance; EV3 Wind $208.18 / $290.24; EV5 Wind $245.06 / $337.01; Equinox EV RS $319 lease (miss) / $343 finance.'},
+    {s:'Pending your review',t:'Short Video',n:'Tagline — 5 options',d:'2026-09-27',due:'your next review',x:'In the Short Video chat: “Artificial intelligence, intelligently explained.” / “AI, explained intelligently.” / “Making AI make sense.” / “Smart videos about smart machines.” / “Understand AI, one short at a time.” Reply with a number + done, or how to adjust.'},
+    {s:'Pending your review',t:'Short Video',n:'Full documentation set (40 docs)',d:'2026-09-27',x:'Shared reading link + ZIP delivered; packaging approved, full set not yet reviewed.'},
+    {s:'Pending your review',t:'Short Video',n:'Business plan review',d:'2026-09-27',x:'Start at section 1 + section 13 with KEEP / PARK / REMOVE, then Phase 1/2/3 classification.'},
+    {s:'Pending your review',t:'Short Video',n:'Risk register',d:'2026-09-26',x:'Delivered; not yet folded into the master plans.'},
+    {s:'Pending your review',t:'Trading',n:'Scorecard grading rule',d:'2026-09-25',x:'Awaiting your call on how scorecard results are graded.'},
+    {s:'Pending your review',t:'Trading',n:'Apply steadier rule live',d:'2026-09-25',x:'Research converged; needs your explicit approval before any live-engine change.'},
+    {s:'Pending your review',t:'Trading',n:'Add oil + Nasdaq Composite to morning report?',d:'2026-09-25',x:'Your call.'},
+    {s:'Pending your review',t:'Trading',n:'Unified-engine design as build target',d:'2026-09-25',x:'Approve the three-layer engine design or redirect.'},
+    {s:'Pending your review',t:'Trading',n:'Supertrend’s role',d:'2026-09-25',x:'Research-only vs second-opinion line vs bands-only.'},
+    {s:'In progress',t:'Trading',n:'Scorecard live scoring',d:'2026-09-28',due:'2026-09-28',x:'Real signal scoring starts Monday 2026-09-28.'},
+    {s:'In progress',t:'Vehicle',n:'Daily SUV scan',d:'standing',x:'Runs every morning at 08:00 ET.'},
+    {s:'Parked/Deferred',t:'Short Video',n:'GitHub account + repo + Pages docs site',d:'deferred',x:'Unparks when you supply a username and registration email.'},
+    {s:'Parked/Deferred',t:'Short Video',n:'TikTok display name → “The Intelligently Artificial”',d:'2026-10-04',due:'2026-10-04',x:'7-day lock lifts around Oct 4; you handle it there.'},
+    {s:'Parked/Deferred',t:'Short Video',n:'Full publishing automation',d:'after pilot',x:'Begins only after “go auto” / “lock the vision”.'},
+    {s:'Parked/Deferred',t:'Short Video',n:'Builder-email digest',d:'disabled 2026-09-26',x:'Stays off until you ask to restore it.'},
+    {s:'Parked/Deferred',t:'Trading',n:'Live engine changes',d:'standing',x:'Nothing goes live without your explicit approval.'},
+    {s:'Parked/Deferred',t:'Vehicle',n:'Payment-only scan criteria',d:'not approved',x:'Proposal to replace standing rules with payment-only logic was not approved; standing rules stay.'},
+    {s:'Rejected',t:'Short Video',n:'Real-human UGC',d:'2026-09-26',x:'Ruled out “at least for now”.'},
+    {s:'Rejected',t:'Short Video',n:'Negative news topics',d:'2026-09-24',x:'Scandals and controversies excluded from news-reactive topics.'},
+    {s:'Rejected',t:'Short Video',n:'Brand name “Guardrails”',d:'2026-09-26',x:'Conflict: Guardrails AI, funded and acquired Sept 2026.'},
+    {s:'Rejected',t:'Short Video',n:'Brand name “Neural Notes”',d:'2026-09-26',x:'Crowded with same-name YouTube channels.'},
+    {s:'Rejected',t:'Short Video',n:'Brand name “Agent Loop”',d:'2026-09-26',x:'@theagentloop taken by an active same-niche channel.'},
+    {s:'Rejected',t:'Short Video',n:'Brand name “The Eval”',d:'2026-09-26',x:'Insider jargon; wrong for a newcomer audience.'},
+    {s:'To-do',t:'Short Video',n:'1. Tagline → done',d:'next',due:'your next review',x:'Your call — everything below waits on it.'},
+    {s:'To-do',t:'Short Video',n:'2. Profile bios / about text',d:'queued',x:'Drafted once the tagline is locked.'},
+    {s:'To-do',t:'Short Video',n:'3. Caption style + hashtags',d:'queued',x:'After bios.'},
+    {s:'To-do',t:'Short Video',n:'4. Avatar, profile photos, banners',d:'queued',x:'Visual identity comes last, once the words are locked.'}
+  ];
+
+  var statusOrder=['Agreed/Finalized','Pending your review','Pending from me','In progress','Parked/Deferred','Rejected','To-do'];
+  var styles={
+    'Agreed/Finalized':['var(--green)','var(--green-bg)'],
+    'Pending your review':['var(--amber)','var(--amber-bg)'],
+    'Pending from me':['var(--blue)','var(--blue-bg)'],
+    'In progress':['var(--teal)','var(--teal-bg)'],
+    'Parked/Deferred':['var(--gray)','var(--gray-bg)'],
+    'Rejected':['var(--red)','var(--red-bg)'],
+    'To-do':['var(--purple)','var(--purple-bg)']
+  };
+  var state={status:'All statuses',thread:'All threads',search:'',sort:'status'};
+  var board=document.getElementById('board');
+  var count=document.getElementById('resultCount');
+  var noResults=document.getElementById('noResults');
+
+  function esc(v){return String(v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  function slug(v,i){return 'item-'+v.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')+'-'+i;}
+  items.forEach(function(it,i){it.id=slug(it.n,i);it.index=i;});
+
+  function setupChips(){
+    var wrap=document.getElementById('statusChips');
+    ['All statuses'].concat(statusOrder).forEach(function(name){
+      var b=document.createElement('button');b.className='chip';b.type='button';b.textContent=name;b.setAttribute('aria-pressed',name===state.status?'true':'false');
+      b.addEventListener('click',function(){state.status=name;Array.prototype.forEach.call(wrap.children,function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});render();});wrap.appendChild(b);
+    });
+  }
+  function dueRank(it){if(!it.due)return 9e15;if(it.due==='your next review')return 0;var n=Date.parse(it.due+'T00:00:00Z');return isNaN(n)?8e15:n;}
+  function dateRank(it){var m=it.d.match(/^\d{4}-\d{2}-\d{2}$/);return m?Date.parse(it.d+'T00:00:00Z'):0;}
+  function filtered(){
+    var q=state.search.trim().toLowerCase();
+    var out=items.filter(function(it){return (state.status==='All statuses'||it.s===state.status)&&(state.thread==='All threads'||it.t===state.thread)&&(!q||(it.n+' '+it.x).toLowerCase().indexOf(q)>-1);});
+    out.sort(function(a,b){
+      if(state.sort==='thread')return a.t.localeCompare(b.t)||statusOrder.indexOf(a.s)-statusOrder.indexOf(b.s)||a.index-b.index;
+      if(state.sort==='date')return dateRank(b)-dateRank(a)||a.index-b.index;
+      if(state.sort==='due')return dueRank(a)-dueRank(b)||a.index-b.index;
+      return statusOrder.indexOf(a.s)-statusOrder.indexOf(b.s)||a.index-b.index;
+    });return out;
+  }
+  function card(it){
+    var st=styles[it.s];
+    return '<article class="card" id="'+it.id+'" style="--status-color:'+st[0]+';--status-bg:'+st[1]+'">'+
+      '<div class="meta"><span class="badge">'+esc(it.s)+'</span><span class="thread">'+esc(it.t)+'</span><span class="date">'+esc(it.d)+'</span>'+(it.due?'<span class="due">'+esc(it.due)+'</span>':'')+'</div>'+ 
+      '<h3>'+esc(it.n)+'</h3><p class="detail">'+esc(it.x)+'</p></article>';
+  }
+  function section(title,list){return '<section class="section"><div class="section-head"><h2>'+esc(title)+'</h2><span class="section-count">'+list.length+' item'+(list.length===1?'':'s')+'</span></div><div class="grid">'+list.map(card).join('')+'</div></section>';}
+  function render(){
+    var out=filtered(),html='';
+    if(state.sort==='status'){
+      statusOrder.forEach(function(s){var group=out.filter(function(it){return it.s===s;});if(group.length)html+=section(s,group);else if(s==='Pending from me'&&(state.status==='All statuses'||state.status===s)&&(state.thread==='All threads'))html+='<section class="section"><div class="section-head"><h2>Pending from me</h2><span class="section-count">0 items</span></div><div class="grid"><div class="empty-card">Nothing here right now.</div></div></section>';});
+    } else if(out.length){html=section(state.sort==='thread'?'Sorted by thread':state.sort==='date'?'Newest first':'Due dates first',out);}
+    board.innerHTML=html;count.textContent=out.length+' of '+items.length+' items';noResults.style.display=out.length?'none':'block';
+  }
+  function setupDue(){
+    var cutoff=Date.parse('2026-10-11T23:59:59Z'),start=Date.parse('2026-09-27T00:00:00Z');
+    var due=items.filter(function(it){if(!it.due)return false;if(it.due==='your next review')return true;var d=dueRank(it);return d>=start&&d<=cutoff;});
+    due.sort(function(a,b){return dueRank(a)-dueRank(b)||a.index-b.index;});
+    document.getElementById('dueLinks').innerHTML=due.map(function(it){return '<a class="due-link" href="#'+it.id+'" data-id="'+it.id+'" data-search="'+esc(it.n)+'"><strong>'+esc(it.due)+'</strong> · '+esc(it.n)+'</a>';}).join('');
+    Array.prototype.forEach.call(document.querySelectorAll('.due-link'),function(a){a.addEventListener('click',function(e){e.preventDefault();state.status='All statuses';state.thread='All threads';state.search=a.getAttribute('data-search');state.sort='status';document.getElementById('search').value=state.search;document.getElementById('threadFilter').value='All threads';document.getElementById('sort').value='status';Array.prototype.forEach.call(document.querySelectorAll('.chip'),function(c){c.setAttribute('aria-pressed',c.textContent==='All statuses'?'true':'false');});render();document.querySelector('#board .card').scrollIntoView({block:'center'});});});
+  }
+  document.getElementById('search').addEventListener('input',function(e){state.search=e.target.value;render();});
+  document.getElementById('threadFilter').addEventListener('change',function(e){state.thread=e.target.value;render();});
+  document.getElementById('sort').addEventListener('change',function(e){state.sort=e.target.value;render();});
+  setupChips();setupDue();render();
+})();
+</script>
 </body>
 </html>
