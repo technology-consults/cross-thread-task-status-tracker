@@ -75,6 +75,10 @@ label.toggle{display:inline-flex;align-items:center;gap:6px;font-size:13px;color
 .optbtn{display:block;width:100%;text-align:left;margin:4px 0;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font-size:13.5px;cursor:pointer}
 .optbtn:hover{border-color:#a3a3a3}
 .optbtn.action{border-style:dashed;font-weight:600}
+.composer{margin:6px 0 2px}
+.composer textarea{width:100%;box-sizing:border-box;min-height:64px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font-size:14px;font-family:inherit;resize:vertical}
+.composer .hint{font-size:12.5px;color:var(--muted);margin-top:6px}
+.composer .hint.ok{color:#1b5e20;font-weight:600}
 .copied{font-size:12px;color:#16a34a;margin-top:4px;display:none}
 .empty{background:var(--card);border:1px dashed var(--line);border-radius:var(--radius);padding:24px;text-align:center;color:var(--muted)}
 footer{margin:18px 2px 8px;font-size:12px;color:var(--muted)}
@@ -203,14 +207,21 @@ function copyText(txt, noteEl){
   if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done).catch(()=>fallback());}else fallback();
   function fallback(){const ta=document.createElement("textarea");ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");}catch(e){}document.body.removeChild(ta);done();}
 }
-function optionButtons(t){
+function optionButtons(t, threads){
   if(!t.options||!t.options.length) return "";
+  const thName=((threads||{})[t.thread]||{}).name||t.thread;
   let h='<div class="opts"><div class="h">Pick an option — copies a reply for the thread</div>';
   t.options.forEach((o,i)=>{
     h+='<button class="optbtn" data-task="'+esc(t.id)+'" data-kind="pick" data-i="'+i+'">'+(i+1)+'. '+esc(o)+'</button>';
   });
   h+='<button class="optbtn action" data-task="'+esc(t.id)+'" data-kind="more">Recommend more to me</button>';
-  h+='<button class="optbtn action" data-task="'+esc(t.id)+'" data-kind="propose">Propose &amp; recommend more to me</button>';
+  h+='<button class="optbtn action" data-task="'+esc(t.id)+'" data-kind="propose" data-thread="'+esc(thName)+'">Propose &amp; recommend more to me</button>';
+  h+='<div class="composer" id="cmp-'+esc(t.id)+'" style="display:none">'
+    +'<textarea id="txt-'+esc(t.id)+'" rows="3" placeholder="Type your proposal here..."></textarea>'
+    +'<button class="optbtn action" data-task="'+esc(t.id)+'" data-kind="propose-go" data-thread="'+esc(thName)+'">Copy message for the thread</button>'
+    +'<button class="optbtn" data-task="'+esc(t.id)+'" data-kind="propose-cancel">Cancel</button>'
+    +'<div class="hint" id="hnt-'+esc(t.id)+'" style="display:none"></div>'
+    +'</div>';
   h+='<div class="copied">Copied — paste it in the thread and Bandhu will act on it.</div></div>';
   return h;
 }
@@ -255,7 +266,7 @@ function cardHTML(t, threads, today){
     +'<div class="detail">'+esc(t.detail)+'</div>'
     +'<div class="where">'+esc(t.where)+' · Tracker: '+esc(th.tracker)+'</div>'
     +depSection(t, state.byId)
-    +optionButtons(t)
+    +optionButtons(t, threads)
     +'</article>';
 }
 function renderChips(today){
@@ -323,10 +334,19 @@ function render(){
       copyText("My pick for "+t.title+" ("+t.id+"): #"+(i+1)+" — "+t.options[i]+". Please lock it in and refresh the board.", note);
     }else if(b.dataset.kind==="more"){
       copyText("For task "+t.id+" ("+t.title+"): recommend more options. Keep the existing "+t.options.length+", add yours — no discards.", note);
-    }else{
-      const mine=prompt("Your proposed option(s) for: "+t.title+"\n(separate multiple with ; )");
-      if(mine===null) return;
-      copyText("For task "+t.id+" ("+t.title+"): my proposed options: "+mine+". Also recommend more of yours. Combine with the existing "+t.options.length+" — no discards.", note);
+    }else if(b.dataset.kind==="propose"){
+      document.querySelectorAll(".composer").forEach(c=>c.style.display="none");
+      const cmp=document.getElementById("cmp-"+t.id);
+      if(cmp){cmp.style.display="block";const ta=document.getElementById("txt-"+t.id);if(ta)ta.focus();}
+    }else if(b.dataset.kind==="propose-cancel"){
+      const cmp=document.getElementById("cmp-"+t.id);if(cmp)cmp.style.display="none";
+    }else if(b.dataset.kind==="propose-go"){
+      const ta=document.getElementById("txt-"+t.id);
+      const proposal=ta?ta.value.trim():"";
+      if(!proposal){if(ta)ta.focus();return;}
+      copyText("[PROPOSE]\nTask: "+t.id+" ("+t.title+")\nMy proposal: "+proposal+"\nInstruction: add my proposal to the options, keep the existing options and your earlier suggestions, recommend more fresh options, update the task and the status board.\n[/PROPOSE]",note);
+      const hnt=document.getElementById("hnt-"+t.id);
+      if(hnt){hnt.className="hint ok";hnt.style.display="block";hnt.textContent="Copied — paste it in the "+(b.dataset.thread||"project")+" thread.";}
     }
   }));
   // flash on jump
