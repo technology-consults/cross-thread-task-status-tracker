@@ -58,11 +58,11 @@
    "thread": "sv",
    "title": "All personal accounts + 2FA",
    "status": "agreed",
-   "created": "2026-09-26",
+   "created": null,
    "updated": "2026-09-27",
    "due": null,
-   "detail": "No paid business tiers to start. Two-factor authentication is required during account setup \u2014 but universal completion across all personal accounts is unconfirmed.",
-   "where": "Short Video thread · 2026-09-26"
+   "detail": "No paid business tiers to start. Two-factor authentication is required during account setup — but universal completion across all personal accounts is unconfirmed.",
+   "where": "Short Video thread · date unrecorded"
   },
   {
    "id": "sv.narrator-voice.2026-09-26",
@@ -146,11 +146,11 @@
    "thread": "sv",
    "title": "Min cost, max impact",
    "status": "agreed",
-   "created": "2026-09-24",
-   "updated": "2026-09-24",
+   "created": "2026-09-23",
+   "updated": "2026-09-23",
    "due": null,
    "detail": "Every cost shown upfront plus recurring. The pipeline objective.",
-   "where": "Short Video thread · 2026-09-24"
+   "where": "Short Video thread · 2026-09-23"
   },
   {
    "id": "sv.five-pipelines.2026-09-24",
@@ -190,11 +190,11 @@
    "thread": "sv",
    "title": "Docs packaging formats",
    "status": "agreed",
-   "created": "2026-09-27",
-   "updated": "2026-09-27",
+   "created": "2026-09-24",
+   "updated": "2026-09-24",
    "due": null,
    "detail": "Approved; the full 40-document set still awaits review.",
-   "where": "Short Video thread · 2026-09-27"
+   "where": "Short Video thread · 2026-09-24"
   },
   {
    "id": "sv.tagline-options.2026-09-27",
@@ -219,11 +219,11 @@
    "thread": "sv",
    "title": "Full documentation set (40 docs)",
    "status": "pending_review",
-   "created": "2026-09-27",
-   "updated": "2026-09-27",
+   "created": "2026-09-25",
+   "updated": "2026-09-25",
    "due": null,
    "detail": "Shared reading link + ZIP delivered; packaging approved, full set not yet reviewed.",
-   "where": "Short Video thread · 2026-09-27"
+   "where": "Short Video thread · 2026-09-25"
   },
   {
    "id": "sv.business-plan-review.2026-09-27",
@@ -293,7 +293,7 @@
    "created": "2026-09-24",
    "updated": "2026-09-24",
    "due": null,
-   "detail": "Begins only after “go auto” / “lock the vision”.",
+   "detail": "Begins only after “lock the vision” or equivalent explicit go-ahead.",
    "where": "Short Video thread · 2026-09-24"
   },
   {
@@ -312,11 +312,11 @@
    "thread": "sv",
    "title": "Real-human UGC",
    "status": "rejected",
-   "created": "2026-09-26",
-   "updated": "2026-09-26",
+   "created": "2026-09-24",
+   "updated": "2026-09-24",
    "due": null,
    "detail": "Ruled out “at least for now”.",
-   "where": "Short Video thread · 2026-09-26"
+   "where": "Short Video thread · 2026-09-24"
   },
   {
    "id": "sv.rej-negative-news.2026-09-24",
@@ -378,22 +378,22 @@
    "thread": "sv",
    "title": "1. Tagline → done",
    "status": "todo",
-   "created": "2026-09-27",
-   "updated": "2026-09-27",
+   "created": null,
+   "updated": null,
    "due": null,
    "detail": "Your call — everything below waits on it.",
-   "where": "Short Video thread · 2026-09-27"
+   "where": "Short Video thread · date unrecorded"
   },
   {
    "id": "sv.profile-bios.2026-09-27",
    "thread": "sv",
    "title": "2. Profile bios / about text",
    "status": "blocked",
-   "created": "2026-09-27",
-   "updated": "2026-09-27",
+   "created": null,
+   "updated": null,
    "due": null,
    "detail": "Drafted once the tagline is locked.",
-   "where": "Short Video thread · 2026-09-27",
+   "where": "Short Video thread · date unrecorded",
    "blockedBy": [
     {
      "kind": "task",
@@ -406,11 +406,11 @@
    "thread": "sv",
    "title": "3. Caption style + hashtags",
    "status": "blocked",
-   "created": "2026-09-27",
-   "updated": "2026-09-27",
+   "created": null,
+   "updated": null,
    "due": null,
    "detail": "After bios.",
-   "where": "Short Video thread · 2026-09-27",
+   "where": "Short Video thread · date unrecorded",
    "blockedBy": [
     {
      "kind": "task",
@@ -423,11 +423,11 @@
    "thread": "sv",
    "title": "4. Avatar, profile photos, banners",
    "status": "blocked",
-   "created": "2026-09-27",
-   "updated": "2026-09-27",
+   "created": null,
+   "updated": null,
    "due": null,
    "detail": "Visual identity comes last, once the words are locked.",
-   "where": "Short Video thread · 2026-09-27",
+   "where": "Short Video thread · date unrecorded",
    "blockedBy": [
     {
      "kind": "task",
@@ -440,11 +440,11 @@
    "thread": "tr",
    "title": "ETF alert format locked",
    "status": "agreed",
-   "created": "2026-09-22",
-   "updated": "2026-09-22",
+   "created": "2026-09-24",
+   "updated": "2026-09-24",
    "due": null,
-   "detail": "Stacked QQQ/SPY/GLD cards, price + day-change pill, S/R (20-session) in header, 1M + 3M daily charts, latest econ markers on 1M only, unlabeled S/R lines on 3M, Upcoming CPI/PPI footnote.",
-   "where": "Trading thread · 2026-09-22"
+   "detail": "Stacked QQQ/SPY/GLD cards, price + day-change pill, S/R (20-session) in header, 1M + 3M daily charts, latest econ markers on 1M only, unlabeled S/R lines on 3M, Upcoming CPI/PPI footnote. (Format iterated 2026-09-22 → 2026-09-24.)",
+   "where": "Trading thread · 2026-09-24"
   },
   {
    "id": "tr.alert-schedule.2026-09-22",
@@ -562,7 +562,7 @@
    "title": "Scorecard live scoring",
    "status": "in_progress",
    "created": "2026-09-25",
-   "updated": "2026-09-27",
+   "updated": null,
    "due": "2026-09-28",
    "detail": "Real signal scoring starts Monday 2026-09-28.",
    "where": "Trading thread · 2026-09-25"
@@ -583,11 +583,11 @@
    "thread": "vh",
    "title": "Daily deal scan",
    "status": "agreed",
-   "created": "2026-09-24",
-   "updated": "2026-09-24",
+   "created": "2026-09-22",
+   "updated": null,
    "due": null,
    "detail": "08:00 ET scan with locked qualification rules: 48-mo lease at 20,000 km/yr + 72/84-mo finance, sub-3% rate, $150–$200 biweekly tax-included, $5,000 down, ~$45k net, above-base trim, Kia-only loyalty.",
-   "where": "Vehicle thread · 2026-09-24"
+   "where": "Vehicle thread · 2026-09-22"
   },
   {
    "id": "vh.report-format.2026-09-24",
@@ -616,22 +616,22 @@
    "thread": "vh",
    "title": "Daily SUV scan",
    "status": "in_progress",
-   "created": "2026-09-24",
+   "created": "2026-09-22",
    "updated": "2026-09-27",
    "due": null,
    "detail": "Runs every morning at 08:00 ET.",
-   "where": "Vehicle thread · 2026-09-24"
+   "where": "Vehicle thread · 2026-09-22"
   },
   {
    "id": "vh.payment-only.2026-09-26",
    "thread": "vh",
    "title": "Payment-only scan criteria",
    "status": "parked",
-   "created": "2026-09-26",
-   "updated": "2026-09-26",
+   "created": null,
+   "updated": null,
    "due": null,
    "detail": "Proposal to replace standing rules with payment-only logic was not approved; standing rules stay.",
-   "where": "Vehicle thread · 2026-09-26"
+   "where": "Vehicle thread · date unrecorded"
   }
  ]
 }
