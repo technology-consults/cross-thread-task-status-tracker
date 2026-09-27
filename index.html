@@ -274,7 +274,7 @@ function renderChips(today){
   document.querySelectorAll("#statusChips .chip").forEach(c=>c.addEventListener("click",()=>{state.status=c.dataset.s;render();}));
 }
 function render(){
-  const data=state.data, today=data.meta.lastUpdated;
+  const data=state.data, today=data.meta.asOf||data.meta.lastUpdated;
   renderChips(today);
   $("nextDueRow").style.display = state.status==="next_dues" ? "" : "none";
   const list=sortTasks(data.tasks.filter(t=>matches(t,today)), today);
@@ -306,10 +306,10 @@ function render(){
     ds.style.display="";
     ds.innerHTML="<b>Due soon (14 days):</b>"+soon.map(t=>'<a href="#t-'+esc(t.id)+'">'+esc(t.title)+" · "+esc(t.due)+"</a>").join("");
   }else ds.style.display="none";
-  $("lastUpdated").textContent=today;
+  $("lastUpdated").textContent=data.meta.lastUpdated;
   $("foot").innerHTML="Threads covered: "+Object.values(data.threads).map(t=>esc(t.name)).join(", ")
     +". Other threads appear here once they have tracked items.<br>Task IDs are stable (thread.slug.created-date) and never change; priority is computed, not stored."
-    +" Priorities and overdue flags are computed against the board date above.";
+    +" Priorities, overdue flags, and next-dues are computed as of "+esc(today)+"; task data last changed "+esc(data.meta.lastUpdated)+".";
   // option button wiring
   document.querySelectorAll(".optbtn").forEach(b=>b.addEventListener("click",()=>{
     const t=state.byId[b.dataset.task]; if(!t) return;
