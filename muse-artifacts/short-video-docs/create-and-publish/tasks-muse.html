@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Short-Video Pipeline — Task List (Technical Build)</title>
+<style>
+:root{color-scheme:light dark}
+*{box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65;margin:0;padding:0}
+main{max-width:920px;margin:0 auto;padding:24px 18px 64px}
+h1{font-size:1.7em;border-bottom:1px solid #8884;padding-bottom:.3em}
+h2{font-size:1.35em;margin-top:1.8em;border-bottom:1px solid #8883;padding-bottom:.25em}
+h3{font-size:1.15em;margin-top:1.5em}
+a{color:#2f81f7}
+table{display:block;overflow-x:auto;border-collapse:collapse;margin:1em 0;max-width:100%}
+th,td{border:1px solid #8885;padding:7px 12px;text-align:left;white-space:nowrap;font-size:.92em}
+th{background:#8882}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#8882;padding:2px 6px;border-radius:4px;font-size:.9em}
+pre{background:#8881;padding:14px;border-radius:8px;overflow-x:auto}
+pre code{background:none;padding:0}
+blockquote{border-left:3px solid #8886;margin:1em 0;padding:.2em 1em;opacity:.92}
+.conv-note{font-size:.82em;opacity:.65;border:1px dashed #8886;border-radius:6px;padding:8px 12px}
+ul,ol{padding-left:1.6em}
+li{margin:.25em 0}
+ul.toc{list-style:none;padding-left:0}
+li.dir{margin-top:1em;font-weight:600}
+li.file{padding-left:1.2em;font-weight:400}
+.note{font-size:.85em;opacity:.7}
+</style>
+</head>
+<body>
+<main>
+<p class="conv-note"><a href="../index.html">&#8962; Index</a> &middot; Converted reading copy &mdash; <a href="../../markdown/create-and-publish/tasks-muse.md">Markdown master</a></p>
+<h1>Short-Video Pipeline — Task List (Technical Build)</h1>
+<p>Companion to <code>techspec.md</code>. <strong>Every task here is owned
+by Muse Bandhu</strong> — the build work. (Balram Bandhu&#39;s decisions, manual
+actions, and approval gates live in <code>tasks-balram.md</code>.)</p>
+<p>Work top-to-bottom: each task has a <strong>review gate</strong> — output is presented,
+Balram Bandhu says <strong>&quot;adjust&quot;</strong> or <strong>&quot;done&quot;</strong>. Nothing downstream starts
+until its dependencies are done. Deps on Balram Bandhu&#39;s list are marked
+<code>you:Tx</code>. One task at a time, in dependency order.</p>
+<p><strong>Automation indicator:</strong></p>
+<ul>
+<li>🟢 Fully automatable — runs end-to-end once set up.</li>
+</ul>
+<p><strong>Cost tag:</strong> <code>$0</code> · <code>media</code> = draws on the Muse plan (video/TTS/image
+generation).</p>
+<hr>
+<h2>Phase 1 — Setup (one-time build)</h2>
+<ul>
+<li><p><input disabled="" type="checkbox"> <strong>T1.6 — Build <code>youtube-publisher</code> skill</strong> 🟢 <code>$0</code>
+Owner: Muse Bandhu · Dep: you:T1.3 · Output: reusable skill — resumable
+upload, native scheduling via <code>publishAt</code>, quota ledger (stops at 90%),
+AI-disclosure handling per upload (API support verified here; fallback
+= per-batch manual Studio check).
+Gate: dry-run upload to private passes.</p>
+</li>
+<li><p><input disabled="" type="checkbox"> <strong>T1.7 — Build <code>meta-page-publisher</code> skill</strong> 🟢 <code>$0</code>
+Owner: Muse Bandhu · Dep: you:T1.4 · Output: reusable skill — Graph API
+video upload to the Page (publishes as Reel), native scheduling via
+<code>published=false</code> + <code>scheduled_publish_time</code>, backoff on 429.
+Gate: dry-run to unpublished/draft passes.</p>
+</li>
+<li><p><input disabled="" type="checkbox"> <strong>T1.8 — Build assembly + QC scripts</strong> 🟢 <code>$0</code>
+Owner: Muse Bandhu · Dep: — (parallel track) · Output: <code>assemble.sh</code>
+(concat → 1080×1920, burned-in captions, VO mix), <code>qc.py</code>
+(duration/codec/size checks + frame extraction, categorized rejection
+reasons feeding the failure-pattern history). Verifies FFmpeg on the
+VM (installs if missing).
+Gate: 3 test renders pass QC.</p>
+</li>
+<li><p><input disabled="" type="checkbox"> <strong>T1.9 — Scaffold the workspace</strong> 🟢 <code>$0</code>
+Owner: Muse Bandhu · Dep: you:T0.2 · Output: <code>video-pipeline/</code> tree —
+channel template, brand config, idea queue, state ledger, sponsor
+ledger, failure log (schemas: tech spec §2–§3).
+Gate: folder layout shown; config matches T0.2/T0.3.</p>
+</li>
+<li><p><input disabled="" type="checkbox"> <strong>T1.10 — End-to-end dry run (no publishing)</strong> 🟢 <code>media</code>
+Owner: Muse Bandhu · Dep: T1.8, T1.9, you:T0.2 · Output: 3 complete
+pilot videos in <code>ready/</code>, QC reports. Cost: ~15 clips + 3 voiceovers +
+3 images.
+Gate: <strong>Balram Bandhu watches all 3</strong> — look, voice, pacing approved or
+revised.</p>
+</li>
+<li><p><input disabled="" type="checkbox"> <strong>T1.15 — Calibration batch: test shorts + content review</strong> 🟢 <code>media</code>
+Owner: Muse Bandhu · Dep: T1.8, T1.10, you:T0.2 · Output: 6–9 small
+test shorts (~15–20s, 2 clips each — cheap) spanning the key variants:
+with vs without voiceover, caption styles, pacing, hook styles, visual
+density. BalRam watches and scores each one — is the voiceover needed
+or does text + visuals carry it (decided per format), plus visual
+style, caption readability, pacing, hooks. Every decision is recorded
+into <code>brand.yml</code> (VO policy per format, caption style, visual tuning);
+the loop repeats until approved.
+Cost: ~15 clips + a few test voiceovers.
+Gate: BalRam approves the calibration — <strong>no publishing candidate is
+built (T2.1) until then.</strong>
+<em>Early observation (2026-09-23): initial Explore-chat tests looked
+better without voiceover (voice quality itself is realistic, not
+robotic) — calibration will confirm across more samples before the
+VO policy is locked.</em></p>
+</li>
+<li><p><input disabled="" type="checkbox"> <strong>T1.16 — Build the audio library</strong> 🟢 <code>$0</code>
+Owner: Muse Bandhu · Dep: you:T0.2 · Output: <code>shared/audio/</code> — ~20–30
+<strong>original/AI-generated</strong> background beds + stingers, loudness-normalized
+and mood-tagged to the channel brand, so no video generates music from
+scratch. <strong>Default is original/AI-generated audio</strong> per the locked
+original-media rule; licensed commercial beds are added only if BalRam
+explicitly approves them. (Trending commercial sounds stay a manual
+native swap on winners — promo plan §3.)
+Gate: sample bed under a test render approved.</p>
+</li>
+<li><p><input disabled="" type="checkbox"> <strong>T1.17 — Prove the metrics sources</strong> 🟢 <code>$0</code>
+Owner: Muse Bandhu · Dep: T1.6, T1.7, T1.14 · Output: a per-platform
+metrics capability matrix — what retention / watch-time / follower
+attribution each API actually returns, and the defined proxy where true
+retention is unavailable. T2.3&#39;s scale/kill/test loop is built only on
+metrics that provably exist.
+Gate: matrix reviewed; any promised-but-unavailable metric is cut or
+proxied before T2.3 is built.</p>
+</li>
+<li><p><input disabled="" type="checkbox"> <strong>T1.11 — Cadence control (single-prompt adjustment)</strong> 🟢 <code>$0</code>
+Owner: Muse Bandhu · Dep: T1.9 · Output: <code>cadence.yml</code> per channel
+(<code>videos_per_day</code> + scope: today | this_week | this_month |
+until_changed); publish jobs re-read it every run; scoped overrides
+auto-revert on expiry; current setting shown in the weekly digest.
+Gate: live test — &quot;1 video today&quot; adjusts the slots and reverts
+correctly.</p>
+</li>
+<li><p><input disabled="" type="checkbox"> <strong>T1.12 — Review / staging publish (admin preview)</strong> 🟢 <code>$0</code>
+Owner: Muse Bandhu · Dep: T1.6, T1.9 · Output: <code>review:</code> config block
+in <code>brand.yml</code> (enabled flag; destination: youtube_unlisted /
+youtube_private / review_channel / chat_preview; per-run override by
+single prompt; optional auto-promote timer); <code>youtube-publisher</code> gains
+<code>--review</code> and <code>promote</code> (unlisted→public via <code>videos.update</code>).
+Temporary by design: on through the initial weeks until vision-lock
+(you:T3.1), then off — re-enable any time by prompt.
+Gate: test — unlisted upload lands, chat link delivered,
+promote-to-public works.</p>
+</li>
+<li><p><input disabled="" type="checkbox"> <strong>T1.13 — Video reference scheme + action commands</strong> 🟢 <code>$0</code>
+Owner: Muse Bandhu · Dep: T1.6, T1.7, T1.9 · Output: refs
+(<code>&lt;channel&gt;.yyyy.MM.dd.N</code>, N = 1–5/day, channel prefix optional when
+unambiguous) assigned at generation, stored in <code>meta.json</code>, ledger
+keyed by ref → platform IDs, ref embedded as the last line of the
+description/caption on all four platforms (human-searchable fallback;
+ledger stays the machine source of truth); a <code>video</code> command handling
+<code>status</code> / <code>unpublish</code> / <code>remove</code> / <code>adjust</code>+republish /
+<code>block|unblock comments</code> / <code>comment</code> / <code>report</code> / <code>promote</code> / <code>review</code>
+by ref. Destructive actions always confirm first; platform gaps surface
+as explicit manual steps, never silent failures. <code>unpublish</code>/hide
+checks the sponsor obligations ledger first and is blocked while
+obligations are active unless the contract permits it.
+Gate: every action tested on a scratch ref end-to-end.</p>
+</li>
+<li><p><input disabled="" type="checkbox"> <strong>T1.18 — Build the topic engine (guardrailed ideation)</strong> 🟢 <code>$0</code>
+Owner: Muse Bandhu · Dep: T1.9, you:T0.1 ✅ · Output: <code>topic-engine</code> —
+candidate sourcing (official product/feature announcements, new tools,
+pricing/cost changes, announced launches + event calendars,
+search/platform trends, prior performance via the learning KB); dedup
+against the full content ledger (near-duplicates rejected, variation
+preserved); <strong>universal content guardrails enforced at ideation, before
+scripting</strong> — violations rejected or flagged for BalRam&#39;s review; the
+channel&#39;s editorial scope enforced (for AI Technology Education: no
+negative reputational news — products, capabilities, tools, launches,
+pricing only); pilot candidates route through BalRam&#39;s approval gate.
+Gate: a week&#39;s candidate queue reviewed — no duplicates, no guardrail
+violations, sane variation.</p>
+</li>
+<li><p><input disabled="" type="checkbox"> <strong>T1.19 — Sponsor obligations ledger + media kit + affiliate scaffolding</strong> 🟢 <code>$0</code>
+Owner: Muse Bandhu · Dep: T1.9, you:T0.4 · Output: <code>sponsor-ledger.json</code>
+(per-video: sponsor/brand, contract + campaign id, minimum-live-until,
+required links/text, pinned-comment requirements, on-screen/audio
+integration, usage rights, exclusivity, restrictions, approval/contact
+record); the <code>video</code> command blocks hide/alter while obligations are
+active; <strong>media-kit generator</strong> producing a sponsor kit from real
+channel metrics only (never invented numbers); sponsor prospect
+shortlist + outreach templates with tracking; affiliate scaffolding —
+tracked-link hub, CTA rotation config, click/conversion ingestion for
+revenue attribution. Sponsorship routes supported: inbound discovery,
+personalized outbound pitching, creator marketplaces, agencies/MCNs,
+UGC/content-production deals. <strong>Manual gates stay manual:</strong> identity/tax
+details, application submissions, outreach sends, negotiation, closing.
+Gate: ledger blocks a test hide on a fake active obligation; media kit
+numbers match the ledger exactly.</p>
+</li>
+<li><p><input disabled="" type="checkbox"> <strong>T1.20 — Pipeline observability (own tracking, self-healing, alerts)</strong> 🟢 <code>$0</code>
+Owner: Muse Bandhu · Dep: T1.8, T1.9 · Output: this pipeline&#39;s
+independent observability — <code>state/failures.jsonl</code> event tracking (bugs,
+failures, performance events), <code>state/failure-patterns.md</code> history
+feeding generation prompts and the shared learning KB, <strong>bounded
+self-healing</strong> (generation retries ≤3 with backoff, fallback
+models/endpoints, quarantine; repeated failures escalate instead of
+looping), <strong>anomaly detection</strong> (unfavorable conditions, exceptions,
+weak growth, bottlenecks — e.g. buffer draining, quota burn, retention
+collapse), and <strong>severity-tiered alerts</strong> (P1/P2/P3 by importance,
+occurrence rate, urgency, need for human review/approval/intervention —
+thresholds locked in you:T0.5).
+Gate: a fault-injection drill — failed generation self-heals within
+budget, repeated failure escalates with the right severity.</p>
+</li>
+<li><p><input disabled="" type="checkbox"> <strong>T1.21 — Operational reports (this pipeline&#39;s own)</strong> 🟢 <code>$0</code>
+Owner: Muse Bandhu · Dep: T1.20, T2.1 · Output: daily <strong>production
+report</strong> (videos made, QC pass/reject with categories, buffer health,
+cost per video, generation usage vs allowance, self-healing actions)
+and weekly <strong>content performance summary</strong> (per-video velocity,
+retention, engagement, format leaderboard, breakout flags,
+scale/kill/test calls) — produced automatically, on-demand any time.
+These feed the shared R1 cross-pipeline rollup owned by the
+performance-monitoring pipeline&#39;s reporting framework.
+Gate: first daily + weekly reports reviewed together.</p>
+</li>
+</ul>
+<hr>
+<h2>Phase 2 — Pilot</h2>
+<ul>
+<li><p><input disabled="" type="checkbox"> <strong>T1.14 — TikTok publishing integration</strong> 🟠 <code>$0</code>
+Owner: Muse Bandhu · Dep: you:T1.1 (TikTok account) · Output: custom
+<code>tiktok-publisher</code> skill via the Content Posting API (upload + caption
+with ref on last line), wired into the publish crons; if TikTok&#39;s app
+approval stalls, a documented <strong>semi-manual fallback</strong> instead (video +
+caption + cover staged in <code>ready/</code>, BalRam posts natively) so TikTok
+distribution is never blocked on the API.
+Gate: test video lands on TikTok (via API or the staged fallback).
+<em>Why 🟠: the API requires TikTok&#39;s app audit/approval — not guaranteed;
+verified at build (tech spec §1.4).</em></p>
+</li>
+<li><p><input disabled="" type="checkbox"> <strong>T2.1 — Create publish crons (pilot, warm-up aware)</strong> 🟢 <code>$0</code>
+Owner: Muse Bandhu · Dep: T1.6, T1.7, T1.10, T1.11, T1.12, T1.14, T1.15, T1.16 · Output:
+scheduled jobs for the pilot slots (cadence-, review- and warm-up-aware:
+week 1 at 1 video/day, week 2 at 2/day, full cadence from week 3),
+writing to the ledger.
+Gate: cron list confirmed; first run time agreed.</p>
+</li>
+<li><p><input disabled="" type="checkbox"> <strong>T2.3 — Automated impact &amp; popularity reports (organic)</strong> 🟢 <code>$0</code>
+Owner: Muse Bandhu · Dep: T2.1, T1.17, T1.21 · Output: (1) nightly metrics pull into
+<code>state/metrics.jsonl</code>; (2) weekly <strong>Content impact &amp; popularity</strong>
+report — per-video velocity (views/hour, first 48h), retention,
+engagement rate, follower/sub attribution, format leaderboard, breakout
+flags for paid promotion; (3) on-demand — &quot;how did this week&#39;s videos
+do?&quot; any time. Sunday digest keeps the scale/kill/test calls.
+(4) monthly <strong>winner recycling</strong> — top-decile videos → cutdowns,
+&quot;best of&quot; compilations, and 30-day reposts with fresh hooks (each gets
+its own ref, ledger records <code>recycled_from</code>); (5) weekly <strong>remix
+shortlist</strong> — 3–5 breakout videos from larger in-niche creators as
+response-video targets for your approval; (6) <strong>hook-variant testing
+loop</strong> — 2–3 first-3s variants on new formats, retention picks the
+winner, winners promoted into the format template; (7) <strong>organic
+dayparting</strong> — publish slots retuned per platform from audience-online
+data in the weekly digest; (8) <strong>weekly long-form companion</strong> — the
+week&#39;s top Shorts recut as an 8–12 min YouTube deep-dive/compilation
+(⚠️ TO-VERIFY: the ≈50× Shorts RPM figure is an open audit item, not a
+settled fact). Gate: first weekly report reviewed together. (Feeds promo
+reports R1/R3.)</p>
+</li>
+<li><p><input disabled="" type="checkbox"> <strong>T2.5 — First-hour engagement workflow</strong> 🟢 <code>$0</code>
+Owner: Muse Bandhu · Dep: T2.1 · Output: a <code>first-hour.md</code> runbook +
+ping jobs at publish +15/+30/+45 min surfacing new comments in chat; a
+question-comment seeded at publish to start discussion (via API where
+proven, else staged for BalRam); reply drafts where the API allows,
+otherwise BalRam replies natively. The 60-minute window is the
+highest-leverage organic lever — this makes it a checklist, not a hope.
+Gate: one live publish walks the full 60 minutes.</p>
+</li>
+</ul>
+<hr>
+<h2>Phase 3 — Full auto</h2>
+<ul>
+<li><input disabled="" type="checkbox"> <strong>T3.2 — Health monitoring</strong> 🟢 <code>$0</code>
+Owner: Muse Bandhu · Dep: you:T3.1 · Output: 3-day content buffer
+enforced; monthly token/connection health check; quarantine alerts;
+<strong>nightly backup</strong> of <code>state/</code> (ledger, queue, metrics) + channel
+configs to an off-VM copy; <strong>disk archival</strong> — work dirs of videos
+published &gt;30 days ago are slimmed (finals + meta kept, intermediates
+dropped); <strong>generation-usage monitor</strong> — weekly usage vs plan allowance
+with an alert at 80%. Health signals feed T1.20&#39;s anomaly detection and
+severity-tiered alerts.
+Gate: buffer verified full once; restore drill from backup passes.</li>
+</ul>
+<hr>
+<h2>Phase 4 — Expansion (per new theme)</h2>
+<ul>
+<li><p><input disabled="" type="checkbox"> <strong>T4.2 (build part) — Clone template, fresh creds, staggered crons</strong> 🟢 <code>$0</code>
+Owner: Muse Bandhu · Dep: you:T4.1 · Output: new channel folder from
+template, publisher skills reused, cron set cloned with staggered slots.
+(Accounts + OAuth clicks are Balram Bandhu&#39;s — T4.2 in the
+decisions list.)
+Gate: dry run passes.</p>
+</li>
+<li><p><input disabled="" type="checkbox"> <strong>T4.3 — Pilot → auto for the new channel</strong> 🟢 <code>media</code>
+Owner: Muse Bandhu · Dep: T4.2 · Output: repeat of Phase 2–3,
+compressed.
+Gate: same sign-off as you:T3.1.</p>
+</li>
+</ul>
+<hr>
+<h2>Dependency map (this list)</h2>
+<pre><code>(you:T1.3) → T1.6 ─┐
+(you:T1.4) → T1.7 ─┼→ T1.12 ─┐
+                   ├→ T1.13 ─┬→ T2.1 → T2.3
+(you:T0.2) → T1.9 ─┴→ T1.11 ─┘ │
+(you:T1.1 TikTok) → T1.14 ─────┘
+T1.8 ──→ T1.10 ──→ T1.15 ──────┘
+(you:T0.2) → T1.16 ──→ (audio library feeds generate-batch)
+(T1.6, T1.7, T1.14) → T1.17 ──→ T2.3 (metrics only from proven sources)
+(you:T0.1 ✅) → T1.18 (topic engine, guardrailed)
+(you:T0.4) → T1.19 (sponsor ledger, media kit, affiliates)
+T1.8, T1.9 → T1.20 (observability) → T1.21 (operational reports) → T2.3
+T2.1 → T2.5 (first-hour workflow)
+(you:T3.1) → T3.2 → (you:T4.1) → T4.2 (build) → T4.3
+</code></pre>
+<h2>Cost summary</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Upfront</th>
+<th>Recurring</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Phase 1 setup</td>
+<td><strong>$0</strong></td>
+<td>—</td>
+</tr>
+<tr>
+<td>Pilot (2 wks, ramped 1→2 vids/day)</td>
+<td>—</td>
+<td>media for ~21 videos</td>
+</tr>
+<tr>
+<td>Full auto (3 vids/day)</td>
+<td>—</td>
+<td>media for ~90 videos/mo (~500–600 clips + up to 90 VO + ~95 images; fewer VOs if calibration drops VO)</td>
+</tr>
+</tbody></table>
+<p>Media generation draws on the Muse plan — usage/allowance can be pulled
+any time to sanity-check cadence before scaling.</p>
+<p><strong>How we review:</strong> each task&#39;s output is presented; Balram Bandhu says
+&quot;adjust&quot; or &quot;done&quot;. Checkboxes tick as we go; this file stays current.</p>
+
+</main>
+</body>
+</html>

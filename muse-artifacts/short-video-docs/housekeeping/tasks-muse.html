@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Housekeeping — Build Tasks (Muse)</title>
+<style>
+:root{color-scheme:light dark}
+*{box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65;margin:0;padding:0}
+main{max-width:920px;margin:0 auto;padding:24px 18px 64px}
+h1{font-size:1.7em;border-bottom:1px solid #8884;padding-bottom:.3em}
+h2{font-size:1.35em;margin-top:1.8em;border-bottom:1px solid #8883;padding-bottom:.25em}
+h3{font-size:1.15em;margin-top:1.5em}
+a{color:#2f81f7}
+table{display:block;overflow-x:auto;border-collapse:collapse;margin:1em 0;max-width:100%}
+th,td{border:1px solid #8885;padding:7px 12px;text-align:left;white-space:nowrap;font-size:.92em}
+th{background:#8882}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#8882;padding:2px 6px;border-radius:4px;font-size:.9em}
+pre{background:#8881;padding:14px;border-radius:8px;overflow-x:auto}
+pre code{background:none;padding:0}
+blockquote{border-left:3px solid #8886;margin:1em 0;padding:.2em 1em;opacity:.92}
+.conv-note{font-size:.82em;opacity:.65;border:1px dashed #8886;border-radius:6px;padding:8px 12px}
+ul,ol{padding-left:1.6em}
+li{margin:.25em 0}
+ul.toc{list-style:none;padding-left:0}
+li.dir{margin-top:1em;font-weight:600}
+li.file{padding-left:1.2em;font-weight:400}
+.note{font-size:.85em;opacity:.7}
+</style>
+</head>
+<body>
+<main>
+<p class="conv-note"><a href="../index.html">&#8962; Index</a> &middot; Converted reading copy &mdash; <a href="../../markdown/housekeeping/tasks-muse.md">Markdown master</a></p>
+<h1>Housekeeping — Build Tasks (Muse)</h1>
+<p>Technical work, in dependency order. Each result is presented for your
+<strong>adjust</strong>/<strong>done</strong> before the next task starts. No implementation has
+begun — these are build plans.</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Task</th>
+<th>Cost</th>
+<th>Auto</th>
+<th>Depends on</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>HKT1.1</td>
+<td>Content inventory builder — read the content ledger, assemble the review set per video (light pass &lt;30 days, full pass older), detect ledger-vs-platform mismatches</td>
+<td>$0 out-of-pocket; Muse plan compute</td>
+<td>🟢</td>
+<td>—</td>
+<td>Open</td>
+</tr>
+<tr>
+<td>HKT1.2</td>
+<td>Link checker — weekly job resolving every tracked description link (HEAD→GET fallback), bounded 2-retry budget, <code>link-status.json</code></td>
+<td>$0 out-of-pocket; Muse plan compute</td>
+<td>🟢</td>
+<td>HKT1.1</td>
+<td>Open</td>
+</tr>
+<tr>
+<td>HKT1.3</td>
+<td>Metadata/comment updater — per-platform caption/description edits + pinned redirect comments, with TO-VERIFY-gated fallbacks (description top-line where pinning unsupported)</td>
+<td>$0; API calls within quotas</td>
+<td>🟡</td>
+<td>HKT1.8</td>
+<td>Open</td>
+</tr>
+<tr>
+<td>HKT1.4</td>
+<td>Sponsor obligations ledger — schema + machine mirror (<code>state/obligations.json</code>), gate logic blocking hide/alter inside live obligation windows, no code override path</td>
+<td>$0 out-of-pocket; Muse plan compute</td>
+<td>🟢</td>
+<td>—</td>
+<td>Open</td>
+</tr>
+<tr>
+<td>HKT1.5</td>
+<td>Trim + hide actions — rung (c) trim and rung (d) unlist/private/archive, each TO-VERIFY-gated per platform, idempotent, approval-recorded</td>
+<td>$0; API calls within quotas</td>
+<td>🟡</td>
+<td>HKT1.3, HKT1.4, HKT1.8</td>
+<td>Open</td>
+</tr>
+<tr>
+<td>HKT1.6</td>
+<td>Observability — own failure tracking (<code>failures.jsonl</code>), failure-pattern history, predefined self-healing (bounded retries, fallbacks, quarantine), escalation on repeated failure, anomaly detectors (link-rot spikes, backlog growth), severity-tiered alert hooks</td>
+<td>$0 out-of-pocket; Muse plan compute</td>
+<td>🟢</td>
+<td>HKT1.1–HKT1.5</td>
+<td>Open</td>
+</tr>
+<tr>
+<td>HKT1.7</td>
+<td>Monthly review report — own operational report (reviewed counts per rung, link-rot summary, obligation compliance) delivered in chat after each run</td>
+<td>$0 out-of-pocket; Muse plan compute</td>
+<td>🟢</td>
+<td>HKT1.6</td>
+<td>Open</td>
+</tr>
+<tr>
+<td>HKT1.8</td>
+<td>Platform verification pass — prove every capability in techspec §10 against current official docs/APIs; unproven items become documented manual steps</td>
+<td>$0 out-of-pocket; Muse plan compute</td>
+<td>🟢</td>
+<td>—</td>
+<td>Open</td>
+</tr>
+</tbody></table>
+<p><strong>Dependency notes:</strong> HKT1.8 (verification) gates HKT1.3 and HKT1.5 —
+no platform mutation ships on an unverified capability. HKT1.4 (ledger
+gate) is independent and can build in parallel with HKT1.1/HKT1.2.</p>
+
+</main>
+</body>
+</html>

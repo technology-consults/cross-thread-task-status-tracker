@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Short-Video Pipeline — Technical Specification</title>
+<style>
+:root{color-scheme:light dark}
+*{box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65;margin:0;padding:0}
+main{max-width:920px;margin:0 auto;padding:24px 18px 64px}
+h1{font-size:1.7em;border-bottom:1px solid #8884;padding-bottom:.3em}
+h2{font-size:1.35em;margin-top:1.8em;border-bottom:1px solid #8883;padding-bottom:.25em}
+h3{font-size:1.15em;margin-top:1.5em}
+a{color:#2f81f7}
+table{display:block;overflow-x:auto;border-collapse:collapse;margin:1em 0;max-width:100%}
+th,td{border:1px solid #8885;padding:7px 12px;text-align:left;white-space:nowrap;font-size:.92em}
+th{background:#8882}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#8882;padding:2px 6px;border-radius:4px;font-size:.9em}
+pre{background:#8881;padding:14px;border-radius:8px;overflow-x:auto}
+pre code{background:none;padding:0}
+blockquote{border-left:3px solid #8886;margin:1em 0;padding:.2em 1em;opacity:.92}
+.conv-note{font-size:.82em;opacity:.65;border:1px dashed #8886;border-radius:6px;padding:8px 12px}
+ul,ol{padding-left:1.6em}
+li{margin:.25em 0}
+ul.toc{list-style:none;padding-left:0}
+li.dir{margin-top:1em;font-weight:600}
+li.file{padding-left:1.2em;font-weight:400}
+.note{font-size:.85em;opacity:.7}
+</style>
+</head>
+<body>
+<main>
+<p class="conv-note"><a href="../index.html">&#8962; Index</a> &middot; Converted reading copy &mdash; <a href="../../markdown/create-and-publish/techspec.md">Markdown master</a></p>
+<h1>Short-Video Pipeline — Technical Specification</h1>
+<p>Companion to <code>plan.md</code> (the what/why). This file is
+the how: APIs, schemas, scripts, and build details.
+<strong>Build tasks:</strong> <code>tasks-muse.md</code>
+<strong>Locked decisions referenced:</strong> <code>../reference/decisions-log.md</code> ·
+<strong>Guardrails:</strong> <code>../reference/content-guardrails.md</code> ·
+<strong>Architecture:</strong> <code>../reference/architecture.md</code></p>
+<blockquote>
+<p>This spec covers the <strong>create-and-publish pipeline</strong> only. Each of the
+five pipelines owns its own observability (own tracking, failure
+patterns, self-healing, anomaly detection, severity-tiered alerts) and
+its own operational reports; they share a learning knowledge base. The
+performance-monitoring pipeline owns the shared reporting framework and
+the R1/R2/R3 cross-pipeline rollups.</p>
+</blockquote>
+<h2>1. Platform integrations</h2>
+<h3>1.1 YouTube — Data API v3 (custom <code>youtube-publisher</code> skill)</h3>
+<p>No YouTube skill exists in Muse today — built once with the
+<code>skill_creator</code> workflow, reused by every channel.</p>
+<ul>
+<li><strong>Auth:</strong> GCP OAuth 2.0 client, <code>youtube.upload</code> scope. For own
+channels, keep the GCP app in <strong>Testing</strong> mode with the owner as test
+user — no Google verification needed. Refresh token → Secure Vault
+(<code>credentials.request_api_access</code>); the skill mints short-lived access
+tokens. Tokens never touch files, memory, or logs.</li>
+<li><strong>Upload:</strong> <code>videos.insert</code> (resumable). Vertical ≤3 min + <code>#Shorts</code> ⇒
+Short automatically.</li>
+<li><strong>Scheduling (native):</strong> <code>status.privacyStatus=&quot;private&quot;</code> +
+<code>status.publishAt</code> (RFC-3339) — YouTube auto-publishes at the slot.</li>
+<li><strong>Promote (review flow):</strong> <code>videos.update</code> flipping privacyStatus
+unlisted→public (50 units).</li>
+<li><strong>Quota — the critical constraint:</strong> default project quota is
+<strong>10,000 units/day</strong>. <code>videos.insert</code> ≈ <strong>1,600 units</strong> (verify the
+current cost at build — sources conflict) ⇒ ~6 uploads/day on one
+project, minus <code>videos.update</code>/<code>thumbnails.set</code> (50 each).
+<strong>Compliant capacity plan:</strong> one GCP project; file the quota-increase
+request early (Google audit, takes weeks). Do NOT create extra projects
+to dodge quota unless Google explicitly authorizes it. The publisher
+tracks spend per project in <code>state/quota.json</code> and stops cleanly at 90%
+(<code>quotaExceeded</code> → re-queue for next window).</li>
+<li><strong>Analytics:</strong> YouTube Analytics API, read-only (~1 unit/call).</li>
+</ul>
+<h3>1.2 Instagram — <code>instagram-cli</code> (built-in skill)</h3>
+<ul>
+<li><strong>Prereqs:</strong> account connected via Meta Accounts Center
+(<code>instagram-cli accounts</code> to verify); professional account required —
+verify Business vs Creator at build.</li>
+<li><strong>Publish:</strong> <code>instagram-cli post-feed --account-id &lt;id&gt; --file final.mp4 --cover cover.jpg --video-thumbnail-playback-offset-ms 1200 --caption &#39;&lt;caption&gt;&#39;</code> → Reel shared to feed + grid.</li>
+<li><strong>Hard limits:</strong> 100 MB/file; 9:16 1080×1920; per-account daily publish
+limit (pipeline caps slots conservatively); <strong>no auto-retry on publish</strong>
+— a retry could double-post. Ledger marks &quot;attempted&quot; before the call;
+failures → manual review.</li>
+<li><strong>Scheduling:</strong> no reliable native scheduling via this CLI — the cron
+job fires at slot time and publishes live.</li>
+<li>Media must live under the workspace path (never <code>/tmp</code>) before posting.</li>
+</ul>
+<h3>1.3 Facebook — Graph API (custom <code>meta-page-publisher</code> skill)</h3>
+<p><code>facebook-cli</code> is read-only for posts — publishing goes through the Meta
+Graph API via a small custom skill (built once with <code>skill_creator</code>).</p>
+<ul>
+<li><strong>Prereqs:</strong> Meta developer app + Facebook Page; long-lived Page access
+token (derived from a long-lived user token — effectively non-expiring)
+→ Secure Vault.</li>
+<li><strong>Permissions:</strong> <code>pages_manage_posts</code>, <code>pages_read_engagement</code> (verify
+current requirements at build).</li>
+<li><strong>Upload:</strong> <code>POST /{page-id}/videos</code> to <code>graph-video.facebook.com</code>
+(multipart). Since mid-2025 all Facebook videos publish as Reels.
+Spec: 9:16 1080×1920, MP4/H.264 + AAC, ≥3s.</li>
+<li><strong>Scheduling (native):</strong> <code>published=false</code> +
+<code>scheduled_publish_time=&lt;unix&gt;</code> (≥10 min out).</li>
+<li><strong>Rate limits:</strong> ~200 calls/hour per Page token — trivially fine;
+exponential backoff on 429.</li>
+</ul>
+<h3>1.4 TikTok — Content Posting API (custom <code>tiktok-publisher</code> skill)</h3>
+<p>Built once with <code>skill_creator</code>, reused by every channel. ⚠️ This is the
+least certain integration — the API exists but requires an <strong>app audit /
+approval</strong> from TikTok before posting works, and approval is not
+guaranteed. Build it against a sandbox first; if approval stalls, TikTok
+publishing degrades to a documented <strong>semi-manual step</strong> (video + caption</p>
+<ul>
+<li>cover staged in <code>ready/</code>, BalRam posts natively) until the API path is
+unblocked. TikTok&#39;s organic reach per post (benchmarked at build against
+current figures) justifies the integration attempt either way.</li>
+</ul>
+<ul>
+<li><strong>Prereqs:</strong> TikTok developer app (approved for Content Posting API);
+user access token → Secure Vault.</li>
+<li><strong>Upload:</strong> <code>POST /v2/post/publish/video/init</code> (FILE_UPLOAD) →
+<code>final.mp4</code> (9:16 1080×1920, ≤287.6 MB per current docs — verify) +
+caption with ref on the last line.</li>
+<li><strong>No native scheduling</strong> on the posting API at time of writing — the
+cron job fires at slot time and publishes live (same pattern as IG).</li>
+</ul>
+<h3>1.5 Verification checklist (prove before treating as spec)</h3>
+<ul>
+<li><input disabled="" type="checkbox"> Current <code>videos.insert</code> quota cost (docs conflict).</li>
+<li><input disabled="" type="checkbox"> Quota-increase request path and realistic grant size (no promises
+of &quot;1M+ units/day&quot;).</li>
+<li><input disabled="" type="checkbox"> IG publishing: Business-only or Business + Creator.</li>
+<li><input disabled="" type="checkbox"> FB video/Reel endpoints, permissions, token lifetime, scheduling
+params against current docs.</li>
+<li><input disabled="" type="checkbox"> TikTok Content Posting API: current app-approval process, upload
+limits, and whether scheduling exists yet. Define the semi-manual
+fallback precisely if approval is blocked.</li>
+<li><input disabled="" type="checkbox"> YouTube AI-disclosure (&quot;altered content&quot;) API field support;
+fallback = manual Studio check per batch.</li>
+<li><input disabled="" type="checkbox"> YouTube YPP originality review: current stance on high-volume
+AI-generated channels (repetitious-content policy); what evidence
+of human creative input reviewers expect.</li>
+<li><input disabled="" type="checkbox"> Retention data sources per platform (YouTube Analytics API;
+Instagram / Facebook / TikTok availability) — define proxy metrics
+where true retention is unavailable, before T2.3 is built.</li>
+<li><input disabled="" type="checkbox"> FFmpeg present on the VM (else install at T1.8).</li>
+<li><input disabled="" type="checkbox"> Story poll/question stickers, comment reply/pin, Trial Reels via
+API — assume <strong>unsupported</strong> until a working integration is proven;
+never promise them.</li>
+<li><input disabled="" type="checkbox"> Native duet/stitch cannot be driven via API on any platform — the
+pipeline&#39;s remix/response format is an <strong>original response video</strong>
+(with credit to the source), produced through the normal pipeline,
+not a platform duet. Never claim otherwise.</li>
+<li><input disabled="" type="checkbox"> Never claim paid views directly cause organic distribution.</li>
+<li><input disabled="" type="checkbox"> ⚠️ <strong>TO-VERIFY (open audit items — not settled facts):</strong> (a) claims
+that YPP thresholds will change in February 2027; (b) claims that
+finance is categorically blocked for AI personas; (c) the working
+figure that long-form earns ≈ 50× Shorts RPM (used in §4
+<code>longform-compile</code>). Verify each against current official/reliable
+sources before asserting in any report, plan, or external material.</li>
+</ul>
+<h2>2. Workspace layout</h2>
+<pre><code>~/workspace/video-pipeline/
+├── channels/
+│   ├── _template/                 # clone for each new channel
+│   │   ├── brand.yml              # name, voice id, caption style, hashtag sets, review block
+│   │   ├── theme-bible.md         # niche, audience, pillars, do/don&#39;t list, guardrail notes
+│   │   ├── cadence.yml            # videos/day + scope; single-prompt adjustable
+│   │   └── accounts.json          # channel/page/account ids (no secrets)
+│   ├── &lt;channel-1&gt;/               # ai-tech-education
+│   │   ├── ideas/queue.json       # ranked idea queue
+│   │   ├── work/&lt;video-id&gt;/       # script.txt, vo.mp3, clips/, final.mp4, cover.jpg, meta.json
+│   │   ├── ready/                 # QC-passed videos awaiting publish
+│   │   └── published/             # posted videos + per-platform receipts
+│   └── &lt;channel-2&gt;/ …             # same layout
+├── shared/
+│   ├── scripts/                   # assemble.sh, captions.py, qc.py, publishers/
+│   ├── skills/                    # youtube-publisher, meta-page-publisher
+│   └── audio/                     # reusable beds/stingers (original/AI-generated by default)
+├── state/
+│   ├── ledger.json                # keyed by video ref: platform ids, status, metrics
+│   ├── sponsor-ledger.json        # per-video sponsor/deal obligations (§3)
+│   ├── quota.json                 # YouTube quota spend per GCP project
+│   ├── failures.jsonl             # this pipeline&#39;s bug/failure/performance events
+│   └── failure-patterns.md        # captured recurring patterns + what fixed them
+└── reports/
+    ├── daily/                     # production reports (this pipeline&#39;s own)
+    └── weekly/                    # content performance summaries
+</code></pre>
+<h2>3. File schemas</h2>
+<p><strong><code>brand.yml</code></strong> (per channel): name, handles, voice_id, caption_style,
+hashtag_sets, packaging_rules (per-platform title/caption tuning),
+language,
+<code>review: {enabled, destination (youtube_unlisted|youtube_private|review_channel|chat_preview), review_channel_id, auto_promote_after_hours}</code>.</p>
+<p><strong><code>cadence.yml</code></strong>: <code>videos_per_day</code>, <code>scope</code>
+(today|this_week|this_month|until_changed), <code>set_on</code>. Every publish job
+re-reads it at run time; scoped overrides auto-revert on expiry (Monday
+check restores default); current setting shown in the weekly digest.</p>
+<p><strong><code>accounts.json</code></strong>: channel/page/account IDs only — no secrets.</p>
+<p><strong><code>meta.json</code></strong> (per video): ref, idea_id, script_hash, vo_voice, clips[],
+cover, qc_report, created_at, sponsor_ref (nullable → sponsor-ledger entry).</p>
+<p><strong><code>ledger.json</code></strong>: keyed by video ref →
+<code>{platforms: {youtube: {video_id, status, url, published_at}, instagram: {…}, facebook: {…}}, superseded_ids[], metrics_ref}</code>. <strong>Nothing is ever
+deleted from the ledger</strong> — unlisted/hidden videos keep their records.</p>
+<p><strong><code>sponsor-ledger.json</code></strong> (per video with sponsor/affiliate
+integration): <code>{sponsor/brand, contract_id, campaign_id, minimum_live_until, required_links_text, pinned_comment_required, onscreen_audio_integration, usage_rights, exclusivity, restrictions, approval_contact, status}</code>. Any hide/unlist/material-alter action on the
+video is <strong>blocked while obligations are active</strong> unless the contract
+explicitly permits it; the <code>video</code> command checks this ledger first.</p>
+<p><strong><code>quota.json</code></strong>: per GCP project: date, units_used, uploads.</p>
+<p><strong><code>failures.jsonl</code></strong>: this pipeline&#39;s own bug/failure/performance event
+log — timestamp, stage, ref, error class, retry count, outcome. Feeds
+<code>failure-patterns.md</code> and the shared learning knowledge base.</p>
+<h2>4. Content pipeline implementation</h2>
+<ul>
+<li><strong>Topic engine (<code>topic-engine</code>):</strong> candidate sources = official product
+and feature announcements, new tools, pricing/cost changes, announced
+launches and event calendars, search/platform trends, and performance
+data from prior videos (via the learning knowledge base). Every
+candidate is compared against the full content ledger — near-duplicates
+rejected, meaningful episode-to-episode variation preserved. <strong>The
+universal content guardrails are enforced at ideation, before any
+scripting:</strong> candidates violating the guardrails (or the channel&#39;s
+editorial scope — e.g. no negative reputational news for AI Technology
+Education) are rejected, or flagged for BalRam&#39;s review. The engine
+reacts to unannounced news; it never pretends to predict it. During the
+pilot, candidates route through BalRam&#39;s approval gate. Full-auto runs
+idea→publication without routine human handling only after &quot;go auto&quot;.</li>
+<li><strong>Script template rules:</strong> spoken form only (numbers spelled out,
+abbreviations spaced, no URLs/stage directions); hook in first 8 words;
+one idea per sentence.</li>
+<li><strong>TTS:</strong> <code>tts</code> CLI — fixed voice per channel, used only where the
+calibration VO policy calls for it (full / none / hybrid per format);
+<code>tts synthesize-script</code> for multi-speaker skits.</li>
+<li><strong>Video:</strong> <code>media.generate_video</code> ≈ 10s/call → 4–6 clips per video;
+<code>snapshot_id</code> carried forward for visual continuity; mood-described
+audio bed in the prompt. For channel #1 the visual mix is
+AI-generated original illustrations + our own automated real screen
+captures of the tools/actions being explained. <strong>AI-generated mock
+interfaces are never presented as genuine screenshots.</strong></li>
+<li><strong>Covers:</strong> <code>media.generate_image</code>, 9:16 1080×1920 (IG cover; YT Shorts
+uses the first frame as thumbnail).</li>
+<li><strong>Assembly (<code>assemble.sh</code>):</strong> concat clips → build SRT from script timed
+against VO duration (<code>ffprobe</code> the mp3, distribute sentences
+proportionally) → ffmpeg render: 1080×1920, H.264, 30fps, AAC 128k,
+≤100 MB, burned-in captions (DejaVu Sans 24, outline), VO mixed over
+bed (bed at 0.25), <code>+faststart</code>.</li>
+<li><strong>QC (<code>qc.py</code>):</strong> ffprobe checks (duration, resolution, codec, size);
+3 extracted frames visually verified (no garbled text/black frames);
+first/last caption sync spot-check. Failures → <code>quarantine/</code> + reason
+log; job moves to next idea. Rejection reasons are categorized and fed
+to the failure-pattern history.</li>
+<li><strong>Hero tier:</strong> <code>generate-batch</code> produces 2 volume + 1 hero per day.
+Hero = up to 8 clips (vs 4–6), 2–3 hook variants rendered for new
+formats, extra QC pass (5 frames), priority slot in the publish queue.</li>
+<li><strong>Loopable format:</strong> script written so the closing line flows into the
+opening line; <code>assemble.sh</code> crossfades audio and matches first/last
+frames for a seamless loop.</li>
+<li><strong>Per-platform packaging:</strong> the packaging step emits per-platform
+variants from <code>brand.yml</code> <code>packaging_rules</code> — YouTube: keyword-first
+title + <code>#Shorts</code>; TikTok: trend-native caption; IG: share/save CTA +
+hashtag mix. Ref on the last line everywhere. Sponsor/affiliate videos
+additionally inject the ledger-required links/text, pinned-comment
+content, and on-screen/audio integration markers.</li>
+<li><strong>Evergreen input:</strong> <code>trend-scan</code> also pulls search-suggestion keywords
+(YouTube/TikTok) for &quot;what is X&quot; explainers; evergreen ideas are tagged
+and never expire from the queue.</li>
+<li><strong>Weekly long-form (<code>longform-compile</code>):</strong> the week&#39;s top Shorts →
+an 8–12 min YouTube deep-dive/compilation (scripted bridges, existing
+clips reused + fresh VO), published as long-form via
+<code>youtube-publisher</code>. ⚠️ <em>TO-VERIFY: the working figure of ≈50× Shorts
+RPM is an open audit item — treat as hypothesis until verified.</em></li>
+<li><strong>Audio library (<code>shared/audio/</code>, built once in T1.16):</strong> ~20–30
+<strong>original/AI-generated</strong> background beds + stingers, loudness-normalized
+and mood-tagged to the channel brand, so no video generates music from
+scratch. Default is original/AI-generated audio; licensed commercial
+beds are used only if BalRam explicitly approves them. (Trending
+commercial sounds stay a manual native swap on winners — promo plan §3.)</li>
+<li><strong>Media kit generator (<code>media-kit</code>):</strong> auto-generates a sponsor media
+kit from <strong>real channel metrics</strong> (subscribers, views, engagement,
+audience) pulled from the ledger + metrics — never invented numbers.
+Output reviewed and approved by BalRam before any outreach.</li>
+<li><strong>Affiliate scaffolding:</strong> tracked-link hub (one canonical link per
+program + per-video tracked variants), CTA rotation config in
+<code>brand.yml</code>, click/conversion ingestion feeding revenue attribution.</li>
+<li><strong>Winner recycling (monthly job <code>recycle-winners</code>):</strong> select top-decile
+videos by velocity from <code>state/metrics.jsonl</code> → (a) <strong>cutdowns:</strong> best
+15s slice re-rendered via <code>assemble.sh</code> variant as a new Short;
+(b) <strong>30-day reposts:</strong> proven videos re-published with fresh
+hook/cover. (&quot;Best of&quot; compilations are owned by the weekly
+<code>longform-compile</code> job — no duplication.) Every recycle gets its own
+ref; ledger records <code>recycled_from: &lt;original ref&gt;</code>. Reposts go through
+the same review gate as new videos during the pilot.</li>
+<li><strong>Remix/response format:</strong> weekly <code>trend-scan</code> also outputs a remix
+shortlist (3–5 larger creators&#39; videos in-niche with breakout
+velocity). Approved targets become response videos — original scripted
+takes with on-screen credit to the source — produced through the normal
+pipeline. (Native duet/stitch buttons are not API-drivable; see §1.5.)</li>
+</ul>
+<h2>5. Orchestration</h2>
+<table>
+<thead>
+<tr>
+<th>Job</th>
+<th>When (ET)</th>
+<th>What</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>trend-scan</code></td>
+<td>05:30 daily</td>
+<td>Refresh idea queue from trends + analytics; weekly remix shortlist; evergreen keyword input</td>
+</tr>
+<tr>
+<td><code>generate-batch</code></td>
+<td>06:00 daily</td>
+<td>Produce until 3-day buffer is full (2 volume + 1 hero/day)</td>
+</tr>
+<tr>
+<td><code>publish-slot-1/2/3</code></td>
+<td>08:00/13:00/19:00 daily</td>
+<td>Publish next ready video → YT, IG, FB, TikTok</td>
+</tr>
+<tr>
+<td><code>metrics-pull</code></td>
+<td>23:30 daily</td>
+<td>Per-video stats → <code>state/metrics.jsonl</code></td>
+</tr>
+<tr>
+<td><code>weekly-review</code></td>
+<td>Sun 09:00</td>
+<td>Digest + scale/kill/test calls; hook-variant winners → template; retune publish slots per platform (dayparting)</td>
+</tr>
+<tr>
+<td><code>recycle-winners</code></td>
+<td>1st of month 07:00</td>
+<td>Cutdowns + 30-day reposts from top decile</td>
+</tr>
+<tr>
+<td><code>backup-state</code></td>
+<td>02:00 daily</td>
+<td>Snapshot <code>state/</code> + channel configs (off-VM copy)</td>
+</tr>
+<tr>
+<td><code>longform-compile</code></td>
+<td>Mon 08:00 weekly</td>
+<td>Weekly 8–12 min YouTube deep-dive from top Shorts</td>
+</tr>
+<tr>
+<td><code>promo-handoff-check</code></td>
+<td>Mon 10:00</td>
+<td>Prompt to start promo plan once winners exist</td>
+</tr>
+<tr>
+<td><code>production-report</code></td>
+<td>23:45 daily</td>
+<td>This pipeline&#39;s own operational report (see §10)</td>
+</tr>
+</tbody></table>
+<ul>
+<li><strong>Idempotency:</strong> ledger checked before every publish call — at most one
+publish per video per platform; reruns resume incomplete platforms.</li>
+<li><strong>Buffer:</strong> 3-day ready buffer; generation retries ≤3x with backoff.</li>
+<li><strong>Failures:</strong> publish failures never blind-retry — they page into the
+daily ops digest.</li>
+</ul>
+<h2>6. Review flow implementation</h2>
+<ul>
+<li><code>review:</code> block in <code>brand.yml</code> (§3); per-run prompt override
+(&quot;send this one for review first&quot;, &quot;skip review for this batch&quot;).</li>
+<li><code>youtube-publisher --review</code> uploads unlisted and returns the URL;
+<code>promote &lt;ref&gt;</code> flips to public/scheduled via <code>videos.update</code>.</li>
+<li>IG/FB review = chat preview (video + caption); nothing posts until
+approved.</li>
+<li>Temporary by design: on through the initial weeks; your &quot;lock the
+vision&quot; sets <code>review.enabled=false</code>; re-enable any time by prompt
+(optionally with <code>auto_promote_after_hours</code> as a safety net).</li>
+</ul>
+<h2>7. Reference scheme implementation</h2>
+<ul>
+<li>Assigned at generation: <code>&lt;channel&gt;.yyyy.MM.dd.N</code> (N = daily sequence,
+1–5; cap configurable in channel config).</li>
+<li>Stored in <code>meta.json</code>; ledger keyed by ref (§3); embedded as the last
+line of the description/caption on all four platforms (human-searchable
+fallback — ledger is the machine source of truth).</li>
+<li><code>video</code> command actions: <code>status</code> / <code>unpublish</code> / <code>remove</code> /
+<code>adjust</code>+republish / <code>block|unblock comments</code> / <code>comment</code> / <code>report</code> /
+<code>promote</code> / <code>review</code>.</li>
+<li><code>adjust</code>+republish: metadata edits in place; new media = delete +
+re-upload (platforms can&#39;t swap files) — old IDs move to
+<code>superseded_ids[]</code>, ref stays constant.</li>
+<li><code>remove</code> always confirms first, even in full-auto. Platform gaps →
+explicit manual step, never silent.</li>
+<li><code>unpublish</code>/hide actions check <code>sponsor-ledger.json</code> first: blocked
+while sponsor obligations are active unless the contract explicitly
+permits it. <strong>Nothing is ever deleted</strong> — unpublish means unlisted /
+private / archived per platform, and only when content is fully outdated
+AND misleading/inaccurate (stale-content policy, plan §9).</li>
+</ul>
+<h2>8. This pipeline&#39;s observability (self-governance)</h2>
+<p>Independent of the other four pipelines; shared patterns are written back
+to the learning knowledge base.</p>
+<ul>
+<li><strong>Own event tracking:</strong> <code>state/failures.jsonl</code> logs every bug, failure,
+and performance event for this pipeline (generation failures, QC
+rejects by category, publish failures, quota events, buffer breaches).</li>
+<li><strong>Failure-pattern history:</strong> <code>state/failure-patterns.md</code> captures
+recurring patterns and what fixed them; QC-rejection categories feed
+back into generation prompts.</li>
+<li><strong>Self-healing (bounded):</strong> predefined mechanisms with automated
+execution plans — generation retries ≤3 with backoff, fallback
+models/endpoints, quarantine of broken outputs (<code>quarantine/</code> + reason
+log). Repeated healing failures <strong>escalate</strong> instead of looping: the
+job stops, the pattern is logged, and a P2 alert fires.</li>
+<li><strong>Anomaly detection:</strong> watches for unfavorable conditions, exception
+scenarios, weak growth, and bottlenecks — e.g. the 3-day buffer
+draining, quota burn running hot, a format&#39;s retention collapsing, a
+stage&#39;s failure rate spiking.</li>
+<li><strong>Severity-tiered alerts:</strong> P1 = needs BalRam now (publishing fully
+halted, quota exhausted mid-day); P2 = needs a decision soon (repeated
+self-healing failures, buffer below 1 day); P3 = informational (a format
+trending down, usage at 80% of allowance). Tiers are set by importance,
+occurrence rate, urgency, and the need for human review, approval, or
+intervention — thresholds locked with BalRam in T0.5.</li>
+</ul>
+<h2>9. Security</h2>
+<ul>
+<li>All tokens/keys in the Secure Vault via hosted capture pages — never
+pasted in chat, never in files/memory/logs.</li>
+<li>One standing authorization for scheduled publishing (recorded in memory<ul>
+<li>plan). Ad spend always needs per-campaign approval.</li>
+</ul>
+</li>
+</ul>
+<h2>10. This pipeline&#39;s operational reports</h2>
+<p>Defined and produced by this pipeline (tech task T1.21); they feed the
+shared R1 cross-pipeline rollup owned by the performance-monitoring
+pipeline&#39;s reporting framework.</p>
+<ul>
+<li><strong>Daily production report</strong> (<code>reports/daily/</code>): videos made, QC
+pass/reject counts with rejection categories, buffer health (days of
+ready video), cost per video, generation usage vs allowance, failures
+and self-healing actions taken.</li>
+<li><strong>Weekly content performance summary</strong> (<code>reports/weekly/</code>): per-video
+velocity (views/hour, first 48h), retention, engagement rate,
+follower/sub attribution, format leaderboard, breakout flags for paid
+promotion, scale/kill/test calls.</li>
+<li>On-demand: &quot;how did this week&#39;s videos do?&quot; any time.</li>
+</ul>
+<h2>11. Key references</h2>
+<ul>
+<li>YouTube Data API v3 quota &amp; <code>videos.insert</code> costs — Google Cloud docs
+(verify current figures at build)</li>
+<li>Meta IG Graph API — Content Publishing:
+<a href="https://developers.facebook.com/documentation/instagram-platform/content-publishing/">https://developers.facebook.com/documentation/instagram-platform/content-publishing/</a></li>
+<li>Meta video upload (resumable):
+<a href="https://developers.facebook.com/documentation/instagram-platform/content-publishing/resumable-uploads">https://developers.facebook.com/documentation/instagram-platform/content-publishing/resumable-uploads</a></li>
+<li>Google Ads — YouTube Shorts Video View campaigns:
+<a href="https://support.google.com/google-ads/answer/16041302?hl=en">https://support.google.com/google-ads/answer/16041302?hl=en</a></li>
+<li>Google Ads — Shorts asset specs:
+<a href="https://support.google.com/google-ads/answer/16041697?hl=en">https://support.google.com/google-ads/answer/16041697?hl=en</a></li>
+</ul>
+
+</main>
+</body>
+</html>

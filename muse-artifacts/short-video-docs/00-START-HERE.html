@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Short-Video Project — Start Here</title>
+<style>
+:root{color-scheme:light dark}
+*{box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65;margin:0;padding:0}
+main{max-width:920px;margin:0 auto;padding:24px 18px 64px}
+h1{font-size:1.7em;border-bottom:1px solid #8884;padding-bottom:.3em}
+h2{font-size:1.35em;margin-top:1.8em;border-bottom:1px solid #8883;padding-bottom:.25em}
+h3{font-size:1.15em;margin-top:1.5em}
+a{color:#2f81f7}
+table{display:block;overflow-x:auto;border-collapse:collapse;margin:1em 0;max-width:100%}
+th,td{border:1px solid #8885;padding:7px 12px;text-align:left;white-space:nowrap;font-size:.92em}
+th{background:#8882}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#8882;padding:2px 6px;border-radius:4px;font-size:.9em}
+pre{background:#8881;padding:14px;border-radius:8px;overflow-x:auto}
+pre code{background:none;padding:0}
+blockquote{border-left:3px solid #8886;margin:1em 0;padding:.2em 1em;opacity:.92}
+.conv-note{font-size:.82em;opacity:.65;border:1px dashed #8886;border-radius:6px;padding:8px 12px}
+ul,ol{padding-left:1.6em}
+li{margin:.25em 0}
+ul.toc{list-style:none;padding-left:0}
+li.dir{margin-top:1em;font-weight:600}
+li.file{padding-left:1.2em;font-weight:400}
+.note{font-size:.85em;opacity:.7}
+</style>
+</head>
+<body>
+<main>
+<p class="conv-note"><a href="index.html">&#8962; Index</a> &middot; Converted reading copy &mdash; <a href="../markdown/00-START-HERE.md">Markdown master</a></p>
+<h1>Short-Video Project — Start Here</h1>
+<p>Last updated: 2026-09-25</p>
+<h2>Goal</h2>
+<p>Build and operate an automated short-video feed across multiple themed channels (YouTube Shorts, Instagram Reels, Facebook Reels, TikTok), starting with <strong>Channel #1: AI Technology Education</strong>. All generated media is original — never pulled from the internet without disclosure and approval.</p>
+<h2>The five pipelines</h2>
+<p>Each is an independent codebase with its own bug/failure/performance tracking, self-healing, and alerting. They share one learning knowledge base.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Pipeline</th>
+<th>Owns</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>create-and-publish</td>
+<td>Idea → generation → QC → publish, behind per-video approval during the pilot</td>
+</tr>
+<tr>
+<td>2</td>
+<td>promotion</td>
+<td>Organic amplification + paid ladder (probe → validate → scale). Objective: <strong>min cost and max impact</strong></td>
+</tr>
+<tr>
+<td>3</td>
+<td>housekeeping</td>
+<td>Monthly stale-content review, ledger hygiene, link checks</td>
+</tr>
+<tr>
+<td>4</td>
+<td>performance-monitoring</td>
+<td>Per-pipeline stats collection, shared reporting framework, R1/R2/R3 cross-pipeline rollups, anomaly detection</td>
+</tr>
+<tr>
+<td>5</td>
+<td>earnings-improvement</td>
+<td>Revenue attribution, affiliate optimization, sponsor pipeline</td>
+</tr>
+</tbody></table>
+<p>See <code>reference/architecture.md</code> for the full architecture.</p>
+<h2>Doc map (approved target structure)</h2>
+<pre><code>short-video-project/
+├── 00-START-HERE.md                  ← this file
+├── create-and-publish/
+│   ├── plan.md / techspec.md / tasks-balram.md / tasks-muse.md
+├── promotion/
+│   ├── plan.md / techspec.md / tasks-balram.md / tasks-muse.md
+├── housekeeping/
+│   ├── plan.md / techspec.md / tasks-balram.md / tasks-muse.md
+├── performance-monitoring/
+│   ├── plan.md / techspec.md / tasks-balram.md / tasks-muse.md
+├── earnings-improvement/
+│   ├── plan.md / techspec.md / tasks-balram.md / tasks-muse.md
+├── reference/
+│   ├── architecture.md               ← five-pipeline design, learning layer, pilot vs full-auto
+│   ├── decisions-log.md              ← every locked decision, dated
+│   ├── brand-kit.md                  ← name, handles, voice, caption style, hashtags
+│   ├── content-guardrails.md         ← universal guardrails + enforcement
+│   ├── topic-engine-scope.md         ← editorial scope, sources, dedup rules
+│   ├── platform-policies.md          ← per-platform rules (all items TO-VERIFY officially)
+│   └── monetization-research.md      ← sponsorship/affiliate economics, distilled
+├── ledgers/
+│   ├── sponsor-obligations.md        ← per-video sponsor contract ledger
+│   └── content-ledger.md             ← every published video + performance
+├── brand/                            ← voice samples, logos
+└── research/                         ← raw research reports
+</code></pre>
+<p><strong>Rule of thumb:</strong> a fact we&#39;d look up → <code>reference/</code>. A decision about the build → pipeline <code>plan.md</code>/<code>techspec.md</code>. Work to do → <code>tasks-*.md</code>. A living operational record → <code>ledgers/</code>.</p>
+<p>Reorganization completed 2026-09-25: the eight original pipeline documents were superseded by the updated versions in <code>create-and-publish/</code> and <code>promotion/</code> and moved to recoverable trash.</p>
+<h2>Reading order</h2>
+<ol>
+<li>This file.</li>
+<li><code>reference/architecture.md</code> — how the system fits together.</li>
+<li><code>reference/decisions-log.md</code> — what&#39;s already decided (don&#39;t re-litigate).</li>
+<li>Pipeline <code>plan.md</code> files — what each pipeline does.</li>
+<li><code>reference/</code> as needed — guardrails, scope, policies, economics.</li>
+</ol>
+<h2>Current status</h2>
+<ul>
+<li><strong>T0.1 DONE (2026-09-24):</strong> Channel #1 = AI Technology Education. Backups: #1 History &amp; mythology explainers, #2 Real-world crime news.</li>
+<li><strong>T0.2 IN PROGRESS:</strong> Brand kit — name, voice, style. Name screening done 2026-09-25 (see <code>reference/brand-kit.md</code>); awaiting BalRam&#39;s pick. Nothing final until he says <strong>&quot;done.&quot;</strong></li>
+<li><strong>NO implementation begun.</strong> No social accounts, API projects, credentials, publishing jobs, posts, campaigns, billing methods, or connected-account capabilities have been created or inspected.</li>
+</ul>
+<h2>Standing operating rules (full list in <code>reference/decisions-log.md</code>)</h2>
+<ul>
+<li>One task at a time, in dependency order. BalRam replies <strong>&quot;adjust&quot;</strong> or <strong>&quot;done&quot;</strong>; nothing is checked off or advanced without <strong>&quot;done.&quot;</strong></li>
+<li>Pilot publishing stays behind per-video approval. Full automation begins only after <strong>&quot;go auto&quot;</strong> / <strong>&quot;lock the vision&quot;</strong>.</li>
+<li><strong>&quot;Turn review back on&quot;</strong> restores review. <strong>&quot;Pause all publishing now&quot;</strong> halts everything until resume.</li>
+<li>State upfront and recurring costs on every proposal.</li>
+</ul>
+
+</main>
+</body>
+</html>

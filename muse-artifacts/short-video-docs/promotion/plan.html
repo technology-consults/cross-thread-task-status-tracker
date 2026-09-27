@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Short-Video Promotion &amp; Advertising — Plan</title>
+<style>
+:root{color-scheme:light dark}
+*{box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65;margin:0;padding:0}
+main{max-width:920px;margin:0 auto;padding:24px 18px 64px}
+h1{font-size:1.7em;border-bottom:1px solid #8884;padding-bottom:.3em}
+h2{font-size:1.35em;margin-top:1.8em;border-bottom:1px solid #8883;padding-bottom:.25em}
+h3{font-size:1.15em;margin-top:1.5em}
+a{color:#2f81f7}
+table{display:block;overflow-x:auto;border-collapse:collapse;margin:1em 0;max-width:100%}
+th,td{border:1px solid #8885;padding:7px 12px;text-align:left;white-space:nowrap;font-size:.92em}
+th{background:#8882}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#8882;padding:2px 6px;border-radius:4px;font-size:.9em}
+pre{background:#8881;padding:14px;border-radius:8px;overflow-x:auto}
+pre code{background:none;padding:0}
+blockquote{border-left:3px solid #8886;margin:1em 0;padding:.2em 1em;opacity:.92}
+.conv-note{font-size:.82em;opacity:.65;border:1px dashed #8886;border-radius:6px;padding:8px 12px}
+ul,ol{padding-left:1.6em}
+li{margin:.25em 0}
+ul.toc{list-style:none;padding-left:0}
+li.dir{margin-top:1em;font-weight:600}
+li.file{padding-left:1.2em;font-weight:400}
+.note{font-size:.85em;opacity:.7}
+</style>
+</head>
+<body>
+<main>
+<p class="conv-note"><a href="../index.html">&#8962; Index</a> &middot; Converted reading copy &mdash; <a href="../../markdown/promotion/plan.md">Markdown master</a></p>
+<h1>Short-Video Promotion &amp; Advertising — Plan</h1>
+<p><strong>Owner:</strong> Balram Bandhu · <strong>Built &amp; operated by:</strong> Muse Bandhu
+<strong>Date:</strong> 2026-09-23 · <strong>Updated:</strong> 2026-09-24 — locked decisions incorporated
+<strong>Status:</strong> Draft for review (awaits pilot winners)
+<strong>Technical spec:</strong> <code>techspec.md</code>
+<strong>Tasks:</strong> <code>tasks-balram.md</code> (decisions &amp; approvals — yours) ·
+<code>tasks-muse.md</code> (build work — Muse&#39;s)
+<strong>Parent pipeline:</strong> <code>../create-and-publish/plan.md</code> (builds the content)
+<strong>Locked decisions:</strong> <code>../reference/decisions-log.md</code> ·
+<strong>Monetization research:</strong> <code>../reference/monetization-research.md</code></p>
+<blockquote>
+<p>This document covers the <strong>promotion pipeline</strong> only — one of five
+independent pipelines, each with its own codebase, its own docs, and its
+own observability: <strong>create-and-publish</strong>, <strong>promotion</strong> (this),
+<strong>housekeeping</strong>, <strong>performance-monitoring</strong>, and <strong>earnings-improvement</strong>.
+They share a learning knowledge base (see §9).</p>
+</blockquote>
+<h2>1. Objective</h2>
+<p><strong>Min cost, max impact.</strong> Every dollar of paid spend must beat its organic
+benchmark or it gets cut. Paid never substitutes for organic — it amplifies
+proven winners only.</p>
+<h2>2. Principles</h2>
+<ol>
+<li><strong>Fund winners only.</strong> No cold creative ever gets budget. A video earns
+paid support by performing organically first (top-decile velocity /
+retention in its first 48h).</li>
+<li><strong>Test → validate → scale → harvest.</strong> Budgets move up a fixed ladder
+on measured efficiency, never on hunches.</li>
+<li><strong>Kill fast.</strong> Losers are paused by rule, not debated.</li>
+<li><strong>One metric per campaign type:</strong> cost per view (reach campaigns), cost
+per follower/subscriber (growth campaigns).</li>
+<li><strong>Bounded by default.</strong> Every campaign has a default duration and
+budget; anything bigger is an explicit, approved override.</li>
+<li><strong>Reports separate organic results, paid results, and measured
+relationships</strong> — never blended into one number.</li>
+</ol>
+<h2>3. Organic engine (always-on, $0)</h2>
+<p>The pipeline enforces these by template; promotion owns the tuning:</p>
+<ul>
+<li><strong>Reels/Shorts craft:</strong> hook &lt;3s, burned-in captions, 9:16 full-bleed,
+original audio, niche + broad hashtags.</li>
+<li><strong>Stories flywheel:</strong> every Reel reshared to Stories.</li>
+<li><strong>Native cross-posting:</strong> each video ships as a separate native upload
+to IG <em>and</em> the FB Page (never cross-links — platforms demote them).</li>
+<li><strong>First-hour engagement (defined workflow):</strong> at publish +15/+30/+45
+min, Muse pings you with new comments; you reply within the hour (or
+approve Muse-drafted replies where the API allows). A question-comment
+is seeded at publish to start discussion. Full runbook: pipeline tech
+task T2.5.</li>
+<li><strong>Trending-audio swap (your 2-minute job):</strong> the pipeline ships with
+original audio — commercial trending sounds can&#39;t be attached via API.
+For proven winners, you open the video natively in TikTok/IG, swap in
+the trending sound, and repost. Muse flags which winners deserve it and
+suggests the sound. Manual, but only ever for winners.</li>
+<li><strong>YouTube-native:</strong> keyword-first titles, <code>#Shorts</code>, pinned question
+comment, theme playlists, title A/B variants logged for review.</li>
+<li><strong>Monthly collab:</strong> one collab Reel with a same-niche creator (Muse
+shortlists, you approve outreach).</li>
+<li><strong>Winner recycling:</strong> monthly cutdowns, &quot;best of&quot; compilations, and
+30-day reposts of proven videos with fresh hooks — winners keep working
+(pipeline builds it; promotion picks the winners from R2).</li>
+<li><strong>Remix/response videos:</strong> weekly shortlist of breakout videos from
+larger in-niche creators; approved targets become original response
+takes with credit — borrowed audience, your spin.</li>
+<li><strong>TikTok distribution:</strong> every video ships natively to TikTok alongside
+YT/IG/FB — strong organic reach per post in short-form (benchmarked at
+build; pipeline tech spec §1.4).</li>
+</ul>
+<p><em>Optional levers (not committed — revisit when the core is humming):</em>
+episodic series (Part 1/2/3), a hard retention-gate rule (kill formats
+under ~30% 3-second retention), external seeding (niche subreddits, X
+clips), community features at thresholds (YT Community tab, IG broadcast
+channel).</p>
+<p>Exact automation support per tactic is verified at build (tech spec §6) —
+anything the APIs can&#39;t do becomes a manual step, never a silent skip.</p>
+<h2>4. Paid engine — Meta (Instagram + Facebook)</h2>
+<p><strong>Two campaign types:</strong> reach (video views on a winning Reel) and growth
+(follows). One campaign per hero video; Reels + Stories placements; 9:16
+creative as-is.</p>
+<p><strong>Scale up / scale down ladder</strong> (thresholds finalized in P0.1):</p>
+<table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>Budget</th>
+<th>Duration</th>
+<th>Advance if</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Probe</td>
+<td>$5/day</td>
+<td>3 days</td>
+<td>Cost per view/follower under threshold</td>
+</tr>
+<tr>
+<td>Validate</td>
+<td>$15/day</td>
+<td>7 days</td>
+<td>Efficiency holds within 20% of probe</td>
+</tr>
+<tr>
+<td>Scale</td>
+<td>$30–50/day</td>
+<td>rolling</td>
+<td>Cost stays under threshold</td>
+</tr>
+</tbody></table>
+<p><strong>Automatic scale-down / kill triggers:</strong></p>
+<ul>
+<li>Cost ≥ 1.5× threshold for 48h → budget halved, you&#39;re notified.</li>
+<li>Cost ≥ 2× threshold for 48h → paused, you&#39;re notified.</li>
+<li>Two consecutive scale-downs → killed, learnings logged.</li>
+<li>Creative fatigue (frequency &gt;3.5 with falling engagement) → retired, a
+variant cut from the winner.</li>
+</ul>
+<p>Scale-downs and pauses inside these rules are automatic with notification;
+<strong>scale-ups past 2× always need your approval.</strong></p>
+<h2>5. Paid engine — Google (YouTube)</h2>
+<ul>
+<li><strong>Campaign:</strong> Video Views objective on an already-published Short,
+Shorts placement, vertical &lt;60s creative, sound-on.</li>
+<li><strong>Timing:</strong> launch soon after publish to catch the early window. (Paid
+views don&#39;t count toward monetization thresholds; the organic views they
+trigger do.)</li>
+<li><strong>Targeting:</strong> broad affinity/in-market around the niche first, then
+competitor-keyword segments; mobile only; frequency caps.</li>
+<li><strong>Warm layer:</strong> separate retargeting campaign for viewers of previous
+videos — the cheapest conversions.</li>
+<li><strong>Same ladder and auto-brakes as Meta</strong> (§4).</li>
+</ul>
+<h2>6. Min-cost, max-impact tactics</h2>
+<ol>
+<li><strong>Winners-only funding</strong> — the single biggest saver; most videos never
+see a dollar.</li>
+<li><strong>Dayparting:</strong> spend concentrated in the channel&#39;s proven hours, not
+24/7.</li>
+<li><strong>Geo layering:</strong> 1–2 best geos first; expand only on efficiency.</li>
+<li><strong>Warm before cold:</strong> retarget engagers before prospecting strangers.</li>
+<li><strong>Lookalikes</strong> built from video engagers, not broad interest buckets.</li>
+<li><strong>Creative recycling:</strong> one hero → cheap cutdowns for probe tests.</li>
+<li><strong>Free cross-promo:</strong> each channel&#39;s community tab and Stories push the
+others — $0 reach.</li>
+<li><strong>Frequency discipline:</strong> caps stop you paying to annoy people.</li>
+</ol>
+<h2>7. Campaign defaults &amp; per-campaign overrides</h2>
+<ul>
+<li><strong>Defaults:</strong> 7-day duration, $10/day, thresholds per §4, monthly cap
+set in P0.1.</li>
+<li><strong>Overrides:</strong> any campaign may override duration, budget, or geo —
+every override is logged with who changed what, when.</li>
+<li><strong>Single-prompt controls:</strong> &quot;pause all ads&quot;, &quot;double the fitness
+channel&#39;s budget&quot;, &quot;extend <em>finance-ep12</em> by 7 days&quot;, &quot;kill anything
+over $0.05 CPV&quot;, &quot;how much did we spend this month?&quot;.</li>
+</ul>
+<h2>8. Reporting — this pipeline&#39;s own reports + shared rollups</h2>
+<p>This pipeline defines its <strong>own operational reports</strong> (built in tech task
+P1.4): a weekly <strong>ad response report</strong> (per campaign: spend, impressions,
+views, follows/subs, cost per view/follower, frequency, dates vs
+defaults), a <strong>spend-vs-cap report</strong> (pacing against the monthly cap,
+projected month-end), and a <strong>kill-trigger log</strong> (every auto scale-down,
+pause, and kill with the rule that fired and the learnings logged).
+Affiliate reports (clicks, conversions, revenue per link/video) are added
+once affiliate programs are live.</p>
+<p>These feed the <strong>shared R1/R2/R3 cross-pipeline rollups</strong> owned by the
+performance-monitoring pipeline&#39;s reporting framework — one framework,
+many contributors:</p>
+<ul>
+<li><strong>R1 — Organic impact &amp; popularity.</strong> Per-video velocity, retention,
+engagement rate, follower/subscriber attribution, format leaderboard,
+breakout flags. Weekly. (Organic data comes from the create-and-publish
+pipeline&#39;s metrics feed.)</li>
+<li><strong>R2 — Ad response.</strong> Per campaign: spend, impressions, views,
+follows/subs, cost per view/follower, frequency, dates vs defaults.
+Weekly. (This pipeline&#39;s data.)</li>
+<li><strong>R3 — Organic × paid relation.</strong> Incremental lift vs a matched organic
+baseline; growth in the 7 days <em>after</em> spend stopped; blended cost per
+1k views; a keep/cut verdict per boost. Weekly. (Joint
+create-and-publish + promotion data.)</li>
+</ul>
+<p>Delivery: chat digest in the project side chat; full tables under <code>reports/</code>.
+Videos cited by ref (<code>&lt;channel&gt;.yyyy.MM.dd.N</code>) everywhere. Organic
+results, paid results, and measured relationships are always reported
+separately — never blended.</p>
+<h2>9. Approvals, guardrails &amp; self-governance</h2>
+<ul>
+<li>Muse <strong>proposes</strong> every campaign (creative, budget, duration, targeting);
+you <strong>approve</strong> each launch and any scale-up past 2×.</li>
+<li>Scale-downs/pauses inside the rules are automatic with notification.</li>
+<li><strong>Anomaly brake:</strong> spend pacing &gt;150% of expected → auto-pause +
+instant alert.</li>
+<li><strong>Hard monthly cap</strong> — campaigns cannot exceed it, individually or
+combined.</li>
+<li>Execution is semi-manual through the Ads Manager / Google Ads web UIs
+(Muse drives, you can watch) — proposals automatic, launches approved.</li>
+<li><strong>Sponsor/affiliate manual gates:</strong> affiliate program applications,
+sponsor outreach, negotiation, and closing are yours; identity/tax
+details are never handled by Muse. Muse prepares shortlists, drafts,
+tracking, and revenue attribution.</li>
+</ul>
+<h3>This pipeline&#39;s own observability</h3>
+<p>Independent of the other four pipelines; shared patterns are written back
+to the learning knowledge base.</p>
+<ul>
+<li><strong>Own tracking:</strong> every campaign event, rule evaluation, brake trigger,
+spend anomaly, and reporting failure is logged against this pipeline.</li>
+<li><strong>Failure-pattern history:</strong> recurring patterns captured and used —
+e.g. which creative types fatigue fastest, which geos burn budget, what
+UI changes broke the browser automation last time.</li>
+<li><strong>Self-healing (bounded):</strong> predefined mechanisms with automated
+execution plans — auto scale-down/pause/kill per the ladder rules,
+retry budgets on report pulls, quarantine of suspect metrics. Repeated
+healing failures escalate instead of looping.</li>
+<li><strong>Anomaly detection:</strong> watches for unfavorable conditions and exception
+scenarios — spend pacing anomalies, a campaign&#39;s efficiency collapsing,
+API/UI breakage in the browser automation, reporting gaps.</li>
+<li><strong>Severity-tiered alerts:</strong> P1 = anomaly brake fired (spend &gt;150% of
+expected — auto-paused, you alerted instantly); P2 = kill triggers and
+repeated brake events needing your call; P3 = informational (creative
+fatigue retirements, ladder advancements). Tiers are set by importance,
+occurrence rate, urgency, and the need for human review, approval, or
+intervention — thresholds locked with you in P0.1.</li>
+</ul>
+<h2>10. Costs</h2>
+<p>Tooling $0. Spend = your caps. Probe $5/day, validate $15/day, scale
+$30–50/day. Suggested pilot month: <strong>$150–300 total</strong> across Meta +
+Google.</p>
+<h2>11. Monetization targets — views &amp; subscribers → CAD income</h2>
+<p>How short-form actually pays, ranked by realism. (Full research — creator
+revenue mix, sponsor-rate benchmarks, affiliate economics, and caveats —
+lives in <code>../reference/monetization-research.md</code>.)</p>
+<ol>
+<li><strong>Brand sponsorships</strong> — the real engine. Micro-influencer rates run
+roughly <strong>$25–$50 CAD per 1,000 followers per sponsored post</strong>
+(finance/tech niches pay the top end). One sponsored post a month at
+50k followers ≈ $1,250–$2,500.</li>
+<li><strong>YouTube Shorts ad revenue</strong> — real but thin. Shorts pay from a pooled
+fund, roughly $0.05–$0.15 USD per 1,000 views (≈ $0.07–$0.21 CAD;
+working figure <strong>$0.14 CAD</strong>). Requires <strong>1,000 subs + 10M Shorts views
+in 90 days</strong> before a single dollar flows.</li>
+<li><strong>Affiliate</strong> — niche-dependent; finance/tech links can out-earn ad
+revenue per view by 10× or more.</li>
+<li><strong>Platform bonuses/gifts</strong> — small and shrinking; treat as a bonus,
+never the plan.</li>
+</ol>
+<h3>What it takes (working model)</h3>
+<table>
+<thead>
+<tr>
+<th>Monthly income target</th>
+<th>Via Shorts ads alone</th>
+<th>Via audience (the realistic path)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CAD 100</td>
+<td>~0.7M Shorts views/mo</td>
+<td>Monetization unlocked: 1k subs + 10M views/90d</td>
+</tr>
+<tr>
+<td>CAD 500</td>
+<td>~3.6M views/mo</td>
+<td>~15–25k followers + 1 sponsor/mo</td>
+</tr>
+<tr>
+<td>CAD 1,500</td>
+<td>~11M views/mo</td>
+<td>~50k followers + 2 sponsors/mo</td>
+</tr>
+<tr>
+<td>CAD 5,000</td>
+<td>~36M views/mo</td>
+<td>~100–150k followers + 2–3 sponsors + affiliate</td>
+</tr>
+<tr>
+<td>CAD 10,000</td>
+<td>~71M views/mo</td>
+<td>250k+ followers + sponsors + affiliate + own funnel</td>
+</tr>
+</tbody></table>
+<p>Takeaway: Shorts ad revenue alone is a weak engine — the audience column
+is how this actually pays. Paid promotion doesn&#39;t buy income directly; it
+buys <strong>audience faster</strong>, and the audience buys the income.</p>
+<h3>Milestones with associated promo cost</h3>
+<p>Income below is <strong>gross revenue</strong> — net is gross minus the promo spend
+shown alongside it. (Media generation isn&#39;t counted here: it draws on
+your existing Muse plan, no incremental cash outlay.)</p>
+<table>
+<thead>
+<tr>
+<th>Milestone</th>
+<th>Gross income/mo</th>
+<th>Audience target</th>
+<th>Promo spend/mo</th>
+<th><strong>Net income/mo</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>M1 — Monetized</td>
+<td>CAD ~100</td>
+<td>1k subs, 10M Shorts views/90d</td>
+<td>$150–300</td>
+<td>≈ <strong>−$125</strong> (investment phase)</td>
+</tr>
+<tr>
+<td>M2 — First sponsors</td>
+<td>CAD ~500</td>
+<td>15–25k followers</td>
+<td>$300–500</td>
+<td>≈ <strong>+$100</strong></td>
+</tr>
+<tr>
+<td>M3 — Steady</td>
+<td>CAD ~1,500</td>
+<td>~50k followers</td>
+<td>$500–900</td>
+<td>≈ <strong>+$800</strong></td>
+</tr>
+<tr>
+<td>M4 — Full-time-ish</td>
+<td>CAD ~5,000</td>
+<td>100–150k followers</td>
+<td>$900–1,500</td>
+<td>≈ <strong>+$3,800</strong></td>
+</tr>
+<tr>
+<td>M5 — Scale</td>
+<td>CAD ~10,000</td>
+<td>250k+ followers</td>
+<td>$1,500–3,000</td>
+<td>≈ <strong>+$7,750</strong></td>
+</tr>
+</tbody></table>
+<p>Net uses mid-range promo spend. M1 being net-negative is expected and
+normal — you&#39;re buying the audience asset (subscribers/followers), which
+is what all later milestones monetize. Break-even lands around M2; from
+M3 on, promo is roughly 30–60% of gross and falling as organic compounds.</p>
+<p>Why the promo math works: at a $0.02 cost per view, $300/mo buys only
+~15k paid views — nowhere near the millions in the table. It works because
+paid <strong>amplifies proven organic winners</strong> (the entire strategy), and
+followers compound: each winner&#39;s audience makes the next video cheaper to
+push. Organic does the heavy lifting; paid shortens the road. How much
+organic lift each paid dollar actually produces is measured, not assumed —
+that&#39;s what the R3 report exists to verify. When paid doesn&#39;t lift
+organic, the ladder kills the spend within days.</p>
+<h3>Can ad spend buy these views? (honest math)</h3>
+<p>Yes — both platforms let you pay directly for views. <strong>Meta:</strong> boost a
+Reel or run a Video Views / Engagement campaign (Reels + Stories
+placements). <strong>Google:</strong> a Video Views campaign on your published Short,
+served in the Shorts feed. That&#39;s exactly what the paid engine (§4–§5)
+does.</p>
+<p>But can the budgets above <em>buy</em> the view counts in the table? No — not
+even close:</p>
+<table>
+<thead>
+<tr>
+<th>Milestone</th>
+<th>Views needed/mo</th>
+<th>What the promo budget buys (@ $0.02/view)</th>
+<th>Share of target</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>M1</td>
+<td>0.7M</td>
+<td>~11k views</td>
+<td>~2%</td>
+</tr>
+<tr>
+<td>M2</td>
+<td>3.6M</td>
+<td>~20k views</td>
+<td>~0.6%</td>
+</tr>
+<tr>
+<td>M3</td>
+<td>11M</td>
+<td>~35k views</td>
+<td>~0.3%</td>
+</tr>
+<tr>
+<td>M4</td>
+<td>36M</td>
+<td>~60k views</td>
+<td>~0.2%</td>
+</tr>
+<tr>
+<td>M5</td>
+<td>71M</td>
+<td>~112k views</td>
+<td>~0.16%</td>
+</tr>
+</tbody></table>
+<p><strong>~98%+ of the views must come from organic distribution.</strong> Paid is a
+catalyst, not the fuel: a $5–15/day push behind a proven winner buys
+initial velocity and follower conversions; <em>if</em> the content earns it,
+organic distribution follows — the R3 report measures exactly how much
+lift each paid dollar produced, so we keep what works and cut what
+doesn&#39;t. That&#39;s the winners-only rule doing its job.</p>
+<p>Same story for followers: at ~$1 per follower, $400/mo buys ~400
+followers — M2&#39;s 15–25k followers must overwhelmingly come from organic
+breakouts, with paid accelerating the winners. The <strong>R3 report exists
+precisely to verify this</strong>: it measures incremental lift per paid dollar,
+so we always know whether the catalyst is working or we&#39;re just buying
+expensive views. If R3 ever shows paid isn&#39;t lifting organic, budgets get
+cut — the strategy enforces this automatically.</p>
+<h3>Honest caveats</h3>
+<ul>
+<li>Ranges, not promises. Niche matters enormously — finance pays 2–3×
+entertainment for both ad rates and sponsors.</li>
+<li>Organic breakout is the gating factor: no budget fixes a channel with
+no winners. That&#39;s exactly why funding is winners-only (P2.1).</li>
+<li>Timelines depend on hit rate. With ~90 videos/month, even a 5% breakout
+rate compounds fast — or doesn&#39;t, and the weekly review says so early
+enough to pivot before real money is spent.</li>
+<li>Sponsor-rate and revenue-mix figures are industry estimates and creator
+reports, not official payout data — see the caveats in
+<code>../reference/monetization-research.md</code>. Recalibrate every figure
+against actuals once revenue starts flowing (tech spec §7).</li>
+</ul>
+<h2>12. Open decisions (yours)</h2>
+<ol>
+<li>Monthly ad cap — total and per channel.</li>
+<li>Default campaign duration — 7 days OK, or different?</li>
+<li>Cost-per-view / cost-per-follower thresholds per platform (defaults OK?).</li>
+<li>Priority: views-first, followers-first, or mixed?</li>
+<li>Alert severity thresholds — what fires a P1 vs P2 vs P3 (proposed in
+tech task P1.5; you lock them).</li>
+<li>Affiliate program applications — which programs to apply to (your
+approval; identity/tax details are yours).</li>
+</ol>
+
+</main>
+</body>
+</html>

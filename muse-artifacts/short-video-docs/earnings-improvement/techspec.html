@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Earnings Improvement — Technical Specification</title>
+<style>
+:root{color-scheme:light dark}
+*{box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65;margin:0;padding:0}
+main{max-width:920px;margin:0 auto;padding:24px 18px 64px}
+h1{font-size:1.7em;border-bottom:1px solid #8884;padding-bottom:.3em}
+h2{font-size:1.35em;margin-top:1.8em;border-bottom:1px solid #8883;padding-bottom:.25em}
+h3{font-size:1.15em;margin-top:1.5em}
+a{color:#2f81f7}
+table{display:block;overflow-x:auto;border-collapse:collapse;margin:1em 0;max-width:100%}
+th,td{border:1px solid #8885;padding:7px 12px;text-align:left;white-space:nowrap;font-size:.92em}
+th{background:#8882}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#8882;padding:2px 6px;border-radius:4px;font-size:.9em}
+pre{background:#8881;padding:14px;border-radius:8px;overflow-x:auto}
+pre code{background:none;padding:0}
+blockquote{border-left:3px solid #8886;margin:1em 0;padding:.2em 1em;opacity:.92}
+.conv-note{font-size:.82em;opacity:.65;border:1px dashed #8886;border-radius:6px;padding:8px 12px}
+ul,ol{padding-left:1.6em}
+li{margin:.25em 0}
+ul.toc{list-style:none;padding-left:0}
+li.dir{margin-top:1em;font-weight:600}
+li.file{padding-left:1.2em;font-weight:400}
+.note{font-size:.85em;opacity:.7}
+</style>
+</head>
+<body>
+<main>
+<p class="conv-note"><a href="../index.html">&#8962; Index</a> &middot; Converted reading copy &mdash; <a href="../../markdown/earnings-improvement/techspec.md">Markdown master</a></p>
+<h1>Earnings Improvement — Technical Specification</h1>
+<p>Companion to <code>plan.md</code> (the what/why). This file is the how:
+attribution, tracked links, affiliate ingestion, the sponsor pipeline,
+media kit generation, and cost monitoring.
+<strong>Build tasks:</strong> <code>tasks-muse.md</code></p>
+<h2>1. Workspace layout (independent codebase)</h2>
+<pre><code>~/workspace/video-earnings/
+├── attribution/
+│   ├── attribute.py             # revenue → video/topic/format/platform
+│   └── confidence.py            # direct | inferred | unknown labeling
+├── affiliate/
+│   ├── programs.json            # researched programs + terms + status
+│   ├── linkhub/                 # versioned link-hub pages
+│   ├── tracker.py               # click/conversion ingestion
+│   └── cta-rotate.py            # CTA rotation engine
+├── sponsors/
+│   ├── prospects.json           # prospect shortlist + stage per prospect
+│   ├── outreach.py              # templates + send tracking (gated)
+│   ├── mediakit.py              # auto-generated media kit
+│   └── ratecard.py              # rate-card framework
+├── costs/
+│   ├── cost-per-video.py        # per-video cost logging
+│   └── price-watch.py           # pricing-change alerts on dependencies
+├── market/
+│   └── seasonal.py              # seasonal ad-market notes
+├── state/
+│   ├── revenue.jsonl            # revenue events with attribution
+│   ├── clicks.jsonl             # tracked-link events
+│   ├── failures.jsonl           # own bug/failure/performance tracking
+│   ├── failure-patterns.json
+│   └── healing-log.jsonl
+└── reports/
+    └── weekly/                  # own operational reports
+</code></pre>
+<h2>2. Attribution model</h2>
+<p>Every revenue event is recorded in <code>revenue.jsonl</code>:</p>
+<pre><code class="language-json">{
+  &quot;date&quot;: &quot;YYYY-MM-DD&quot;,
+  &quot;source&quot;: &quot;platform_ads|affiliate|sponsor&quot;,
+  &quot;amount&quot;: 0.0, &quot;currency&quot;: &quot;CAD&quot;,
+  &quot;ref&quot;: &quot;&lt;video ref&gt;&quot;, &quot;topic&quot;: &quot;&lt;topic&gt;&quot;, &quot;format&quot;: &quot;&lt;format&gt;&quot;,
+  &quot;platform&quot;: &quot;youtube|instagram|facebook|tiktok&quot;,
+  &quot;confidence&quot;: &quot;direct|inferred|unknown&quot;,
+  &quot;note&quot;: &quot;&lt;basis for inferred attribution&gt;&quot;
+}
+</code></pre>
+<ul>
+<li><strong>Platform ad payouts:</strong> attributed per platform from payout reports;
+per-video split is <em>inferred</em> from view share unless the platform
+reports per-video revenue (TO-VERIFY).</li>
+<li><strong>Affiliate commissions:</strong> <em>direct</em> via tracked-link parameters.</li>
+<li><strong>Sponsor payments:</strong> <em>direct</em> via contract/campaign ID, mapped to
+the video refs carrying the integration.</li>
+<li><code>confidence.py</code> enforces the labeling — nothing inferred is ever
+reported without the basis shown.</li>
+</ul>
+<h2>3. Tracked-link mechanics</h2>
+<p>Links carry per-video parameters (<code>?src=&lt;ref&gt;&amp;pl=&lt;platform&gt;</code>) through
+the link hub; <code>tracker.py</code> records clicks. Conversions come from
+affiliate dashboards (§4) joined on the same parameters. Redirects are
+server-side (no client JS dependency), and the hub degrades gracefully
+if tracking is blocked — the click still lands, only the attribution is
+lost (logged as <code>unknown</code>, not guessed).</p>
+<h2>4. Affiliate dashboard ingestion (TO-VERIFY per network)</h2>
+<p>Per program, in <code>programs.json</code>: dashboard URL, API availability, auth
+method, report cadence. Where an API exists, <code>tracker.py</code> pulls on
+schedule (bounded retries). Where it doesn&#39;t, ingestion is a <strong>documented
+manual CSV step</strong> — the pipeline prompts you in chat with exactly what
+to download and where to drop it. Manual steps are explicit, never
+silent gaps.</p>
+<h2>5. Link hub implementation</h2>
+<p>Versioned static pages under <code>affiliate/linkhub/</code> (one per program or
+product group), each link tracked per §3. Descriptions across all four
+platforms point at the hub, never at raw affiliate URLs — one place to
+update when a program changes terms or a link dies. Hub link inventory
+is shared with housekeeping&#39;s link checker.</p>
+<h2>6. CTA rotation engine</h2>
+<p><code>cta-rotate.py</code> holds the CTA pool with per-CTA performance (clicks,
+conversions from <code>clicks.jsonl</code> + KB). Rotation weights update weekly:
+winners get more slots, losers rotate out — bounded (no CTA disappears
+entirely without 4 weeks of data). Rotation rules read the learning KB;
+rule changes during the pilot need your approval.</p>
+<h2>7. Sponsor pipeline implementation</h2>
+<p><code>prospects.json</code>: per prospect — brand, contact, niche-fit score,
+audience-match notes, stage
+(<code>prospect → contacted → negotiating → closed | declined</code>), history.</p>
+<ul>
+<li><strong>Prospecting:</strong> shortlist generated from niche fit + audience match +
+observed sponsor behavior in the space; refreshed monthly.</li>
+<li><strong>Outreach:</strong> <code>outreach.py</code> holds personalized templates and send
+tracking. <strong>Sending is gated</strong> — the pipeline drafts and queues; you
+(or your explicit authorization per batch) send.</li>
+<li><strong>Negotiation/close:</strong> the pipeline prepares numbers (rate-card output<ul>
+<li>your metrics) and term sheets; you talk and sign. Closed deals write
+to the obligations ledger (§10).</li>
+</ul>
+</li>
+</ul>
+<h2>8. Media kit generator</h2>
+<p><code>mediakit.py</code> pulls real metrics from performance-monitoring (views,
+followers, engagement, growth — never hand-entered) and renders the kit
+(PDF + one-pager). Regenerated monthly or on demand. <strong>External
+publication needs your approval</strong> — the generator produces a draft, you
+release it.</p>
+<h2>9. Rate-card framework (estimates, not guarantees)</h2>
+<p><code>ratecard.py</code>: inputs = audience size, engagement rate, niche benchmark
+ranges (industry estimates, sourced and dated); outputs = rate ranges
+per integration type (dedicated video, integrated mention, link-only).
+Every figure carries its basis and date. The card is a starting point
+for negotiation, not a price list — actuals replace estimates as your
+deal data accumulates.</p>
+<h2>10. Sponsor/deal obligations ledger (schema)</h2>
+<p>Written by this pipeline on close; enforced by housekeeping (their
+techspec §5). Entry per video ref: sponsor/brand, contract + campaign
+ID, minimum-live-until date, required links/text, pinned-comment
+requirements, on-screen/audio integration, usage rights, exclusivity,
+approval/contact record. The human-readable ledger lives at
+<code>files/ledgers/sponsor-obligations.md</code>; the machine mirror at
+housekeeping&#39;s <code>state/obligations.json</code> — this pipeline writes both on
+close, in one transaction.</p>
+<h2>11. Cost-per-video tracking + pricing-change alerts</h2>
+<p><code>cost-per-video.py</code> logs generation cost per video (model calls, TTS,
+render compute — from create-and-publish&#39;s records). <code>price-watch.py</code>
+monitors the dependency price list (media/voice/model providers);
+changes trigger a P3 alert (P2 if the change exceeds 20% — cost drift
+that big changes unit economics). Pricing sources are official pages/
+announcements, checked weekly.</p>
+<h2>12. Seasonal ad-market monitoring</h2>
+<p><code>seasonal.py</code> maintains the demand calendar (e.g. Q4 strength, January
+dip — from industry reporting, dated and sourced) and flags windows
+where sponsorship pushes or publishing pushes should lean in. Notes feed
+R3 via performance-monitoring. No automated spend decisions — this is
+intelligence, not trading.</p>
+<h2>13. Observability / self-healing / alerts</h2>
+<p>Own <code>failures.jsonl</code> + <code>failure-patterns.json</code>; predefined self-healing:
+bounded retry budgets on dashboard pulls and tracking calls, fallback to
+manual CSV import where APIs are unavailable, quarantine of corrupt
+attribution batches (reported, never silently dropped); escalation on
+repeated failure; anomaly detection — revenue drops vs. baseline,
+click-through collapse on a hub link, a sponsor going quiet mid-campaign
+(no contracted deliverable movement for N days); severity-tiered alerts
+via the shared framework (a mid-campaign sponsor silence is P2).</p>
+<h2>14. Orchestration</h2>
+<table>
+<thead>
+<tr>
+<th>Job</th>
+<th>When (ET)</th>
+<th>What</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>tracker</code> pull</td>
+<td>06:30 daily</td>
+<td>Click/conversion ingestion → <code>clicks.jsonl</code></td>
+</tr>
+<tr>
+<td><code>attribute</code></td>
+<td>07:30 daily</td>
+<td>Revenue events → <code>revenue.jsonl</code> with confidence labels</td>
+</tr>
+<tr>
+<td><code>cta-rotate</code></td>
+<td>Sun 08:00 weekly</td>
+<td>Rotation weight update from performance data</td>
+</tr>
+<tr>
+<td><code>price-watch</code></td>
+<td>Mon 07:00 weekly</td>
+<td>Dependency pricing check → alerts on change</td>
+</tr>
+<tr>
+<td><code>seasonal</code></td>
+<td>1st of month</td>
+<td>Ad-market notes → R3 feed</td>
+</tr>
+<tr>
+<td><code>prospect-refresh</code></td>
+<td>1st of month</td>
+<td>Sponsor shortlist refresh</td>
+</tr>
+<tr>
+<td><code>mediakit</code></td>
+<td>On demand + monthly</td>
+<td>Regenerate from real metrics</td>
+</tr>
+<tr>
+<td><code>earnings-report</code></td>
+<td>Sun 09:30 weekly</td>
+<td>Own operational report → chat (folds into R2)</td>
+</tr>
+<tr>
+<td><code>backup-state</code></td>
+<td>02:00 daily</td>
+<td>Snapshot <code>state/</code> (off-VM copy)</td>
+</tr>
+</tbody></table>
+<h2>15. Security</h2>
+<ul>
+<li>Affiliate/sponsor credentials and API keys in the Secure Vault —
+never in files, memory, or logs.</li>
+<li>Identity/tax details are never stored by this pipeline — they live
+with you; the pipeline records only that onboarding is complete.</li>
+<li>Revenue figures in reports are your private data — never published
+externally without your approval.</li>
+</ul>
+<h2>16. Verification checklist (prove before treating as spec)</h2>
+<ul>
+<li><input disabled="" type="checkbox"> Affiliate dashboard API availability for each shortlisted
+program (else define the manual CSV path precisely).</li>
+<li><input disabled="" type="checkbox"> Platform ad-payout reporting granularity (per-video revenue
+available? — else confirm the view-share inference basis).</li>
+<li><input disabled="" type="checkbox"> Paid vs organic revenue split availability per platform.</li>
+<li><input disabled="" type="checkbox"> Creator marketplace terms, fees, and payout mechanics for each
+marketplace used.</li>
+<li><input disabled="" type="checkbox"> Link-hub hosting approach (static page location, custom domain
+needs).</li>
+<li><input disabled="" type="checkbox"> Pricing pages / changelogs for each cost dependency (for
+price-watch sources).</li>
+</ul>
+<h2>17. Key references</h2>
+<ul>
+<li>Obligations ledger: <code>files/ledgers/sponsor-obligations.md</code>
+(schema shared with housekeeping techspec §5).</li>
+<li>Metrics source: performance-monitoring <code>metrics.jsonl</code> (copies —
+earnings never owns platform metrics).</li>
+<li>Learning KB: affiliate/CTA/revenue findings written via
+performance-monitoring&#39;s <code>kb-write.py</code>.</li>
+</ul>
+
+</main>
+</body>
+</html>

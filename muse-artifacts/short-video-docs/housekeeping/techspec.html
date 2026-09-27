@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Housekeeping Pipeline — Technical Specification</title>
+<style>
+:root{color-scheme:light dark}
+*{box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65;margin:0;padding:0}
+main{max-width:920px;margin:0 auto;padding:24px 18px 64px}
+h1{font-size:1.7em;border-bottom:1px solid #8884;padding-bottom:.3em}
+h2{font-size:1.35em;margin-top:1.8em;border-bottom:1px solid #8883;padding-bottom:.25em}
+h3{font-size:1.15em;margin-top:1.5em}
+a{color:#2f81f7}
+table{display:block;overflow-x:auto;border-collapse:collapse;margin:1em 0;max-width:100%}
+th,td{border:1px solid #8885;padding:7px 12px;text-align:left;white-space:nowrap;font-size:.92em}
+th{background:#8882}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#8882;padding:2px 6px;border-radius:4px;font-size:.9em}
+pre{background:#8881;padding:14px;border-radius:8px;overflow-x:auto}
+pre code{background:none;padding:0}
+blockquote{border-left:3px solid #8886;margin:1em 0;padding:.2em 1em;opacity:.92}
+.conv-note{font-size:.82em;opacity:.65;border:1px dashed #8886;border-radius:6px;padding:8px 12px}
+ul,ol{padding-left:1.6em}
+li{margin:.25em 0}
+ul.toc{list-style:none;padding-left:0}
+li.dir{margin-top:1em;font-weight:600}
+li.file{padding-left:1.2em;font-weight:400}
+.note{font-size:.85em;opacity:.7}
+</style>
+</head>
+<body>
+<main>
+<p class="conv-note"><a href="../index.html">&#8962; Index</a> &middot; Converted reading copy &mdash; <a href="../../markdown/housekeeping/techspec.md">Markdown master</a></p>
+<h1>Housekeeping Pipeline — Technical Specification</h1>
+<p>Companion to <code>plan.md</code> (the what/why). This file is the how: jobs,
+schemas, API mechanics, and build details.
+<strong>Build tasks:</strong> <code>tasks-muse.md</code></p>
+<h2>1. Workspace layout (independent codebase)</h2>
+<pre><code>~/workspace/video-housekeeping/
+├── jobs/
+│   ├── monthly-review.py        # the full review pass (plan §4)
+│   ├── link-check.py            # weekly link hygiene (plan §7)
+│   └── obligation-guard.py      # sponsor ledger gate (plan §5)
+├── actions/
+│   ├── update-metadata.py       # rung (b): captions/descriptions/links
+│   ├── pin-comment.py           # rung (b): pinned redirect comments
+│   ├── cards-screens.py         # rung (b): YT cards/end screens (TO-VERIFY)
+│   ├── trim.py                  # rung (c): trim stale segments (TO-VERIFY)
+│   └── hide.py                  # rung (d): unlist/private/archive (TO-VERIFY)
+├── state/
+│   ├── review-log.jsonl         # every review decision, per video
+│   ├── link-status.json         # last-known status per tracked link
+│   ├── failures.jsonl           # bug/failure/performance tracking
+│   ├── failure-patterns.json    # captured failure-pattern history
+│   └── healing-log.jsonl        # self-healing executions
+└── reports/
+    └── monthly/                 # review outcome reports
+</code></pre>
+<p>Reads the content ledger (owned by create-and-publish) and the
+sponsor/deal obligations ledger
+(<code>files/ledgers/sponsor-obligations.md</code>, schema §5). Writes
+<code>review-log.jsonl</code> and the shared learning knowledge base (via
+performance-monitoring&#39;s write API). Never writes to another pipeline&#39;s
+state.</p>
+<h2>2. Content inventory</h2>
+<p><code>monthly-review.py</code> builds the review set from the content ledger: every
+video ref with platform IDs and publish dates. Videos published within
+the last 30 days get a light pass (links + obligations only) — fresh
+content rarely needs a full accuracy re-check; videos older than 30 days
+get the full five-point check (plan §4.1). Inventory mismatches (ledger
+says published, platform says gone) are anomalies, not silent skips.</p>
+<h2>3. Check engine</h2>
+<ul>
+<li><strong>Accuracy:</strong> for news-reactive AI-tech topics, re-verify the video&#39;s
+core claims against current sources (product pages, pricing pages,
+official announcements). Claim extraction reuses the script text stored
+at creation. Disputed claims are flagged for your review, never
+auto-graded as false.</li>
+<li><strong>Links:</strong> <code>link-check.py</code> resolves every tracked description link
+(HEAD, then GET on failure), follows redirects, records final URL +
+status. Bounded: 2 retries with backoff per link, then flagged.</li>
+<li><strong>Obligations:</strong> <code>obligation-guard.py</code> verifies required links/text
+still present in descriptions, pinned comments still pinned, and
+minimum-live dates against today.</li>
+<li><strong>Newer versions:</strong> topic-similarity match against the content ledger —
+if a newer video covers the same topic, it&#39;s the redirect target for
+rungs (b/c/d).</li>
+</ul>
+<h2>4. Triage actions (per rung)</h2>
+<ul>
+<li><strong>Rung (b) update-metadata:</strong> per-platform caption/description edits
+via the platform publishers (YouTube <code>videos.update</code>, Meta Graph,
+TikTok — TO-VERIFY each). Link swaps recorded in <code>link-status.json</code>.</li>
+<li><strong>Rung (b) pin-comment:</strong> post + pin redirect comment. Pinning support
+is TO-VERIFY per platform; where unsupported, the redirect goes in the
+description top-line instead.</li>
+<li><strong>Rung (b) cards/end screens:</strong> YouTube long-form only, TO-VERIFY
+current API support.</li>
+<li><strong>Rung (c) trim:</strong> only where the platform supports it (TO-VERIFY).
+Trim ranges come from the review (timestamps of the stale segment).
+Published footage is never replaced or spliced — trim removes only.</li>
+<li><strong>Rung (d) hide:</strong> unlist/private/archive per the platform table
+(plan §6, all TO-VERIFY). Requires your per-video approval <strong>and</strong> a
+clean obligation-guard pass.</li>
+<li>Every action is idempotent (ledger-checked before the call) and logged
+with before/after state. Destructive-adjacent actions (hide) always
+confirm first, even in full-auto.</li>
+</ul>
+<h2>5. Sponsor/deal obligations ledger (schema)</h2>
+<p>The ledger lives at <code>files/ledgers/sponsor-obligations.md</code> (human-readable)
+with a machine-readable mirror <code>state/obligations.json</code>:</p>
+<pre><code class="language-json">{
+  &quot;&lt;video-ref&gt;&quot;: {
+    &quot;sponsor&quot;: &quot;&lt;brand&gt;&quot;,
+    &quot;contract_id&quot;: &quot;&lt;id&gt;&quot;,
+    &quot;campaign_id&quot;: &quot;&lt;id&gt;&quot;,
+    &quot;minimum_live_until&quot;: &quot;YYYY-MM-DD&quot;,
+    &quot;required_links&quot;: [&quot;&lt;url&gt;&quot;],
+    &quot;required_description_text&quot;: &quot;&lt;snippet&gt;&quot;,
+    &quot;pinned_comment_required&quot;: true,
+    &quot;integration&quot;: &quot;&lt;on-screen/audio notes&gt;&quot;,
+    &quot;usage_rights&quot;: &quot;&lt;notes&gt;&quot;,
+    &quot;exclusivity&quot;: &quot;&lt;notes&gt;&quot;,
+    &quot;contact&quot;: &quot;&lt;approval/contact record&gt;&quot;
+  }
+}
+</code></pre>
+<p><strong>Gate logic:</strong> before any hide/alter action, <code>obligation-guard.py</code>
+checks <code>minimum_live_until &gt; today</code> → action <strong>blocked</strong>, decision routed
+to you with the contract details. No override path exists in code —
+only a contract amendment (recorded by you) clears the block. The
+earnings-improvement pipeline writes new entries; housekeeping enforces
+them.</p>
+<h2>6. Observability: tracking, self-healing, anomaly detection, alerts</h2>
+<p>This pipeline&#39;s own (independent of the other four pipelines&#39;):</p>
+<ul>
+<li><strong>Tracking:</strong> <code>failures.jsonl</code> — every bug, failed check, failed
+action, with timestamp, video ref, error, and outcome.
+<code>failure-patterns.json</code> — aggregated patterns (e.g. &quot;tiktok caption
+edits fail at 3× the rate of others&quot;).</li>
+<li><strong>Self-healing (predefined, automated):</strong> bounded retry budgets (link
+checks: 2 retries; API actions: 3 with exponential backoff); fallback
+(HEAD→GET for links; description top-line when pinning unsupported);
+quarantine (a video whose checks keep failing is quarantined from
+auto-actions and queued for your review — never force-processed).</li>
+<li><strong>Escalation:</strong> repeated healing failure (same action failing 3 runs
+in a row, or 5 failures in one run) escalates to a P2 alert with the
+failure pattern attached.</li>
+<li><strong>Anomaly detection:</strong> broken-link spike (failure rate 3× the trailing
+average), review backlog growth (unreviewed inventory growing month
+over month), obligation-breach risk (action requested inside a live
+obligation window).</li>
+<li><strong>Severity-tiered alerts:</strong> via the shared framework owned by
+performance-monitoring (P1 = human now, P2 = human today, P3 = weekly
+digest, P4 = logged). Housekeeping assigns severities; perfmon
+delivers.</li>
+</ul>
+<h2>7. Orchestration</h2>
+<table>
+<thead>
+<tr>
+<th>Job</th>
+<th>When (ET)</th>
+<th>What</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>link-check</code></td>
+<td>Mon 06:00 weekly</td>
+<td>Resolve all tracked links; flag failures</td>
+</tr>
+<tr>
+<td><code>monthly-review</code></td>
+<td>1st of month 07:00</td>
+<td>Full five-point review pass → triage ladder</td>
+</tr>
+<tr>
+<td><code>obligation-guard</code></td>
+<td>Before every rung b/c/d action</td>
+<td>Ledger gate check</td>
+</tr>
+<tr>
+<td><code>review-report</code></td>
+<td>After each monthly run</td>
+<td>Own operational report → chat</td>
+</tr>
+<tr>
+<td><code>backup-state</code></td>
+<td>02:00 daily</td>
+<td>Snapshot <code>state/</code> (off-VM copy)</td>
+</tr>
+</tbody></table>
+<ul>
+<li><strong>Idempotency:</strong> review-log checked before any action — a video is
+never double-processed for the same review cycle.</li>
+<li><strong>On-demand:</strong> &quot;run housekeeping now&quot; triggers <code>monthly-review</code> with a
+scope override (channel/date range).</li>
+</ul>
+<h2>8. Idempotency &amp; safety</h2>
+<ul>
+<li>No blind retries on platform mutations — ledger marks &quot;attempted&quot;
+before the call; failures go to your review, not back into the queue.</li>
+<li>Rung (c) and (d) actions are never batched silently — each carries its
+own approval record.</li>
+<li><code>remove</code>/delete has no code path. There is no function that deletes a
+published video. This is deliberate.</li>
+</ul>
+<h2>9. Security</h2>
+<ul>
+<li>Platform credentials via the Secure Vault (shared with the publishing
+integrations — housekeeping reuses the same skills, never new tokens).</li>
+<li>Review logs contain no secrets. Approval records reference contract
+IDs, never contract contents.</li>
+</ul>
+<h2>10. Verification checklist (prove before treating as spec)</h2>
+<ul>
+<li><input disabled="" type="checkbox"> YouTube: caption/description edit, comment pin, cards/end screens,
+trim, unlisted/private — current API support for each.</li>
+<li><input disabled="" type="checkbox"> TikTok: caption edit, comment pin, private toggle, trim — current
+API support.</li>
+<li><input disabled="" type="checkbox"> Instagram: caption edit, comment pin, archive — current API
+support.</li>
+<li><input disabled="" type="checkbox"> Facebook: description edit, comment pin, restricted audience —
+current API support.</li>
+<li><input disabled="" type="checkbox"> Minimum API permission scopes for each of the above.</li>
+<li><input disabled="" type="checkbox"> Rate limits for metadata-edit calls per platform.</li>
+</ul>
+<h2>11. Key references</h2>
+<ul>
+<li>YouTube Data API v3 — videos.update, comments, captions:
+<a href="https://developers.google.com/youtube/v3/docs">https://developers.google.com/youtube/v3/docs</a></li>
+<li>Meta Graph API — video/page management:
+<a href="https://developers.facebook.com/docs/graph-api/">https://developers.facebook.com/docs/graph-api/</a></li>
+<li>TikTok Content Posting API docs (verify current capabilities at
+build).</li>
+<li>Sponsor obligations ledger: <code>files/ledgers/sponsor-obligations.md</code>
+(created in tasks-muse HKT1.4).</li>
+</ul>
+
+</main>
+</body>
+</html>

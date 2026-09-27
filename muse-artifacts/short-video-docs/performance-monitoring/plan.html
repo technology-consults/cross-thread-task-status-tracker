@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Performance Monitoring &amp; Reporting Pipeline — Plan</title>
+<style>
+:root{color-scheme:light dark}
+*{box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65;margin:0;padding:0}
+main{max-width:920px;margin:0 auto;padding:24px 18px 64px}
+h1{font-size:1.7em;border-bottom:1px solid #8884;padding-bottom:.3em}
+h2{font-size:1.35em;margin-top:1.8em;border-bottom:1px solid #8883;padding-bottom:.25em}
+h3{font-size:1.15em;margin-top:1.5em}
+a{color:#2f81f7}
+table{display:block;overflow-x:auto;border-collapse:collapse;margin:1em 0;max-width:100%}
+th,td{border:1px solid #8885;padding:7px 12px;text-align:left;white-space:nowrap;font-size:.92em}
+th{background:#8882}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#8882;padding:2px 6px;border-radius:4px;font-size:.9em}
+pre{background:#8881;padding:14px;border-radius:8px;overflow-x:auto}
+pre code{background:none;padding:0}
+blockquote{border-left:3px solid #8886;margin:1em 0;padding:.2em 1em;opacity:.92}
+.conv-note{font-size:.82em;opacity:.65;border:1px dashed #8886;border-radius:6px;padding:8px 12px}
+ul,ol{padding-left:1.6em}
+li{margin:.25em 0}
+ul.toc{list-style:none;padding-left:0}
+li.dir{margin-top:1em;font-weight:600}
+li.file{padding-left:1.2em;font-weight:400}
+.note{font-size:.85em;opacity:.7}
+</style>
+</head>
+<body>
+<main>
+<p class="conv-note"><a href="../index.html">&#8962; Index</a> &middot; Converted reading copy &mdash; <a href="../../markdown/performance-monitoring/plan.md">Markdown master</a></p>
+<h1>Performance Monitoring &amp; Reporting Pipeline — Plan</h1>
+<p><strong>Owner:</strong> Balram Bandhu · <strong>Built &amp; operated by:</strong> Muse Bandhu
+<strong>Date:</strong> 2026-09-24 · <strong>Status:</strong> Draft for review
+<strong>Technical spec:</strong> <code>techspec.md</code>
+<strong>Tasks:</strong> <code>tasks-balram.md</code> (decisions &amp; approvals — yours) ·
+<code>tasks-muse.md</code> (build work — Muse&#39;s)</p>
+<h2>1. Vision</h2>
+<p>The central nervous system of the five pipelines. It watches everything,
+reports what matters, and raises the alarm when something needs a human —
+but it <strong>does not own any other pipeline&#39;s data</strong>. Each pipeline keeps
+its own state; this one collects, aggregates, and presents. One place to
+look every morning, one weekly rollup that tells the whole story, one
+monthly review that sets direction.</p>
+<h2>2. Objectives</h2>
+<ul>
+<li>Collect per-video metrics (views, retention, engagement, follows)
+nightly from all four platforms.</li>
+<li>Deliver the R1/R2/R3 reporting ladder (§5) on schedule, in chat, in a
+stable format you can skim in minutes.</li>
+<li>Own the <strong>shared reporting framework</strong>: report formats, cadence
+conventions, and delivery mechanics used by all pipelines.</li>
+<li>Own the <strong>shared severity-tiering framework</strong> for alerts (§7): one
+consistent language for &quot;how urgent is this&quot; across all five pipelines.</li>
+<li>Maintain the infrastructure of the <strong>shared learning knowledge base</strong>
+(§9): every pipeline reads and writes; this pipeline keeps the store
+healthy.</li>
+<li>Detect anomalies early — weak growth, bottlenecks, platform-behavior
+changes — before they cost weeks.</li>
+</ul>
+<h2>3. What this pipeline owns — and what it doesn&#39;t</h2>
+<p><strong>Owns:</strong> the reporting framework, the severity-tiering framework, the
+R1/R2/R3 rollups, the learning-KB infrastructure, the alert bus/delivery
+mechanics, trend radar inputs, the experiment registry.</p>
+<p><strong>Does NOT own:</strong> any pipeline&#39;s operational data. Production counts
+belong to create-and-publish, spend belongs to promotion, review
+outcomes belong to housekeeping, revenue belongs to earnings. This
+pipeline <strong>collects copies</strong> — the source of truth stays with the
+pipeline that produced it. If a number looks wrong, the owning pipeline
+is where it&#39;s fixed.</p>
+<h2>4. The reporting framework (shared conventions)</h2>
+<p>Every report from every pipeline follows the same conventions, defined
+here:</p>
+<ul>
+<li><strong>Format:</strong> chat-native summary + optional detail attachment. Numbers
+first, interpretation second, recommended actions last.</li>
+<li><strong>Cadence conventions:</strong> daily (R1), weekly (R2), monthly (R3) —
+pipeline operational reports slot into the same rhythm.</li>
+<li><strong>Delivery:</strong> in chat, batched (one session per report, not a drip of
+pings). Alerts are the exception — P1/P2 interrupt.</li>
+<li><strong>Paid vs organic separation:</strong> every report that touches both states
+them separately and shows the measured relationship — never blended
+into one number (TO-VERIFY per-platform attribution support).</li>
+</ul>
+<h2>5. R1 / R2 / R3 — PROPOSED definitions</h2>
+<blockquote>
+<p><strong>These definitions are proposed.</strong> Confirm or adjust — nothing is
+final until you say &quot;done&quot; (PM0.1).</p>
+</blockquote>
+<ul>
+<li><strong>R1 — Daily ops pulse</strong> (every morning in chat): yesterday&#39;s
+production (videos made/published per pipeline), publish failures,
+promotion spend, P1/P2 alerts overnight, today&#39;s schedule. Skim time:
+~2 minutes.</li>
+<li><strong>R2 — Weekly cross-pipeline rollup</strong> (Sundays): growth per platform
+(views, followers, retention), revenue snapshot, experiment results,
+learning-KB highlights (what&#39;s working, what&#39;s failing), and concrete
+calls — <strong>scale / kill / test</strong> — carried over from the pipeline
+plan&#39;s weekly review, which folds into R2 rather than running
+separately. Skim time: ~10 minutes.</li>
+<li><strong>R3 — Monthly strategic review</strong> (1st week of month): trend analysis,
+learning-layer insights, cost-per-video and revenue-per-video trends,
+seasonal/market notes, recommendations for next month, and inputs to
+the week-4/week-8 <strong>go / pivot / pause</strong> channel verdicts. This is the
+deep read: ~20 minutes.</li>
+</ul>
+<h2>6. Boundary: each pipeline&#39;s own operational reports</h2>
+<p>Mirroring the alerting pattern — distributed detail, centralized
+framework:</p>
+<ul>
+<li><strong>Create-and-publish</strong> reports production: videos made, QC pass rate,
+cost per video, buffer health.</li>
+<li><strong>Promotion</strong> reports spend: budget used, CPV/CPF, kill-trigger events,
+organic-vs-paid readouts.</li>
+<li><strong>Housekeeping</strong> reports review outcomes: videos reviewed per rung,
+link-rot summary, obligation compliance.</li>
+<li><strong>Earnings</strong> reports revenue attribution: revenue by video/topic/format/
+platform, affiliate performance, sponsor pipeline status.</li>
+<li><strong>This pipeline</strong> defines the framework (§4) and produces the
+cross-pipeline R1/R2/R3 that stitch those five reports together. It
+does not duplicate their detail.</li>
+</ul>
+<h2>7. Severity-tiering framework — PROPOSED tiers</h2>
+<blockquote>
+<p><strong>Proposed.</strong> Confirm or adjust (PM0.2). Every pipeline assigns these
+tiers to its own detectors; this pipeline delivers them.</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Tier</th>
+<th>Meaning</th>
+<th>Response</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>P1</strong> 🔴</td>
+<td>Human needed now</td>
+<td>Interrupts chat immediately</td>
+<td>Sponsor obligation breach risk; publishing fully halted; credential/token failure</td>
+</tr>
+<tr>
+<td><strong>P2</strong> 🟠</td>
+<td>Human needed today</td>
+<td>Batched same-day alert</td>
+<td>Repeated self-healing failure; spend anomaly; broken-link spike</td>
+</tr>
+<tr>
+<td><strong>P3</strong> 🟡</td>
+<td>Review this week</td>
+<td>Folded into R1/R2</td>
+<td>QC reject rate drifting up; backlog growing; weak growth trend</td>
+</tr>
+<tr>
+<td><strong>P4</strong> 🟢</td>
+<td>Informational</td>
+<td>Logged only</td>
+<td>Single transient retry success; routine completions</td>
+</tr>
+</tbody></table>
+<p>Tiers are assigned by <strong>importance, occurrence rate, urgency, and need
+for human review/approval/intervention</strong> — not by which pipeline raised
+them.</p>
+<h2>8. Alert bus &amp; delivery</h2>
+<p>Detectors live in each pipeline (they know their own failure modes); the
+bus lives here. Mechanics: severity assignment at the source, dedup
+(same detector + same video = one alert), escalation (P3 → P2 if
+unresolved across runs), and delivery to chat. During the pilot, alert
+thresholds are conservative — more signal, less noise; tuned from data
+after.</p>
+<h2>9. Shared learning knowledge base</h2>
+<p>This pipeline maintains the KB <strong>infrastructure</strong> (schema, storage, write
+API); all five pipelines read and write their outcomes. Contents:
+winning hooks, formats, and topics; failure patterns; QC-rejection
+categories; cost and revenue observations; comment/feedback themes;
+trend-radar hits. <strong>Boundary:</strong> during the pilot, learning-driven
+pipeline changes need your approval. Bounded automatic adjustments are
+considered only after full automation is authorized (&quot;go auto&quot; / &quot;lock
+the vision&quot;).</p>
+<h2>10. Trend radar &amp; experiment registry</h2>
+<ul>
+<li><strong>Trend radar:</strong> platform trend inputs (search suggestions, breakout
+topics in-niche) collected for the topic engine — radar reports, it
+doesn&#39;t decide; the create-and-publish pipeline decides.</li>
+<li><strong>Experiment registry:</strong> controlled experiments (hook variants, format
+tests, CTA rotations) are registered here with hypothesis, scope, and
+success criteria — a proposed small portion of output is reserved for
+tests. Results write back to the KB.</li>
+</ul>
+<h2>11. Approvals &amp; guardrails</h2>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Mode</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>R1/R2/R3 generation and delivery</td>
+<td>Automatic 🟢</td>
+</tr>
+<tr>
+<td>P1/P2 alert delivery</td>
+<td>Automatic 🟢</td>
+</tr>
+<tr>
+<td>Report format/cadence changes</td>
+<td>Your approval 🟡</td>
+</tr>
+<tr>
+<td>R-definition or tier changes</td>
+<td>Your approval 🟡</td>
+</tr>
+<tr>
+<td>Learning-driven pipeline changes (pilot)</td>
+<td>Your approval 🟡</td>
+</tr>
+<tr>
+<td>Publishing any metric externally (media kit, sponsors)</td>
+<td>Your approval 🟡</td>
+</tr>
+</tbody></table>
+<p>Muse never: invents metrics, blends paid and organic numbers, publishes
+metrics outside the project without approval, or changes what &quot;P1&quot; means
+unprompted.</p>
+<h2>12. Observability of this pipeline itself</h2>
+<p>This pipeline is also a pipeline: it has its own bug/failure/
+performance tracking, failure-pattern history, predefined self-healing
+(bounded retries on metric pulls, fallback to proxy metrics where a
+platform API is down, quarantine of corrupt metric batches), escalation
+on repeated failure, and its own anomaly detection (metric gaps,
+ingestion lag). A monitoring pipeline that can&#39;t monitor itself is a
+liability.</p>
+<h2>13. What needs your hands vs what runs itself</h2>
+<ul>
+<li><strong>You, decisions:</strong> approve the R1/R2/R3 definitions and severity
+tiers; approve format/cadence changes; approve learning-driven changes
+in the pilot; the week-4/week-8 go/pivot/pause verdicts (informed by
+R3, decided by you).</li>
+<li><strong>Muse, everything else:</strong> ingestion, reports, alerts, KB maintenance,
+radar, experiments, self-healing.</li>
+<li><strong>Honest limits:</strong> per-platform analytics availability is TO-VERIFY —
+where true retention or attribution is unavailable, the pipeline uses
+defined proxy metrics (techspec §4/§5) and says so in the report,
+rather than presenting guesses as measurements.</li>
+</ul>
+<h2>14. Costs</h2>
+<p><strong>Upfront: $0 out-of-pocket</strong> (your time only).
+<strong>Recurring:</strong> draws on your Muse plan for nightly ingestion + report
+generation (light compute; API calls $0 within quotas). No
+subscriptions, no per-report fees.</p>
+<h2>15. Timeline</h2>
+<ul>
+<li><strong>Build:</strong> ingestion + metric store first, then R1, then the alert bus<ul>
+<li>severity framework, then R2/R3, then KB infrastructure + radar.</li>
+</ul>
+</li>
+<li><strong>First R1:</strong> once create-and-publish has published videos (no earlier
+than its week 3).</li>
+<li><strong>Steady state:</strong> R1 daily, R2 Sundays, R3 monthly — automatic.</li>
+</ul>
+<h2>16. Open decisions (yours)</h2>
+<ol>
+<li>R1/R2/R3 definitions as proposed in §5 — adjust or done?</li>
+<li>Severity tiers as proposed in §7 — adjust or done?</li>
+<li>R1 delivery time — with the morning, or another slot?</li>
+<li>Experiment reservation — what small portion of output may be used for
+controlled tests?</li>
+</ol>
+
+</main>
+</body>
+</html>

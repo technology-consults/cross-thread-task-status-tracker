@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Short-Video Promotion — Task List (Technical Build)</title>
+<style>
+:root{color-scheme:light dark}
+*{box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65;margin:0;padding:0}
+main{max-width:920px;margin:0 auto;padding:24px 18px 64px}
+h1{font-size:1.7em;border-bottom:1px solid #8884;padding-bottom:.3em}
+h2{font-size:1.35em;margin-top:1.8em;border-bottom:1px solid #8883;padding-bottom:.25em}
+h3{font-size:1.15em;margin-top:1.5em}
+a{color:#2f81f7}
+table{display:block;overflow-x:auto;border-collapse:collapse;margin:1em 0;max-width:100%}
+th,td{border:1px solid #8885;padding:7px 12px;text-align:left;white-space:nowrap;font-size:.92em}
+th{background:#8882}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#8882;padding:2px 6px;border-radius:4px;font-size:.9em}
+pre{background:#8881;padding:14px;border-radius:8px;overflow-x:auto}
+pre code{background:none;padding:0}
+blockquote{border-left:3px solid #8886;margin:1em 0;padding:.2em 1em;opacity:.92}
+.conv-note{font-size:.82em;opacity:.65;border:1px dashed #8886;border-radius:6px;padding:8px 12px}
+ul,ol{padding-left:1.6em}
+li{margin:.25em 0}
+ul.toc{list-style:none;padding-left:0}
+li.dir{margin-top:1em;font-weight:600}
+li.file{padding-left:1.2em;font-weight:400}
+.note{font-size:.85em;opacity:.7}
+</style>
+</head>
+<body>
+<main>
+<p class="conv-note"><a href="../index.html">&#8962; Index</a> &middot; Converted reading copy &mdash; <a href="../../markdown/promotion/tasks-muse.md">Markdown master</a></p>
+<h1>Short-Video Promotion — Task List (Technical Build)</h1>
+<p>Companion to <code>techspec.md</code>. <strong>Every task here is
+owned by Muse Bandhu</strong> — the build work. (Balram Bandhu&#39;s decisions,
+billing setup, and campaign approvals live in <code>tasks-balram.md</code>.)</p>
+<p>Work top-to-bottom: each task has a <strong>review gate</strong> — output is presented,
+Balram Bandhu says <strong>&quot;adjust&quot;</strong> or <strong>&quot;done&quot;</strong>. Nothing downstream starts
+until its dependencies are done. Deps on the other lists marked
+<code>you:Px</code> / <code>pipe:Tx</code> / <code>pipetech:Tx</code>. One task at a time, in dependency
+order.</p>
+<p><strong>Indicator:</strong> 🟢 fully automatable · 🟠 technically challenging —
+partly manual/fragile (ad-platform UIs driven by browser automation).
+<strong>Cost:</strong> <code>$0</code> · <code>ads</code> = ad spend, always within cap and pre-approved.</p>
+<hr>
+<h2>P1 — Setup</h2>
+<ul>
+<li><p><input disabled="" type="checkbox"> <strong>P1.3 — Campaign templates + promo ledger</strong> 🟢 <code>$0</code>
+Owner: Muse Bandhu · Dep: you:P0.1 · Output: <code>promo/defaults.yml</code>,
+<code>promo/campaigns/</code> dir, <code>promo/state/ledger.json</code> (campaigns, budgets,
+overrides, spend vs cap, change log), <code>promo/state/affiliate.json</code>
+(programs, tracked links, clicks/conversions/revenue per link and per
+video).
+Gate: template shown; defaults match P0.1.</p>
+</li>
+<li><p><input disabled="" type="checkbox"> <strong>P1.4 — Report generators (this pipeline&#39;s operational reports + R2/R3 contribution)</strong> 🟢 <code>$0</code>
+Owner: Muse Bandhu · Dep: pipetech:T2.3, P1.3 · Output: scripts
+producing this pipeline&#39;s own operational reports — weekly ad response
+(spend, impressions, views, follows/subs, CPV/CPF, frequency, dates vs
+defaults), spend-vs-cap pacing, kill-trigger log — plus the data feeds
+for the shared R2 (ad response) and R3 (organic × paid relation)
+cross-pipeline rollups owned by the performance-monitoring pipeline&#39;s
+reporting framework. Organic results, paid results, and measured
+relationships stay separate.
+Gate: sample R3 on dummy data reads correctly.</p>
+</li>
+<li><p><input disabled="" type="checkbox"> <strong>P1.5 — Pipeline observability (own tracking, self-healing, alerts)</strong> 🟢 <code>$0</code>
+Owner: Muse Bandhu · Dep: P1.3 · Output: this pipeline&#39;s independent
+observability — <code>promo/state/failures.jsonl</code> event tracking (campaign
+events, rule evaluations, brake triggers, spend anomalies, reporting
+failures), failure-pattern history (creative fatigue curves, geo burn,
+UI breakage fixes) feeding the shared learning KB, <strong>bounded
+self-healing</strong> (ladder auto scale-down/pause/kill, retry budgets on
+report pulls, quarantine of suspect metrics; repeated failures
+escalate), <strong>anomaly detection</strong> (spend pacing anomalies, efficiency
+collapse, browser-automation breakage, reporting gaps), and
+<strong>severity-tiered alerts</strong> (P1/P2/P3 per tech spec §7 — thresholds
+proposed here, locked by BalRam in you:P0.1).
+Gate: fault-injection drill — a spend spike fires the anomaly brake,
+pauses the campaign, and pages at P1.</p>
+</li>
+</ul>
+<h2>P2 — Pilot promotion</h2>
+<ul>
+<li><p><input disabled="" type="checkbox"> <strong>P2.1 — Build probe campaigns (browser automation)</strong> 🟠 <code>ads</code>
+Owner: Muse Bandhu · Dep: pipe:T2.2, you:P1.1, you:P1.2, P1.3 ·
+Output: $5/day × 3-day probes on the top 2–3 organic winners, Meta +
+Google, built through the Ads Manager / Google Ads UIs.
+(Balram Bandhu approves each launch — you:P2.1.)
+Gate: campaigns built and awaiting approval.
+<em>Why challenging: browser-driven UI work — workable but fragile when
+UIs change.</em></p>
+</li>
+<li><p><input disabled="" type="checkbox"> <strong>P2.2 — Validate + first scale (execution)</strong> 🟠 <code>ads</code>
+Owner: Muse Bandhu · Dep: P2.1 · Output: qualifiers advanced to $15/day
+× 7 days; losers auto scale-down / pause / kill per the ladder rules,
+with notification. (Scale-ups past 2× wait for BalRam Bandhu&#39;s approval
+— you:P2.2.)
+Gate: validate-stage efficiency reviewed.</p>
+</li>
+<li><p><input disabled="" type="checkbox"> <strong>P2.3 — Weekly promo sweep cron</strong> 🟢/🟠 <code>$0</code>
+Owner: Muse Bandhu · Dep: P2.1 · Output: every Monday — auto-proposes
+boosts for the week&#39;s organic winners; Balram Bandhu approves
+(you:P2.3), Muse Bandhu launches.
+Gate: first proposal batch approved/adjusted.</p>
+</li>
+<li><p><input disabled="" type="checkbox"> <strong>P2.4 — Single-prompt campaign controls</strong> 🟢 <code>$0</code>
+Owner: Muse Bandhu · Dep: P1.3 · Output: &quot;pause all ads&quot;, &quot;double the
+<channel> budget&quot;, &quot;extend <em><campaign></em> by 7 days&quot;, &quot;kill anything over
+$0.05 CPV&quot;, &quot;how much did we spend this month?&quot; — all wired to the
+ledger + browser execution.
+Gate: Balram Bandhu tests two commands live.</p>
+</li>
+</ul>
+<h2>P3 — Ongoing &amp; expansion</h2>
+<ul>
+<li><p><input disabled="" type="checkbox"> <strong>P3.1 — Combined report cron (R3 weekly)</strong> 🟢 <code>$0</code>
+Owner: Muse Bandhu · Dep: P2.1 · Output: weekly organic×paid relation
+digest — incremental lift, paid→organic tail, blended cost/1k views,
+keep/cut verdicts. (Contributes to the shared R3 rollup; the
+performance-monitoring pipeline owns the framework.)
+Gate: first R3 reviewed together.</p>
+</li>
+<li><p><input disabled="" type="checkbox"> <strong>P3.2 — Per-channel promo rollout (execution)</strong> 🟠 <code>ads</code>
+Owner: Muse Bandhu · Dep: pipe:T4.2 · Output: repeat P1–P2 per new
+themed channel (targeting + budgets differ). (Sign-off per channel —
+you:P3.2.)
+Gate: same review as P2.2, per channel.</p>
+</li>
+</ul>
+<hr>
+<h2>Dependency map (this list)</h2>
+<pre><code>(you:P0.1) → P1.3 → P1.4 ─┐
+                   └→ P1.5 (observability) ─┐
+(pipe:T2.2) ───────────────┴→ P2.1 → P2.2 → P3.2
+(pipetech:T2.3) ──→ P1.4, P3.1    ↘ P2.3, P2.4
+(you:P0.2) → affiliate tracking live in affiliate.json
+</code></pre>
+<h2>Cost summary</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Upfront</th>
+<th>Recurring</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>P1 setup</td>
+<td><strong>$0</strong></td>
+<td>—</td>
+</tr>
+<tr>
+<td>Probes</td>
+<td>—</td>
+<td>$5/day × 3 days per hero</td>
+</tr>
+<tr>
+<td>Validate / Scale</td>
+<td>—</td>
+<td>$15/day, then $30–50/day on winners only</td>
+</tr>
+</tbody></table>
+<p><strong>How we review:</strong> output presented per task; Balram Bandhu says &quot;adjust&quot;
+or &quot;done&quot;. Checkboxes tick as we go; this file stays current.</p>
+
+</main>
+</body>
+</html>

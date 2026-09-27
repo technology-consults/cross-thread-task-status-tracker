@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Performance Monitoring &amp; Reporting — Technical Specification</title>
+<style>
+:root{color-scheme:light dark}
+*{box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65;margin:0;padding:0}
+main{max-width:920px;margin:0 auto;padding:24px 18px 64px}
+h1{font-size:1.7em;border-bottom:1px solid #8884;padding-bottom:.3em}
+h2{font-size:1.35em;margin-top:1.8em;border-bottom:1px solid #8883;padding-bottom:.25em}
+h3{font-size:1.15em;margin-top:1.5em}
+a{color:#2f81f7}
+table{display:block;overflow-x:auto;border-collapse:collapse;margin:1em 0;max-width:100%}
+th,td{border:1px solid #8885;padding:7px 12px;text-align:left;white-space:nowrap;font-size:.92em}
+th{background:#8882}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#8882;padding:2px 6px;border-radius:4px;font-size:.9em}
+pre{background:#8881;padding:14px;border-radius:8px;overflow-x:auto}
+pre code{background:none;padding:0}
+blockquote{border-left:3px solid #8886;margin:1em 0;padding:.2em 1em;opacity:.92}
+.conv-note{font-size:.82em;opacity:.65;border:1px dashed #8886;border-radius:6px;padding:8px 12px}
+ul,ol{padding-left:1.6em}
+li{margin:.25em 0}
+ul.toc{list-style:none;padding-left:0}
+li.dir{margin-top:1em;font-weight:600}
+li.file{padding-left:1.2em;font-weight:400}
+.note{font-size:.85em;opacity:.7}
+</style>
+</head>
+<body>
+<main>
+<p class="conv-note"><a href="../index.html">&#8962; Index</a> &middot; Converted reading copy &mdash; <a href="../../markdown/performance-monitoring/techspec.md">Markdown master</a></p>
+<h1>Performance Monitoring &amp; Reporting — Technical Specification</h1>
+<p>Companion to <code>plan.md</code> (the what/why). This file is the how: ingestion,
+schemas, the alert bus, R1/R2/R3 generators, and the learning-KB
+infrastructure.
+<strong>Build tasks:</strong> <code>tasks-muse.md</code></p>
+<h2>1. Workspace layout (independent codebase)</h2>
+<pre><code>~/workspace/video-perfmon/
+├── ingest/
+│   ├── youtube-pull.py          # YouTube Analytics API (read-only)
+│   ├── meta-pull.py             # IG/FB insights (TO-VERIFY availability)
+│   ├── tiktok-pull.py           # TikTok analytics (TO-VERIFY availability)
+│   └── normalize.py             # → canonical metric records
+├── alertbus/
+│   ├── detectors.py             # shared detector interface (all pipelines use)
+│   ├── severity.py              # tier assignment (plan §7)
+│   ├── dedup.py                 # dedup + escalation logic
+│   └── deliver.py               # chat delivery
+├── reports/
+│   ├── r1-daily.py
+│   ├── r2-weekly.py
+│   └── r3-monthly.py
+├── learning/
+│   ├── kb-store.py              # schema + storage for the shared KB
+│   ├── kb-write.py              # write API used by all pipelines
+│   ├── experiments.py           # experiment registry
+│   └── radar.py                 # trend radar inputs
+├── state/
+│   ├── metrics.jsonl            # canonical per-video metric records
+│   ├── alerts.jsonl             # alert history
+│   ├── failures.jsonl           # own bug/failure/performance tracking
+│   ├── failure-patterns.json
+│   └── healing-log.jsonl
+└── feedback/
+    └── comment-analysis.py      # comment/feedback theme extraction
+</code></pre>
+<h2>2. Metrics ingestion</h2>
+<p>Nightly pull (23:30 ET, after the last publish slot): per-video views,
+likes, comments, shares, follows/subs, and retention/watch-time where
+available. Each platform pull is an independent module with its own
+bounded retries (3, exponential backoff); a failed platform pull doesn&#39;t
+block the others — the gap is logged as an anomaly (ingestion lag), and
+the report notes the missing source explicitly.</p>
+<h2>3. Metric schemas</h2>
+<p>Canonical record in <code>metrics.jsonl</code>, keyed by video ref + platform +
+date:</p>
+<pre><code class="language-json">{
+  &quot;ref&quot;: &quot;&lt;channel&gt;.yyyy.MM.dd.N&quot;,
+  &quot;platform&quot;: &quot;youtube|instagram|facebook|tiktok&quot;,
+  &quot;date&quot;: &quot;YYYY-MM-DD&quot;,
+  &quot;views&quot;: 0, &quot;likes&quot;: 0, &quot;comments&quot;: 0, &quot;shares&quot;: 0, &quot;follows&quot;: 0,
+  &quot;watch_time_s&quot;: 0, &quot;avg_view_duration_s&quot;: 0.0,
+  &quot;retention_proxy&quot;: &quot;&lt;metric used&gt;&quot;,
+  &quot;traffic_source&quot;: &quot;organic|paid|unknown&quot;
+}
+</code></pre>
+<p><code>retention_proxy</code> records <em>which</em> metric stood in for retention when the
+platform doesn&#39;t expose it (see §4) — provenance is stored, not assumed.</p>
+<h2>4. Retention / watch-time / attribution (proxies where unavailable)</h2>
+<ul>
+<li><strong>YouTube:</strong> Analytics API exposes audience retention and watch time —
+use directly (TO-VERIFY exact dimensions at build).</li>
+<li><strong>Instagram / Facebook / TikTok:</strong> retention availability is
+TO-VERIFY. Where unavailable, defined proxies apply (e.g.
+avg-view-duration ÷ video-duration, completion-rate estimates from
+available fields) — each proxy is documented in the KB with its
+limitations, and reports label proxied numbers as such.</li>
+<li><strong>Attribution:</strong> per-video traffic source where the platform reports
+it; otherwise <code>unknown</code> — never inferred silently.</li>
+</ul>
+<h2>5. Paid vs organic separation (TO-VERIFY per platform)</h2>
+<p>The promotion pipeline tags paid traffic; ingestion keeps
+<code>traffic_source</code> separate through normalization, aggregation, and
+reporting. Reports that touch both show three lines — organic, paid,
+and the measured relationship — per the locked rule. If a platform
+doesn&#39;t expose the split, the report says &quot;paid/organic split
+unavailable on <platform>&quot; rather than blending.</p>
+<h2>6. Anomaly detection framework (shared interface)</h2>
+<p>All five pipelines implement detectors against one interface:</p>
+<pre><code class="language-python">detect(context) -&gt; list[Anomaly]   # Anomaly {detector_id, ref?, metric,
+                                   #  observed, baseline, suggested_tier}
+</code></pre>
+<p>Framework-provided detectors: metric gaps (expected data missing),
+ingestion lag, velocity collapse (views falling 3× below trailing
+baseline), weak growth (follower velocity below gate thresholds),
+bottleneck detection (buffer draining, backlog growing). Pipelines add
+their own (promotion: spend anomalies; housekeeping: link-rot spikes;
+earnings: revenue drops). Tier suggestion comes from the detector; final
+assignment via <code>severity.py</code> (plan §7).</p>
+<h2>7. Alert bus: severity, dedup, delivery, escalation</h2>
+<ul>
+<li><strong>Severity assignment:</strong> importance × occurrence rate × urgency × need
+for human review/approval/intervention (plan §7 tiers).</li>
+<li><strong>Dedup:</strong> same detector + same video ref + same run window = one
+alert; repeats increment a counter, not a new alert.</li>
+<li><strong>Delivery:</strong> P1 interrupts chat immediately; P2 batched same-day;
+P3 folds into the next R1/R2; P4 logged to <code>alerts.jsonl</code> only.</li>
+<li><strong>Escalation:</strong> an unacknowledged P3 recurring across 3 runs becomes
+P2; a P2 recurring across 3 runs becomes P1. Escalations carry the
+history.</li>
+<li><strong>Quiet hours:</strong> none by default — P1s are rare by design. (Your call
+in PM0.3 if you want any.)</li>
+</ul>
+<h2>8. R1/R2/R3 generators</h2>
+<ul>
+<li><strong>r1-daily.py:</strong> yesterday&#39;s production counts (queried from each
+pipeline&#39;s state — copies, never owned), publish failures, promotion
+spend, overnight P1/P2 alerts, today&#39;s schedule. Rendered chat-native.</li>
+<li><strong>r2-weekly.py:</strong> per-platform growth (views, followers, retention),
+revenue snapshot (from earnings), experiment results (from the
+registry), learning-KB highlights, scale/kill/test calls.</li>
+<li><strong>r3-monthly.py:</strong> trend analysis, cost-per-video and revenue-per-
+video trends, seasonal/market notes, recommendations, go/pivot/pause
+inputs for the week-4/week-8 verdicts.</li>
+<li>All three are idempotent per period (one R1 per day, etc.) and carry
+the data-as-of timestamp. Missing sources are labeled, never silently
+omitted.</li>
+</ul>
+<h2>9. Learning KB schema + write API</h2>
+<pre><code class="language-json">{
+  &quot;type&quot;: &quot;hook|format|topic|failure_pattern|qc_rejection|cost_note|revenue_note|feedback_theme|trend_hit&quot;,
+  &quot;channel&quot;: &quot;&lt;channel&gt;&quot;,
+  &quot;summary&quot;: &quot;&lt;one line&gt;&quot;,
+  &quot;evidence&quot;: {&quot;refs&quot;: [&quot;&lt;video refs&gt;&quot;], &quot;metrics&quot;: {}},
+  &quot;confidence&quot;: &quot;low|medium|high&quot;,
+  &quot;created&quot;: &quot;YYYY-MM-DD&quot;,
+  &quot;source_pipeline&quot;: &quot;&lt;which pipeline wrote it&gt;&quot;
+}
+</code></pre>
+<p><code>kb-write.py</code> is the single write path — every pipeline calls it; direct
+writes to the store are not a thing. Reads are open to all pipelines
+(topic engine, CTA rotation, experiment design).</p>
+<h2>10. Comment/feedback analysis hooks</h2>
+<p><code>comment-analysis.py</code> pulls comments (where platform APIs allow —
+TO-VERIFY) and extracts themes: objections, corrections, topic
+requests, sentiment shifts. Findings write to the KB as <code>feedback_theme</code>
+entries and can trigger re-review flags into housekeeping. Nothing is
+auto-acted on — themes are reported, humans (or the owning pipeline&#39;s
+approved logic) decide.</p>
+<h2>11. Trend radar inputs</h2>
+<p><code>radar.py</code> collects: platform search-suggestion keywords, breakout
+topics in-niche, seasonal calendar markers, ad-market notes (from
+earnings). Output is a ranked input feed for the create-and-publish
+topic engine — radar reports, it doesn&#39;t decide. Guardrails apply: the
+universal content rules (no sensitive/objectionable content, nothing
+involving children, no current politics, nothing controversial) filter
+radar hits before they reach ideation.</p>
+<h2>12. Observability/self-healing of perfmon itself</h2>
+<p>Own <code>failures.jsonl</code> + <code>failure-patterns.json</code>; predefined self-healing:
+bounded retries on pulls, proxy-metric fallback when a platform API is
+down, quarantine of corrupt metric batches (quarantined batches are
+reported, never silently dropped); escalation when the same ingestion
+fails 3 nights running (P2 — a blind monitoring pipeline is a P1
+waiting to happen). Its own anomaly detection watches for metric gaps
+and ingestion lag.</p>
+<h2>13. Orchestration</h2>
+<table>
+<thead>
+<tr>
+<th>Job</th>
+<th>When (ET)</th>
+<th>What</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ingest/*</code></td>
+<td>23:30 daily</td>
+<td>Nightly metric pulls → <code>metrics.jsonl</code></td>
+</tr>
+<tr>
+<td><code>r1-daily</code></td>
+<td>07:00 daily</td>
+<td>R1 ops pulse → chat</td>
+</tr>
+<tr>
+<td><code>r2-weekly</code></td>
+<td>Sun 09:00</td>
+<td>R2 cross-pipeline rollup → chat</td>
+</tr>
+<tr>
+<td><code>r3-monthly</code></td>
+<td>3rd of month 08:00</td>
+<td>R3 strategic review → chat</td>
+</tr>
+<tr>
+<td><code>radar</code></td>
+<td>05:00 daily</td>
+<td>Trend radar feed for the topic engine</td>
+</tr>
+<tr>
+<td><code>comment-analysis</code></td>
+<td>Wed/Sun 08:00</td>
+<td>Feedback themes → KB</td>
+</tr>
+<tr>
+<td><code>backup-state</code></td>
+<td>02:00 daily</td>
+<td>Snapshot <code>state/</code> (off-VM copy)</td>
+</tr>
+</tbody></table>
+<h2>14. Security</h2>
+<ul>
+<li>Analytics API credentials are read-only tokens in the Secure Vault —
+never in files, memory, or logs.</li>
+<li>Metric stores contain no secrets, no PII beyond public comment text
+(handled per platform ToS; raw comment text is not retained longer
+than analysis needs).</li>
+</ul>
+<h2>15. Verification checklist (prove before treating as spec)</h2>
+<ul>
+<li><input disabled="" type="checkbox"> YouTube Analytics API: available retention/watch-time dimensions,
+quota cost per call.</li>
+<li><input disabled="" type="checkbox"> Instagram/Facebook: which video insights are API-accessible
+(views, reach, avg watch time, traffic source).</li>
+<li><input disabled="" type="checkbox"> TikTok: analytics API availability, approval requirements,
+accessible dimensions.</li>
+<li><input disabled="" type="checkbox"> Paid vs organic traffic-source labeling per platform.</li>
+<li><input disabled="" type="checkbox"> Comment read/reply/pin API support per platform.</li>
+<li><input disabled="" type="checkbox"> Search-suggestion/trend data sources per platform (official vs
+third-party).</li>
+</ul>
+<h2>16. Key references</h2>
+<ul>
+<li>YouTube Analytics API:
+<a href="https://developers.google.com/youtube/analytics">https://developers.google.com/youtube/analytics</a></li>
+<li>Meta Graph API — Insights:
+<a href="https://developers.facebook.com/docs/graph-api/reference/insights">https://developers.facebook.com/docs/graph-api/reference/insights</a></li>
+<li>TikTok API docs (verify analytics availability at build).</li>
+<li>Learning KB consumers: create-and-publish (topic engine),
+earnings-improvement (CTA rotation, attribution), housekeeping
+(review findings).</li>
+</ul>
+
+</main>
+</body>
+</html>

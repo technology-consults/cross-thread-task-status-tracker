@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Short-Video Content Pipeline — Plan</title>
+<style>
+:root{color-scheme:light dark}
+*{box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65;margin:0;padding:0}
+main{max-width:920px;margin:0 auto;padding:24px 18px 64px}
+h1{font-size:1.7em;border-bottom:1px solid #8884;padding-bottom:.3em}
+h2{font-size:1.35em;margin-top:1.8em;border-bottom:1px solid #8883;padding-bottom:.25em}
+h3{font-size:1.15em;margin-top:1.5em}
+a{color:#2f81f7}
+table{display:block;overflow-x:auto;border-collapse:collapse;margin:1em 0;max-width:100%}
+th,td{border:1px solid #8885;padding:7px 12px;text-align:left;white-space:nowrap;font-size:.92em}
+th{background:#8882}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#8882;padding:2px 6px;border-radius:4px;font-size:.9em}
+pre{background:#8881;padding:14px;border-radius:8px;overflow-x:auto}
+pre code{background:none;padding:0}
+blockquote{border-left:3px solid #8886;margin:1em 0;padding:.2em 1em;opacity:.92}
+.conv-note{font-size:.82em;opacity:.65;border:1px dashed #8886;border-radius:6px;padding:8px 12px}
+ul,ol{padding-left:1.6em}
+li{margin:.25em 0}
+ul.toc{list-style:none;padding-left:0}
+li.dir{margin-top:1em;font-weight:600}
+li.file{padding-left:1.2em;font-weight:400}
+.note{font-size:.85em;opacity:.7}
+</style>
+</head>
+<body>
+<main>
+<p class="conv-note"><a href="../index.html">&#8962; Index</a> &middot; Converted reading copy &mdash; <a href="../../markdown/create-and-publish/plan.md">Markdown master</a></p>
+<h1>Short-Video Content Pipeline — Plan</h1>
+<p><strong>Owner:</strong> Balram Bandhu · <strong>Built &amp; operated by:</strong> Muse Bandhu
+<strong>Date:</strong> 2026-09-23 · <strong>Updated:</strong> 2026-09-24 — T0.1 done; locked decisions incorporated
+<strong>Status:</strong> In build (Phase 0)
+<strong>Technical spec:</strong> <code>techspec.md</code>
+<strong>Tasks:</strong> <code>tasks-balram.md</code> (decisions &amp; approvals — yours) ·
+<code>tasks-muse.md</code> (build work — Muse&#39;s)
+<strong>Sibling systems:</strong> <code>../promotion/plan.md</code> (paid + organic promotion —
+separate pipeline, separate docs) · <code>../reference/</code> (locked decisions,
+brand kit, guardrails, platform policies, research) · <code>../ledgers/</code>
+(operational records)</p>
+<blockquote>
+<p>This document covers the <strong>create-and-publish pipeline</strong> only: ideation
+through publication. It is one of five independent pipelines, each with
+its own codebase, its own docs, and its own observability —
+<strong>create-and-publish</strong> (this), <strong>promotion</strong>, <strong>housekeeping</strong>,
+<strong>performance-monitoring</strong>, and <strong>earnings-improvement</strong>. They share a
+learning knowledge base (see §12). Locked decisions referenced here live
+in full in <code>../reference/decisions-log.md</code>.</p>
+</blockquote>
+<h2>1. Vision</h2>
+<p>A fully automated short-video factory run by Muse: every day, multiple
+vertical short videos (30–60s) are ideated, scripted, voiced, rendered,
+assembled, and published to <strong>YouTube (Shorts)</strong>, <strong>Instagram (Reels)</strong>,
+<strong>Facebook (Reels)</strong>, and <strong>TikTok</strong> — with zero day-to-day effort from
+you after setup. The system is a <strong>replicable template</strong>: launching
+channel #2, #3, … with a different theme is copy-and-configure, not a
+rebuild.</p>
+<p><strong>Default throughput (adjustable any time):</strong> 3 videos/day × 4 platforms
+(2 volume + 1 higher-effort <strong>hero</strong>; hero = 1 per 3 videos, rounding up —
+so a 1-video day is all hero).</p>
+<h2>2. Objectives</h2>
+<ul>
+<li>Publish 3 videos/day, 7 days/week, on all four platforms.</li>
+<li>Grow subscribers/followers and views on each platform (numeric targets
+set after pilot data).</li>
+<li>Keep production cost per video as low as possible — tracked, not guessed.</li>
+<li>Promotion (separate pipeline) funds only proven organic winners:
+min cost, max impact.</li>
+<li>Every video complies with the universal content guardrails and the
+original-media rule (see §3–§4); the topic engine enforces them at
+ideation, before any generation.</li>
+<li>The pipeline watches itself: own failure tracking, failure-pattern
+learning, bounded self-healing, and severity-tiered alerts (see §12).</li>
+</ul>
+<p>A weekly automated review decides which formats to scale and which to kill.</p>
+<h2>3. Channel setup</h2>
+<ul>
+<li><strong>Channel 1 (primary): AI Technology Education</strong> ✅ locked 2026-09-24
+(T0.1 done). Production approach: <strong>AI-generated original
+illustrations</strong> + <strong>our own automated real screen captures</strong> of
+tools/actions. Never present AI-generated mock interfaces as genuine
+screenshots. No publicly sourced internet media without explicit
+disclosure and your approval. News-reactive topics focus on <strong>product
+launches, feature announcements, new tools, and pricing/cost
+changes</strong> — never negative reputational news, scandals, or
+controversies. Voiceover policy is set by T1.15 calibration (early
+samples were preferred without voiceover even though the voice sounded
+realistic). One brand = one YouTube channel + one Instagram
+professional account + one Facebook Page + one TikTok account, all
+linked together.</li>
+<li><strong>Backup #1:</strong> History &amp; mythology explainers (pivot insurance for the
+week-4/week-8 evaluations — not a commitment to launch now).</li>
+<li><strong>Backup #2:</strong> Real-world crime news — strictly scoped: nothing
+sensitive or objectionable, nothing involving children, no current
+politics, nothing controversial or inappropriate.</li>
+<li><strong>Universal content guardrails</strong> (all current and future niches and
+channels): no sensitive or objectionable content; nothing involving
+children; no current politics; nothing potentially controversial or
+otherwise inappropriate. The topic engine enforces these at ideation;
+violations are rejected or flagged for your review. Full text:
+<code>../reference/content-guardrails.md</code>.</li>
+<li><strong>Future channels:</strong> each new theme gets its own quartet of accounts and
+its own config. Accounts are never shared across themes — platforms
+reward topical consistency, and it isolates risk.</li>
+</ul>
+<h2>4. How videos get made</h2>
+<p>Each video goes through the same 7 stages. Stages 1–6 run unattended on
+schedule; stage 7 publishes.</p>
+<ol>
+<li><strong>Ideation (topic engine).</strong> The engine autonomously finds candidate
+topics from: official product and feature announcements, new tools,
+pricing and cost changes, announced launches and event calendars,
+search/platform trends, and performance data from prior videos. Every
+candidate is compared against the full content ledger — near-duplicates
+are rejected, and meaningful episode-to-episode variation is preserved.
+<strong>Guardrails are enforced here, before scripting:</strong> candidates that
+violate the universal content guardrails (or the news-reactive scope
+for AI Technology Education) are rejected or flagged for your review.
+The engine reacts to unannounced news rather than pretending to
+predict it. During the pilot, candidates route through your approval
+gate. Output: a ranked queue of video ideas.</li>
+<li><strong>Script.</strong> Muse writes a voiceover-ready script (~120–150 words ≈
+45–60s): hook in the first seconds, one idea per sentence for clean
+captions.</li>
+<li><strong>Voiceover.</strong> Per-format policy set in calibration (tech task
+T1.15): full VO, VO-free (text + visuals carry it), or hybrid. Where
+VO is used, it&#39;s the channel&#39;s fixed narrator voice — the same voice
+every video = brand consistency.</li>
+<li><strong>Visuals.</strong> For channel #1: AI-generated original illustrations
+(~10s clips each, 4–6 per video) with visual continuity, plus our own
+automated real screen captures of the tools/actions being explained,
+plus a 9:16 cover image. <strong>All generated media is original — nothing
+is pulled from the internet</strong> (anything else requires disclosure and
+your approval first).</li>
+<li><strong>Assembly.</strong> Clips joined, captions burned in, voiceover mixed over
+background audio. Final spec: 1080×1920, 30–60s.</li>
+<li><strong>Quality check (automated).</strong> Duration, resolution, file health,
+frame spot-checks, caption sync. Anything broken is quarantined —
+never published.</li>
+<li><strong>Packaging.</strong> Title, description, hashtags, and AI-content disclosure
+<strong>tuned per platform, not copied</strong>: YouTube gets search-keyword titles,
+TikTok gets trend-native captions, Instagram gets share/save hooks.
+<strong>Sponsor/affiliate hooks:</strong> videos that carry sponsor or affiliate
+integrations include the required description links/text, pinned
+comment, and on-screen/audio integration per the sponsor obligations
+ledger (<code>../ledgers/sponsor-obligations.md</code>); affiliate links come from
+the tracked link hub with CTA rotation.</li>
+</ol>
+<h3>Formats</h3>
+<p>Proven structures the pipeline supports: hook → 3 beats → CTA
+(listicles), relatable story/skit, myth-vs-fact hot takes, weekly
+trend-jacks in the niche, <strong>seamless loops</strong> (the end flows into the
+start — average watch time over 100%), <strong>evergreen explainers</strong> (&quot;what
+is X&quot; — compounds via search for months), and <strong>remix/response</strong> — an
+original take responding to a larger creator&#39;s video in-niche (borrows
+their audience; Muse shortlists targets weekly, you approve). Every video
+follows the same skeleton: <strong>0–3s hook</strong>, <strong>3–40s payoff</strong>, <strong>last 3s
+call-to-action</strong>. <strong>Hero tier:</strong> 1 of every 3 videos is a hero — more
+clips, tighter QC, hook variants tested; the rest are volume. (At reduced
+cadence the ratio holds: 1 hero per 3 videos, rounding up.)</p>
+<h2>5. Publishing</h2>
+<ul>
+<li><strong>One schedule, four platforms.</strong> Publish slots (default 08:00, 13:00,
+19:00 ET — adjustable) fire automatically; each video goes to YouTube,
+Instagram, Facebook, and TikTok.</li>
+<li><strong>Warm-up ramp.</strong> New accounts start slow — posting 3 videos/day from
+day one on a fresh account risks spam flags and throttled distribution.
+The pilot doubles as warm-up: week 1 at 1 video/day, week 2 at 2/day,
+full cadence from week 3. Cross-platform post times are staggered, not
+simultaneous.</li>
+<li><strong>Never a duplicate.</strong> Each video publishes to each platform at most
+once; reruns resume where they stopped.</li>
+<li><strong>3-day buffer.</strong> The generator keeps three days of ready videos, so a
+bad generation day never means a missed publish day.</li>
+<li><strong>Broken stays unpublished.</strong> Failed publishes don&#39;t auto-retry blindly;
+they land in a daily digest for your review.</li>
+<li><strong>Dayparted by data.</strong> Default slots 08:00/13:00/19:00 ET; the weekly
+review retunes times per platform from audience-online analytics —
+free reach, zero cost.</li>
+<li><strong>Native scheduling</strong> where supported (YouTube/Facebook auto-publish at
+the slot time).</li>
+<li><strong>Sponsor-gated alterations.</strong> Hiding, unlisting, or materially altering
+a published video is blocked while its sponsor obligations are active
+unless the contract explicitly allows it — the sponsor obligations
+ledger is checked before any such action.</li>
+</ul>
+<h3>Playlists (YouTube-first)</h3>
+<ul>
+<li><strong>Category playlists.</strong> One playlist per content category — categories
+come from the format taxonomy locked in T0.2 (e.g. explainers,
+myth-vs-fact, stories). Every published video is auto-added to its
+category playlist at publish time 🟢. The channel page stays organized,
+viewers get bingeable shelves, and playlists add a second discovery
+surface (search/SEO) — all with zero ongoing effort.</li>
+<li><strong>Long-form shelf.</strong> Weekly long-form episodes auto-collect into a
+dedicated &quot;Deep dives&quot; playlist 🟢.</li>
+<li><strong>&quot;Start here&quot; playlist.</strong> Built rule-based from R1 performance scores:
+the current top-performing videos, refreshed monthly 🟢 — a binge path
+that converts new subscribers.</li>
+<li><strong>Series playlists.</strong> Multi-part videos grouped in watch order 🟢
+(order comes from series metadata set at creation).</li>
+<li><strong>TikTok playlists</strong> where the feature is available on the account 🟠
+(partially manual — API support is limited, fallback is manual add).
+Instagram and Facebook have no video-playlist equivalent — skipped
+there.</li>
+<li><strong>New playlist categories need your ok</strong> 🟡 — categories mirror the
+channel&#39;s format taxonomy, so adding one is a channel-structure
+decision, not a background tweak.</li>
+</ul>
+<h2>6. Your control panel — single-prompt controls</h2>
+<ul>
+<li><strong>Cadence:</strong> &quot;2 videos a day this week&quot;, &quot;back to 3 a day for October&quot;,
+&quot;just one video today&quot; — for a day, a week, a month, or until you change
+it. Scoped changes revert automatically.</li>
+<li><strong>Review mode:</strong> &quot;send this one for review first&quot;, &quot;turn review back on
+for this week&quot;.</li>
+<li><strong>Emergency stop:</strong> &quot;pause all publishing now&quot; — everything halts until
+you say resume.</li>
+<li><strong>Video actions by reference</strong> (see §7): &quot;unpublish 2026.09.24.3&quot;,
+&quot;report 2026.09.24.3&quot;, &quot;promote 2026.09.24.3&quot;.</li>
+<li><strong>Campaign controls</strong> live in the promotion plan.</li>
+</ul>
+<h2>7. Video references</h2>
+<p>Every video gets a short reference at creation:
+<code>&lt;channel&gt;.yyyy.MM.dd.N</code> (e.g. <code>ainews.2026.09.24.3</code>; channel prefix
+optional with a single channel; N = 1–5 per day). The ref is printed as
+the last line of every description/caption — searchable by you in YouTube
+Studio / Business Suite, effectively invisible to viewers — and is the key
+for everything: status checks, unpublish, remove, adjust-and-republish,
+comment controls, per-video reports, promotion handoff, review.
+Destructive actions always ask first. (Storage and resolution mechanics:
+tech spec §7.)</p>
+<h2>8. Review flow (initial weeks only)</h2>
+<p>Until the generated content fully matches your vision, every video goes
+through admin review: uploaded as <strong>unlisted</strong> to YouTube (chat preview
+for IG/FB/TikTok), you get the link, you say &quot;approve&quot; — it goes public. Each
+review is also how you steer the output: your corrections feed back into
+the channel&#39;s style guide. When the output consistently matches the
+vision, you say <strong>&quot;lock the vision&quot;</strong> → review switches off and publishing
+goes fully automatic. Re-enable any time with a prompt.</p>
+<p>Reviews are <strong>batched</strong>: each day&#39;s videos arrive in one session, not one
+ping per video — expect ~15–20 min/day of your time during the pilot,
+less after vision-lock.</p>
+<h2>9. Analytics, reports &amp; feedback loop</h2>
+<p>This pipeline defines its <strong>own operational reports</strong> (built in tech task
+T1.21): a daily <strong>production report</strong> (videos made, QC pass/reject with
+rejection reasons, buffer health, cost per video, generation usage vs
+allowance) and a weekly <strong>content performance summary</strong> (per-video
+velocity, retention, engagement, format leaderboard, breakout flags).
+These feed the shared <strong>R1 cross-pipeline rollup</strong> owned by the
+performance-monitoring pipeline&#39;s reporting framework — one framework,
+many detectors; see <code>../reference/architecture.md</code>.</p>
+<ul>
+<li><strong>Nightly:</strong> per-video views, retention, likes, comments, shares, and
+follows/subs collected automatically.</li>
+<li><strong>Weekly (Sundays):</strong> a digest in chat — top/bottom 3 videos per
+platform with <em>why</em> (hook retention, view duration), a format
+leaderboard, and concrete calls: <strong>scale</strong> (make variants), <strong>kill</strong>
+(retire), <strong>test</strong> (try one new format).</li>
+<li><strong>Winners feed back in:</strong> successful hooks and formats get priority in
+the idea queue — the system learns weekly. Every video also writes its
+performance outcome back to the <strong>shared learning knowledge base</strong>;
+learning-driven pipeline changes need your approval during the pilot
+(bounded automatic adjustments only after full automation is
+authorized).</li>
+<li><strong>Project circuit breaker:</strong> at week 4 and week 8, the digest carries
+an explicit <strong>go / pivot / pause</strong> verdict for the channel against
+preset gates (defaults: median views per video and follower growth vs.
+the niche baselines from T0.1 — tuned once the niche is locked). A dead
+niche gets pivoted before it burns months, not after. Backup niches
+(history/mythology, crime news) are the pivot options.</li>
+<li><strong>Hook-variant testing:</strong> new formats ship with 2–3 different first-3s
+hooks; retention data picks the winner, which becomes the template.</li>
+<li><strong>Long-form companion (weekly):</strong> the week&#39;s top Shorts recut as an
+8–12 min YouTube deep-dive/compilation. ⚠️ <em>TO-VERIFY: the working claim
+that long-form RPM ≈ 50× Shorts is an open audit item — do not treat as
+fact until verified against current official/reliable sources.</em></li>
+<li><strong>Winner recycling (monthly):</strong> the top 10% of videos get a second life —
+cutdowns (best 15s as a new Short) and reposts of proven videos with
+fresh hooks/covers after 30 days. (&quot;Best of&quot; compilations are owned by
+the weekly long-form job.) Winners keep working; the ledger tracks each
+recycle against its original ref.</li>
+<li><strong>Stale-content policy (locked 2026-09-24):</strong> <strong>nothing is ever
+deleted.</strong> A monthly housekeeping review checks every video for
+accuracy, relevance, links, sponsor obligations, and newer versions.
+Slightly stale content gets an updated caption/description + links, a
+pinned comment pointing to the newer version, and cards/end screens
+where supported. A stale long-form segment is trimmed where supported
+and redirected. Thoroughly outdated content gets a full remake as a new
+upload — and the old version is hidden/unlisted <strong>only</strong> if leaving it
+public would mislead or be inaccurate. Sponsor obligations always gate
+any hide/alter action. Full triage ladder: §12 and
+<code>../reference/decisions-log.md</code>.</li>
+<li><strong>On demand:</strong> &quot;how did this week&#39;s videos do?&quot; any time.</li>
+</ul>
+<h2>10. Promotion — separate pipeline</h2>
+<p><code>../promotion/plan.md</code> (+ tech spec + two task lists). In short:
+<strong>min cost, max impact</strong> — only proven organic winners get paid budget;
+budgets climb a ladder (probe → validate → scale) and cut automatically
+when efficiency slips; every campaign has a default 7-day duration you can
+override; reporting separates organic results, paid results, and measured
+relationships. The pipeline hands off at T2.4 once pilot winners exist.</p>
+<h2>11. Multi-channel expansion</h2>
+<p>Channel #2+ is a checklist, not a project: copy the template folder, fill
+in the new theme&#39;s brand config (Muse drafts from a 5-minute brief you
+approve), create the four accounts, connect credentials, stagger publish
+times, run a 2-week pilot, then full-auto. Shared across channels:
+publisher integrations, scripts, audio library. Per-channel: theme, voice,
+accounts, config.</p>
+<h2>12. Approvals, guardrails &amp; self-governance</h2>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Mode</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Pilot phase (first ~2 weeks)</td>
+<td>Per-video approve in chat</td>
+</tr>
+<tr>
+<td>Scheduled publishing (after pilot)</td>
+<td>Standing approval (revocable anytime)</td>
+</tr>
+<tr>
+<td>Any ad spend / budget change</td>
+<td>Always explicit approval, per campaign</td>
+</tr>
+<tr>
+<td>New channel launch</td>
+<td>Explicit approval</td>
+</tr>
+<tr>
+<td>Credential changes</td>
+<td>You complete the secure step</td>
+</tr>
+<tr>
+<td>Sponsor outreach / negotiation / closing</td>
+<td>Your approval at each step (manual gates)</td>
+</tr>
+<tr>
+<td>Affiliate program applications</td>
+<td>Your approval; identity/tax details are yours</td>
+</tr>
+<tr>
+<td>Hiding or materially altering a video with active sponsor obligations</td>
+<td>Blocked unless contract-approved</td>
+</tr>
+<tr>
+<td>Learning-driven pipeline changes (pilot)</td>
+<td>Your approval</td>
+</tr>
+</tbody></table>
+<p>Muse never: publishes a quality-failed video, double-publishes, raises ad
+spend unprompted, shares credentials, invents analytics numbers, deletes a
+video, or hides/unlists a video with active sponsor obligations without
+contract approval.</p>
+<h3>Locked operating method</h3>
+<ul>
+<li>One owner per task: you = decisions, manual work, approvals; Muse =
+technical work.</li>
+<li>One task at a time, in dependency order. Each result is presented; you
+reply <strong>&quot;adjust&quot;</strong> or <strong>&quot;done&quot;</strong>. No checkbox is ticked and no
+dependent work starts until you say &quot;done&quot;.</li>
+<li>Upfront and recurring costs are stated on every task.</li>
+<li>🟢/🟡/🔴/🟠 automation indicators are preserved on every task.</li>
+<li>Pilot publishing stays behind per-video approval; full automation begins
+only after &quot;go auto&quot; / &quot;lock the vision&quot; (or equivalent). &quot;Turn review
+back on&quot; restores review. <strong>&quot;Pause all publishing now&quot;</strong> halts
+everything until you say resume.</li>
+<li>Cadence is adjustable by one prompt for a day, week, month, or
+indefinitely.</li>
+</ul>
+<h3>Universal content guardrails</h3>
+<p>Apply to <strong>all</strong> current and future niches and channels: no sensitive or
+objectionable content; nothing involving children; no current politics;
+nothing potentially controversial or otherwise inappropriate. The topic
+engine enforces these at ideation; violations are rejected or flagged for
+your review. Full text: <code>../reference/content-guardrails.md</code>.</p>
+<h3>Original-media rule</h3>
+<p>All generated video and audio is original. No existing video or audio
+from the internet is used without explicit disclosure and your approval.
+<strong>Real-human UGC is ruled out</strong> (at least for now) — no real person on
+camera. If UGC is ever pursued, it is the AI-avatar/AI-generated tier
+only, with appropriate disclosure — or UGC is deprioritized in favour of
+affiliates and later sponsorships.</p>
+<h3>YouTube originality risk</h3>
+<p>Channels posting high volumes of AI-made content face extra scrutiny at
+monetization review (repetitious-content policy). Mitigation:
+format-variety quota (no single format &gt;40% of weekly output), logged
+human creative input per video (your calibration decisions + review
+corrections count), AI-content disclosure on every upload. Current
+platform stance verified at build (tech spec §1.5). ⚠️ <em>TO-VERIFY: claims
+that YPP thresholds will change in February 2027, and that finance is
+categorically blocked for AI personas, are open audit items — not settled
+facts.</em></p>
+<h3>This pipeline&#39;s own observability</h3>
+<p>This pipeline watches itself, independently of the other four:</p>
+<ul>
+<li><strong>Own tracking:</strong> every bug, failure, and performance event is logged
+against this pipeline (generation failures, QC rejects by category,
+publish failures, quota events).</li>
+<li><strong>Failure-pattern history:</strong> recurring patterns are captured and used —
+QC-rejection categories feed back into generation prompts and the
+shared learning knowledge base.</li>
+<li><strong>Self-healing (bounded):</strong> predefined mechanisms with automated
+execution plans — generation retries ≤3 with backoff, fallback models,
+quarantine of broken outputs. Repeated failures escalate instead of
+looping forever.</li>
+<li><strong>Anomaly detection:</strong> watches for unfavorable conditions, exception
+scenarios, weak growth, and bottlenecks (e.g. buffer draining, quota
+burn running hot, a format&#39;s retention collapsing).</li>
+<li><strong>Severity-tiered alerts:</strong> P1 (needs you now — e.g. publishing fully
+halted), P2 (needs a decision soon — e.g. repeated healing failures),
+P3 (informational — e.g. a format trending down). Tiers are based on
+importance, occurrence rate, urgency, and the need for human
+review/approval/intervention. Thresholds are locked with you in T0.5.</li>
+</ul>
+<h2>13. What needs your hands vs what runs itself</h2>
+<ul>
+<li><strong>You, one-time (~2–3 hours):</strong> create the YouTube channel, Instagram
+account, and Facebook Page; click through account linking and OAuth
+consents; add the ad-account payment method when promotion starts.</li>
+<li><strong>You, decisions:</strong> niche ✅ (done), brand (in progress — T0.2),
+cadence, budgets, pilot video reviews, every ad dollar, sponsor
+outreach/negotiation/closing, affiliate applications, the go-auto
+sign-off.</li>
+<li><strong>You, manual-only:</strong> identity/tax details for sponsor and affiliate
+programs; account creation and OAuth clicks; trending-audio swaps on
+winners (~2 min each).</li>
+<li><strong>Muse, everything else:</strong> ideation, scripting, voiceover, visuals,
+assembly, quality checks, publishing, metrics, weekly reviews, campaign
+builds (each launch approved by you), media-kit generation from real
+metrics, sponsor prospect shortlists, outreach drafts and tracking.</li>
+<li><strong>Honest limits:</strong> paid promotion is built through the ad platforms&#39; web
+UIs — workable but partly manual and fragile to UI changes; trending
+commercial music can&#39;t be attached via API, so the pipeline ships with
+original audio (tech task T1.16 — default is original/AI-generated
+audio unless you approve licensed media) — proven winners get trending
+sounds swapped in natively by you (~2 min each, promo plan §3); some
+platform features may need a manual check until verified at build time
+(tech spec §1.4).</li>
+</ul>
+<h2>14. Costs</h2>
+<p><strong>Upfront: $0 out-of-pocket</strong> (your time only).
+<strong>Recurring:</strong> media generation draws on your Muse plan — each day ≈
+16–20 AI clips (2 volume at 4–6 clips + 1 hero at up to 8) + up to 3
+voiceovers + 3 cover images, plus ~1 voiceover + 1 thumbnail/week for the
+long-form (≈500–600 clips + up to 90 voiceovers + ~95 images/month at
+3/day — fewer voiceovers if calibration drops VO, see tech task T1.15).
+API calls $0 within quotas. Ad spend = your cap (pilot suggestion
+$150–300/mo, locked in the promo plan). Pipeline observability, reports,
+and the learning knowledge base are $0 tooling on top of the same plan.</p>
+<h2>15. Timeline</h2>
+<ul>
+<li><strong>Phase 0 — Decisions (this week):</strong> T0.1 ✅ done; T0.2 brand in
+progress; T0.3–T0.5 lock numbers, sponsorship decisions, alert
+thresholds.</li>
+<li><strong>Phase 1 — Setup (weeks 1–2):</strong> accounts, connections, integrations
+built; 3 dry-run videos (not published).</li>
+<li><strong>Phase 2 — Pilot (weeks 3–4):</strong> 2 videos/day with per-video approval;
+promotion handoff once winners emerge.</li>
+<li><strong>Phase 3 — Full auto (week 5+):</strong> 3 videos/day on standing approval;
+weekly reviews running.</li>
+<li><strong>Phase 4 — Expansion (month 3+):</strong> clone for channel #2.</li>
+</ul>
+<h2>16. Open decisions (yours)</h2>
+<ol>
+<li><del>Theme/niche for channel #1 (+ shortlist for #2)?</del> ✅ <strong>Done
+2026-09-24</strong> — AI Technology Education; backups: history &amp; mythology
+explainers, real-world crime news.</li>
+<li>Brand name + handles? <em>(T0.2 in progress — 10 names screened 2026-09-25:
+7 taken; Neural Notes recommended as cleanest; your pick pending)</em></li>
+<li>Narrator voice? <em>(T0.2 in progress — 4 samples at
+<code>../brand/voice-{warm,smooth,sleek,radiant}.mp3</code>; your pick pending)</em></li>
+<li>Caption style + hashtag sets? <em>(T0.2 pending)</em></li>
+<li>Videos per day — 3, or start at 2?</li>
+<li>Publish mode after pilot — full-auto, or keep per-video approval?</li>
+<li>Monthly ad budget cap (Meta + Google combined)?</li>
+<li>Language — English first?</li>
+<li>Promo parameters (locked in promo plan P0.1): ad cap, default campaign
+duration, cost thresholds, views- vs followers-first.</li>
+<li>Sponsorship/affiliate decisions (T0.4): approve the auto-generated
+media kit, rate-card framework, prospect shortlist, outreach
+templates; affiliate program applications (manual gates stay yours).</li>
+<li>Alert severity thresholds + operational report format (T0.5).</li>
+</ol>
+
+</main>
+</body>
+</html>
