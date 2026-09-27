@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cross-Thread Task Status Tracker</title>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; }
+  h1 { font-size: 1.4rem; }
+  table { border-collapse: collapse; width: 100%; margin-top: 1rem; }
+  th, td { border: 1px solid #ccc; padding: 0.5rem 0.75rem; text-align: left; }
+  th { background: #f4f4f4; }
+  .ok { color: #1a7f37; font-weight: bold; }
+  .pending { color: #9a6700; font-weight: bold; }
+  footer { margin-top: 2rem; font-size: 0.8rem; color: #666; }
+</style>
+</head>
+<body>
+<h1>Cross-Thread Task Status Tracker</h1>
+<p>Test page published through the GitHub API: feature branch, pull request, merge, and Pages hosting.</p>
+<table>
+  <tr><th>Platform</th><th>Access mechanism</th><th>Status</th></tr>
+  <tr><td>GitHub</td><td>Fine-grained personal access token</td><td class="ok">Validated</td></tr>
+  <tr><td>Instagram</td><td>Accounts Center link</td><td class="pending">Pending</td></tr>
+  <tr><td>Facebook</td><td>Accounts Center link</td><td class="pending">Pending</td></tr>
+  <tr><td>YouTube</td><td>Data API + OAuth</td><td class="pending">Pending</td></tr>
+  <tr><td>TikTok</td><td>Developer API + OAuth</td><td class="pending">Pending</td></tr>
+  <tr><td>X</td><td>Developer API tokens</td><td class="pending">Pending</td></tr>
+</table>
+<footer>Created 2026-09-27 as a permissions test for the short-video publishing pipeline.</footer>
+</body>
+</html>
