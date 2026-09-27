@@ -61,6 +61,7 @@ label.toggle{display:inline-flex;align-items:center;gap:6px;font-size:13px;color
 .upddot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#22c55e;margin-left:6px;vertical-align:middle}
 .meta{font-size:12.5px;color:var(--muted);margin:4px 0}
 .meta b{color:var(--ink);font-weight:600}
+.meta.no-due{font-style:italic}
 .detail{font-size:14px;margin:6px 0}
 .where{font-size:12px;color:var(--muted)}
 .dep{margin-top:8px;font-size:12.5px}
@@ -242,9 +243,11 @@ function cardHTML(t, threads, today){
   badges+='<span class="pri pri-'+t.pri.level+'" title="'+esc(t.pri.reason)+'">'+PRI_NAMES[t.pri.level]+' priority</span>';
   badges+='<span class="threadtag">'+esc(th.name)+'</span>';
   if(t.recentlyUpdated) badges+='<span title="Updated in the last 7 days"><span class="upddot"></span></span>';
+  const fdate=d=>d?esc(d):"unrecorded";
   let dates="";
   if(t.due) dates+='<div class="meta">Due <b>'+esc(t.due)+'</b></div>';
-  if(state.showDates) dates+='<div class="meta">Created '+esc(t.created)+' · Updated '+esc(t.updated)+'</div>';
+  else dates+='<div class="meta no-due">No due date</div>';
+  if(state.showDates) dates+='<div class="meta">Created '+fdate(t.created)+' · Updated '+fdate(t.updated)+'</div>';
   return '<article class="card" id="t-'+esc(t.id)+'">'
     +'<h3>'+esc(t.title)+'<span class="taskid"><a href="#t-'+esc(t.id)+'" title="Link to this card">'+esc(t.id)+'</a></span></h3>'
     +'<div class="badges">'+badges+'</div>'
@@ -309,7 +312,8 @@ function render(){
   $("lastUpdated").textContent=data.meta.lastUpdated;
   $("foot").innerHTML="Threads covered: "+Object.values(data.threads).map(t=>esc(t.name)).join(", ")
     +". Other threads appear here once they have tracked items.<br>Task IDs are stable (thread.slug.created-date) and never change; priority is computed, not stored."
-    +" Priorities, overdue flags, and next-dues are computed as of "+esc(today)+"; task data last changed "+esc(data.meta.lastUpdated)+".";
+    +" Priorities, overdue flags, and next-dues are computed as of "+esc(today)+"; task data last changed "+esc(data.meta.lastUpdated)+"."
+    +'<br><a href="artifacts/">Artifact index</a> — one front door to every artifact, grouped by thread.';
   // option button wiring
   document.querySelectorAll(".optbtn").forEach(b=>b.addEventListener("click",()=>{
     const t=state.byId[b.dataset.task]; if(!t) return;
@@ -344,7 +348,7 @@ function init(){
   fetch("tasks.json").then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.json();}).then(data=>{
     state.data=data;
     state.byId={}; data.tasks.forEach(t=>state.byId[t.id]=t);
-    compute(state.byId, data.meta.lastUpdated);
+    compute(state.byId, data.meta.asOf||data.meta.lastUpdated);
     const ts=$("threadSel");
     for(const k of Object.keys(data.threads)){const o=document.createElement("option");o.value=k;o.textContent=data.threads[k].name;ts.appendChild(o);}
     render();
