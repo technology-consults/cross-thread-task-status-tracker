@@ -1,0 +1,124 @@
+#!/usr/bin/env python3
+"""Board unblock watcher: prints tasks that newly became actionable.
+
+A task is actionable when:
+- status is 'todo' or 'blocked', AND
+- every blockedBy entry of kind 'task' points to a task with status 'agreed', AND
+- every blockedBy entry of kind 'external' has a verifiable gate date that has arrived
+  (gate = ISO date in the note, else the task's 'due' field; no date -> still blocked), AND
+- no 'start' field dated in the future.
+
+Prints a JSON list of newly actionable tasks, excluding ids already recorded
+in the state file. The caller (cron worker) decides per task whether the work
+is mine to do or BalRam's step, acts accordingly, then records handled ids.
+
+With --sweep, additionally prints tasks the hourly unblock check would never
+re-surface:
+- reason "idle": status todo, blockers already clear, never handled
+  (covers state resets, downtime, or a pickup the worker never completed).
+- reason "stalled": status in_progress, last update over STALL_DAYS ago,
+  not recurring/standing work. Report-only: the caller must NOT auto-act,
+  only surface a brief note naming the task and its last-update date.
+
+Each sweep entry carries "reason" and an "owner_hint" ("his" when the
+title/detail marks it as BalRam's step, else "mine").
+"""
+import json
+import os
+import re
+
+BASE = os.path.dirname(os.path.abspath(__file__))
+TASKS = os.path.join(BASE, "tasks.json")
+STATE = os.path.join(BASE, "hidden_files", "unblock_watch_state.json")
+
+ISO = re.compile(r"(\d{4}-\d{2}-\d{2})")
+STALL_DAYS = 3
+RECURRING = re.compile(r"\b(daily|weekly|recurring|standing|ongoing|cron|digest|watchdog)\b", re.I)
+HIS_STEP = re.compile(r"\(yours\)|\bhis step\b|balram'?s step", re.I)
+
+
+def load(path, default):
+    try:
+        with open(path) as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return default
+
+
+def blockers_clear(t, byid, today):
+    for b in t.get("blockedBy") or []:
+        kind = b.get("kind")
+        if kind == "task":
+            ref = byid.get(b.get("id"))
+            if not (ref and ref.get("status") == "agreed"):
+                return False
+        elif kind == "external":
+            m = ISO.search(b.get("note", "") or "")
+            gate = m.group(1) if m else t.get("due")
+            if not gate or gate > today:
+                return False
+        # unknown kinds: ignore (don't block on what we can't interpret)
+    start = t.get("start")
+    if start and start > today:
+        return False
+    return True
+
+
+def owner_hint(t):
+    text = " ".join(str(t.get(k) or "") for k in ("title", "detail"))
+    return "his" if HIS_STEP.search(text) else "mine"
+
+
+def main():
+    import argparse
+    from datetime import date, timedelta
+
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--thread", default=None, help="only consider tasks with this thread value (e.g. sv, tr, vh)")
+    ap.add_argument("--sweep", action="store_true",
+                    help="list idle todo tasks and possibly-stalled in_progress tasks, with reason + owner_hint")
+    args = ap.parse_args()
+
+    data = load(TASKS, {})
+    items = data if isinstance(data, list) else data.get("tasks", data.get("items", []))
+    byid = {t.get("id"): t for t in items}
+    state = load(STATE, {})
+    handled = set(state.get("handled", []))
+    today = date.today().isoformat()
+    stall_cutoff = (date.today() - timedelta(days=STALL_DAYS)).isoformat()
+
+    fields = ("id", "thread", "title", "status", "due", "detail", "where")
+    out = []
+    for t in items:
+        tid = t.get("id")
+        if not tid or tid in handled:
+            continue
+        if args.thread and t.get("thread") != args.thread:
+            continue
+        status = t.get("status")
+        if args.sweep:
+            if status == "todo" and blockers_clear(t, byid, today):
+                entry = {k: t.get(k) for k in fields}
+                entry.update(reason="idle", owner_hint=owner_hint(t))
+                out.append(entry)
+            elif status == "in_progress":
+                text = " ".join(str(t.get(k) or "") for k in ("title", "detail"))
+                if RECURRING.search(text):
+                    continue
+                upd = t.get("updated") or ""
+                if upd and upd >= stall_cutoff:
+                    continue
+                entry = {k: t.get(k) for k in fields}
+                entry.update(reason="stalled", owner_hint=owner_hint(t))
+                out.append(entry)
+            continue
+        if status not in ("todo", "blocked"):
+            continue
+        if not blockers_clear(t, byid, today):
+            continue
+        out.append({k: t.get(k) for k in fields})
+    print(json.dumps(out, indent=1))
+
+
+if __name__ == "__main__":
+    main()

@@ -968,6 +968,18 @@
       "where": "Short AI videos project side chat · 2026-09-28",
       "blockedBy": [],
       "detail": "BalRam's review step: all 6 repos cloned to ~/workspace/repos/<name> with HEAD verified; old workspace source folders moved to ~/workspace/archive/*-2026-09-28/; 10 cron bodies repointed (cron.update). He marks agreed when satisfied. Note: portal push_ev_deals.py carried an unpushed KV-key fix into the clone (shows as modified) — needs a future SHIP to commit."
+    },
+    {
+      "id": "sv.pull-sync-push-batch.2026-09-28",
+      "thread": "sv",
+      "title": "Pull/sync 3 repos before pushing local changes",
+      "status": "in_progress",
+      "created": "2026-09-28",
+      "updated": "2026-09-28",
+      "due": null,
+      "where": "Short AI videos project side chat · 2026-09-28",
+      "blockedBy": [],
+      "detail": "Pull bandhu-portal, trading, cross-thread-task-status-tracker; then commit+push local changes (BalRam: \"push all local repo changes to git now\")."
     }
   ]
 }
