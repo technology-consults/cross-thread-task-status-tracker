@@ -922,6 +922,28 @@
       "due": null,
       "detail": "BalRam's review step: live ETF portal now in technology-consults/trading-portal, Pages at https://technology-consults.github.io/trading-portal/etf-live.html. Old URL dead. He marks agreed when satisfied.",
       "where": "Trading thread · 2026-09-28"
+    },
+    {
+      "id": "tr.version-all-deployable-repos.2026-09-28",
+      "thread": "tr",
+      "title": "Version all deployable repos + deploy versioned builds",
+      "status": "agreed",
+      "created": "2026-09-28",
+      "updated": "2026-09-28",
+      "due": null,
+      "detail": "Per 2026-09-28 release-tag rule: tag every deployable repo's deployed commit (semver). Unversioned repos get tagged + versioned build deployed; versioned repos whose deployed build isn't tagged get the latest version built + deployed. Explicit instruction from BalRam — no SHIP/RUN needed. DONE 2026-09-28: trading-portal v1.0.0 (Pages rebuild from tagged commit, live 200); bandhu-portal v1.0.0 (worker redeployed from tagged commit via Cloudflare API, live verified 200/410); Pages disabled on trading (portal moved out). Skipped (not deployed): cross-thread-task-status-tracker, short-video, vehicle.",
+      "where": "Trading thread · 2026-09-28"
+    },
+    {
+      "id": "tr.review-version-all-deployable-repos.2026-09-28",
+      "thread": "tr",
+      "title": "Review: all deployable repos versioned (v1.0.0) + builds deployed",
+      "status": "in_progress",
+      "created": "2026-09-28",
+      "updated": "2026-09-28",
+      "due": null,
+      "detail": "BalRam's review step: trading-portal and bandhu-portal tagged v1.0.0 with versioned builds deployed and verified live; Pages disabled on trading. He marks agreed when satisfied.",
+      "where": "Trading thread · 2026-09-28"
     }
   ]
 }
