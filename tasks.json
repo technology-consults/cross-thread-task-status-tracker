@@ -900,6 +900,28 @@
       "due": null,
       "detail": "BalRam's review step: src/build_widget.py, src/econ_events.json, docs/etf-alert-builder-technical.md, docs/etf-alert-builder-plain-words.md in technology-consults/trading (commit 04a3e1ac). He marks agreed when satisfied.",
       "where": "Trading thread · 2026-09-28"
+    },
+    {
+      "id": "tr.trading-portal-repo.2026-09-28",
+      "thread": "tr",
+      "title": "Move live app to new trading-portal repo + Pages deploy",
+      "status": "agreed",
+      "created": "2026-09-28",
+      "updated": "2026-09-28",
+      "due": null,
+      "detail": "Move etf-live.html, etf-live.css, etf-live-bundle.json from technology-consults/trading to a NEW repo technology-consults/trading-portal; enable GitHub Pages on the new repo; repoint the 5-min bundle cron to push to the new repo; update docs + memory with the new URL. Asked 2026-09-28: do it now, explicit instruction (no SHIP/RUN needed). DONE 2026-09-28: new repo technology-consults/trading-portal (4 files: etf-live.html, etf-live.css, etf-live-bundle.json, README.md), Pages enabled, deployed page sha256-verified vs committed source; old files removed from trading repo; build_live_bundle.py repointed; docs + memory updated.",
+      "where": "Trading thread · 2026-09-28"
+    },
+    {
+      "id": "tr.review-trading-portal-repo.2026-09-28",
+      "thread": "tr",
+      "title": "Review: live app moved to trading-portal repo + Pages",
+      "status": "in_progress",
+      "created": "2026-09-28",
+      "updated": "2026-09-28",
+      "due": null,
+      "detail": "BalRam's review step: live ETF portal now in technology-consults/trading-portal, Pages at https://technology-consults.github.io/trading-portal/etf-live.html. Old URL dead. He marks agreed when satisfied.",
+      "where": "Trading thread · 2026-09-28"
     }
   ]
 }
