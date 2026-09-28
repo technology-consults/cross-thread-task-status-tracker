@@ -855,6 +855,51 @@
       "due": null,
       "detail": "Commit the trading-signal engine (build_signals.py) to the trading GitHub repo with docs for both a technical audience and a non-technical (plain words) audience. Asked 2026-09-28: engine code is build_signals.py only (not the wider etf-alerts scripts).",
       "where": "Trading thread · 2026-09-28"
+    },
+    {
+      "id": "sv.board-watch-sweep.2026-09-28",
+      "thread": "sv",
+      "title": "Widen hourly board watch: idle + stalled task pickup sweep",
+      "status": "agreed",
+      "created": "2026-09-28",
+      "updated": "2026-09-28",
+      "due": null,
+      "where": "Short AI videos project side chat · 2026-09-28",
+      "blockedBy": [],
+      "detail": "Assistant task — widen the hourly board-unblock-watch crons (sv/tr/vh) with a pickup sweep.\n• unblock_watch.py: add --sweep mode -> todo with clear blockers never handled (\"idle\"); in_progress updated >72h ago, not recurring-like (\"stalled\", report-only).\n• Update all three cron bodies via cron.update: run unblock check + sweep each hour; idle mine->do, idle his->poke, stalled->report only; mark handled.\n• Test both script modes before finishing. No status edits; handled-state discipline unchanged."
+    },
+    {
+      "id": "tr.review-signal-engine-git-docs.2026-09-28",
+      "thread": "tr",
+      "title": "Review: signal engine code + docs in git",
+      "status": "in_progress",
+      "created": "2026-09-28",
+      "updated": "2026-09-28",
+      "due": null,
+      "detail": "BalRam's review step: src/build_signals.py, docs/signal-engine-technical.md, docs/signal-engine-plain-words.md in technology-consults/trading (commit fdcbf847). He marks agreed when satisfied.",
+      "where": "Trading thread · 2026-09-28"
+    },
+    {
+      "id": "tr.etf-alerts-builder-git-docs.2026-09-28",
+      "thread": "tr",
+      "title": "ETF alert builder code + docs in git",
+      "status": "agreed",
+      "created": "2026-09-28",
+      "updated": "2026-09-28",
+      "due": null,
+      "detail": "Commit the ETF update alert builder (build_widget.py + its econ_events.json data) to the trading GitHub repo with docs for technical and non-technical audiences. Asked 2026-09-28: do it now, no SHIP/RUN wait. Committed 2026-09-28 (04a3e1ac): src/build_widget.py + src/econ_events.json + docs/etf-alert-builder-technical.md + docs/etf-alert-builder-plain-words.md, verified live.",
+      "where": "Trading thread · 2026-09-28"
+    },
+    {
+      "id": "tr.review-etf-alert-builder-git-docs.2026-09-28",
+      "thread": "tr",
+      "title": "Review: ETF alert builder code + docs in git",
+      "status": "in_progress",
+      "created": "2026-09-28",
+      "updated": "2026-09-28",
+      "due": null,
+      "detail": "BalRam's review step: src/build_widget.py, src/econ_events.json, docs/etf-alert-builder-technical.md, docs/etf-alert-builder-plain-words.md in technology-consults/trading (commit 04a3e1ac). He marks agreed when satisfied.",
+      "where": "Trading thread · 2026-09-28"
     }
   ]
 }
