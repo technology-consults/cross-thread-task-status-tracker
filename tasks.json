@@ -992,6 +992,30 @@
       "where": "Short AI videos project side chat · 2026-09-28",
       "blockedBy": [],
       "detail": "BalRam's review step for the 2026-09-28 push batch (he said: push all local repo changes to git now). He marks agreed when satisfied — versioning (tags) and any redeploys trigger only AFTER this review completes.\nCommits:\n• bandhu-portal — Fix EV deals KV key to p:ev-deals/index.html:\n  https://github.com/technology-consults/bandhu-portal/commit/e5bddc3882b408e759a43ee7bdd1348f4267c63f\n• trading — Commit ETF cron tooling (email/live-bundle/scorecard/engine-review); widget econ events repointed to repo:\n  https://github.com/technology-consults/trading/commit/2bc3a476df5fff481c41e0257aacba57ce69d94c\n• cross-thread-task-status-tracker — Board data update; add build tooling (push_board.py + unblock_watch.py):\n  https://github.com/technology-consults/cross-thread-task-status-tracker/commit/e9737e64af235ce237f185b9ebf4af9d6a040a1b\nNotes: one real merge resolved on cross-thread (remote had moved to b3c00e0; merged locally, no conflicts). All three pushes went through the GitHub API (API-only rule); plain git push has no credential on this machine."
+    },
+    {
+      "id": "sv.task-updates-to-trackers.2026-09-28",
+      "thread": "sv",
+      "title": "Push board task updates to project task-tracker threads",
+      "status": "agreed",
+      "created": "2026-09-28",
+      "updated": "2026-09-28",
+      "due": null,
+      "where": "Short AI videos project side chat · 2026-09-28",
+      "blockedBy": [],
+      "detail": "BalRam 2026-09-28: board task updates (new tasks, status changes) must be delivered to the project's task TRACKER thread on every board publish — not the project discussion threads. Extend push_board.py's post-push check to emit per-thread TASK UPDATES (like UNBLOCK REPORT); agent delivers each to that project's tracker thread. Pre-work pull: repo at e9737e6, verified clean vs origin before editing.\nDONE 2026-09-28: push_board.py now emits per-thread TASK UPDATES blocks (new tasks + status changes) with the project tracker thread id; live-tested and delivered to the sv tracker."
+    },
+    {
+      "id": "sv.review-task-updates-to-trackers.2026-09-28",
+      "thread": "sv",
+      "title": "Review: board task updates now go to project task-tracker threads",
+      "status": "in_progress",
+      "created": "2026-09-28",
+      "updated": "2026-09-28",
+      "due": null,
+      "where": "Short AI videos project side chat · 2026-09-28",
+      "blockedBy": [],
+      "detail": "BalRam's review step (his 2026-09-28 instruction: task updates to project task TRACKER threads, not discussion threads). He marks agreed when satisfied.\nCommit:\n• cross-thread-task-status-tracker — Emit per-thread TASK UPDATES on board publish:\n  https://github.com/technology-consults/cross-thread-task-status-tracker/commit/0c1909e3b331839fcde4c2d9ed6dd6e9ed6ae5f1\nBehavior: on every board publish, each thread with new/changed tasks gets a TASK UPDATES block; the agent delivers it to that project's task tracker thread (sv/d82796e3, tr/1ff0cb94, vh/547fb3d1). Live-tested 2026-09-28 with delivery to the sv tracker."
     }
   ]
 }
