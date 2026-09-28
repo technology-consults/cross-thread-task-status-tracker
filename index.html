@@ -62,6 +62,17 @@ const TERMINAL = new Set(["agreed","rejected"]);
 const state = {q:"", status:"", thread:"", sort:"status", view:"flat", nDays:14, showDates:false, showAllChips:false, data:null, byId:{}};
 const $ = id => document.getElementById(id);
 const esc = s => String(s==null?"":s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+// Weblinks inside already-escaped text become real links with shortened display
+// text, so long URLs can't stretch the card grid on narrow screens.
+const linkify = s => String(s).replace(/https?:\/\/[^\s<]+/g, m => {
+  let trail = "";
+  const tm = m.match(/[.,;:!?)\]]+$/);
+  if(tm){ trail = tm[0]; m = m.slice(0, -trail.length); }
+  const raw = m.replace(/&(quot|#39|lt|gt);/g, (e,n)=>({quot:'"',"#39":"'","lt":"<","gt":">"}[n])).replace(/&amp;/g, "&");
+  let label = m.replace(/^https?:\/\//, "");
+  if(label.length > 38) label = label.slice(0, 36) + "…";
+  return '<a href="' + esc(raw) + '" target="_blank" rel="noopener">' + label + "</a>" + trail;
+});
 const daysBetween = (a,b) => Math.round((new Date(b+"T00:00:00") - new Date(a+"T00:00:00"))/864e5);
 
 function compute(byId, today){
@@ -183,7 +194,7 @@ function cardHTML(t, threads, today){
     +'<h3>'+esc(t.title)+'<span class="taskid"><a href="#t-'+esc(t.id)+'" title="Link to this card">'+esc(t.id)+'</a></span></h3>'
     +'<div class="badges">'+badges+'</div>'
     +dates
-    +'<div class="detail">'+esc(t.detail)+'</div>'
+    +'<div class="detail">'+linkify(esc(t.detail))+'</div>'
     +'<div class="where">'+esc(t.where)+' · Tracker: '+esc(th.tracker)+'</div>'
     +depSection(t, state.byId)
     +optionButtons(t, threads)
