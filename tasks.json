@@ -1,1021 +1,1032 @@
 {
-  "meta": {
-    "boardTitle": "All Threads Status Board",
-    "lastUpdated": "2026-09-27",
-    "note": "Entries describe where each discussion lives; the board cannot deep-link into individual chat messages.",
-    "asOf": "2026-09-27"
+ "meta": {
+  "boardTitle": "All Threads Status Board",
+  "lastUpdated": "2026-09-27",
+  "note": "Entries describe where each discussion lives; the board cannot deep-link into individual chat messages.",
+  "asOf": "2026-09-27"
+ },
+ "threads": {
+  "sv": {
+   "name": "Short Video",
+   "tracker": "Short Video — task tracker"
   },
-  "threads": {
-    "sv": {
-      "name": "Short Video",
-      "tracker": "Short Video — task tracker"
-    },
-    "tr": {
-      "name": "Trading",
-      "tracker": "Trading — task tracker"
-    },
-    "vh": {
-      "name": "Vehicle",
-      "tracker": "Vehicle — task tracker"
-    }
+  "tr": {
+   "name": "Trading",
+   "tracker": "Trading — task tracker"
   },
-  "tasks": [
-    {
-      "id": "sv.brand-name.2026-09-26",
-      "thread": "sv",
-      "title": "Brand name: The Intelligently Artificial",
-      "status": "agreed",
-      "created": "2026-09-26",
-      "updated": "2026-09-26",
-      "due": null,
-      "detail": "Locked after full clearance: USPTO/CIPO trademark screens clean, domains available, no same-niche competitor or media-property collision.",
-      "where": "Short Video thread · 2026-09-26"
-    },
-    {
-      "id": "sv.handles-secured.2026-09-27",
-      "thread": "sv",
-      "title": "All 5 platform handles secured",
-      "status": "agreed",
-      "created": "2026-09-27",
-      "updated": "2026-09-27",
-      "due": null,
-      "detail": "YouTube @the_intelligently_artificial · Instagram @the_intelligently_artificial · Facebook the.intelligently.artificial · TikTok @the_intelligently (24-char cap) · X @intlgt_artfcial (15-char cap, defensive hold only).",
-      "where": "Short Video thread · 2026-09-27"
-    },
-    {
-      "id": "sv.brand-email.2026-09-26",
-      "thread": "sv",
-      "title": "Brand email",
-      "status": "agreed",
-      "created": "2026-09-26",
-      "updated": "2026-09-26",
-      "due": null,
-      "detail": "intelligently.artificial.collab@gmail.com — for platform logins, communication, and leads.",
-      "where": "Short Video thread · 2026-09-26"
-    },
-    {
-      "id": "sv.personal-accounts-2fa.2026-09-26",
-      "thread": "sv",
-      "title": "All personal accounts + 2FA",
-      "status": "agreed",
-      "created": null,
-      "updated": "2026-09-27",
-      "due": null,
-      "detail": "No paid business tiers to start. Two-factor authentication is required during account setup — but universal completion across all personal accounts is unconfirmed.",
-      "where": "Short Video thread · date unrecorded"
-    },
-    {
-      "id": "sv.narrator-voice.2026-09-26",
-      "thread": "sv",
-      "title": "Narrator voice-crisp",
-      "status": "agreed",
-      "created": "2026-09-26",
-      "updated": "2026-09-26",
-      "due": null,
-      "detail": "Confident, dynamic, chipper female American voice. Vendor remains unverified.",
-      "where": "Short Video thread · 2026-09-26"
-    },
-    {
-      "id": "sv.channel-niche.2026-09-24",
-      "thread": "sv",
-      "title": "Channel niche",
-      "status": "agreed",
-      "created": "2026-09-24",
-      "updated": "2026-09-24",
-      "due": null,
-      "detail": "Primary: AI Technology Education. Backups: history/mythology explainers, carefully guarded real-world crime news.",
-      "where": "Short Video thread · 2026-09-24"
-    },
-    {
-      "id": "sv.content-guardrails.2026-09-24",
-      "thread": "sv",
-      "title": "Universal content guardrails",
-      "status": "agreed",
-      "created": "2026-09-24",
-      "updated": "2026-09-24",
-      "due": null,
-      "detail": "No sensitive/objectionable content, nothing involving children, no current politics, nothing controversial — every niche, enforced at ideation.",
-      "where": "Short Video thread · 2026-09-24"
-    },
-    {
-      "id": "sv.news-scope.2026-09-24",
-      "thread": "sv",
-      "title": "News scope",
-      "status": "agreed",
-      "created": "2026-09-24",
-      "updated": "2026-09-24",
-      "due": null,
-      "detail": "Product/feature announcements, launches, new tools, pricing changes only. No scandals or reputational stories.",
-      "where": "Short Video thread · 2026-09-24"
-    },
-    {
-      "id": "sv.no-human-ugc.2026-09-24",
-      "thread": "sv",
-      "title": "Real-human UGC ruled out",
-      "status": "agreed",
-      "created": "2026-09-24",
-      "updated": "2026-09-24",
-      "due": null,
-      "detail": "Only disclosed AI-avatar/generated UGC may be considered, or UGC stays deprioritized.",
-      "where": "Short Video thread · 2026-09-24"
-    },
-    {
-      "id": "sv.publishing-gate.2026-09-24",
-      "thread": "sv",
-      "title": "Publishing gate",
-      "status": "agreed",
-      "created": "2026-09-24",
-      "updated": "2026-09-24",
-      "due": null,
-      "detail": "Per-video approval during the pilot; full automation only after “go auto” / “lock the vision”.",
-      "where": "Short Video thread · 2026-09-24"
-    },
-    {
-      "id": "sv.original-media.2026-09-24",
-      "thread": "sv",
-      "title": "100% original media",
-      "status": "agreed",
-      "created": "2026-09-24",
-      "updated": "2026-09-24",
-      "due": null,
-      "detail": "AI illustrations + own automated screen captures. Never internet video; never present an AI mock interface as a genuine screenshot.",
-      "where": "Short Video thread · 2026-09-24"
-    },
-    {
-      "id": "sv.min-cost.2026-09-24",
-      "thread": "sv",
-      "title": "Min cost, max impact",
-      "status": "agreed",
-      "created": "2026-09-23",
-      "updated": "2026-09-23",
-      "due": null,
-      "detail": "Every cost shown upfront plus recurring. The pipeline objective.",
-      "where": "Short Video thread · 2026-09-23"
-    },
-    {
-      "id": "sv.five-pipelines.2026-09-24",
-      "thread": "sv",
-      "title": "Five independent pipelines",
-      "status": "agreed",
-      "created": "2026-09-24",
-      "updated": "2026-09-24",
-      "due": null,
-      "detail": "Create-and-publish, promotion, housekeeping, performance-monitoring, earnings-improvement — each with anomaly detection, failure history, bounded retries/fallbacks/quarantine, self-healing, severity-tiered alerts.",
-      "where": "Short Video thread · 2026-09-24"
-    },
-    {
-      "id": "sv.reporting-split.2026-09-25",
-      "thread": "sv",
-      "title": "Reporting split",
-      "status": "agreed",
-      "created": "2026-09-25",
-      "updated": "2026-09-25",
-      "due": null,
-      "detail": "Each pipeline owns its operational reports; performance-monitoring owns shared formats and R1/R2/R3 rollups (R1/R2/R3 still proposals).",
-      "where": "Short Video thread · 2026-09-25"
-    },
-    {
-      "id": "sv.stale-policy.2026-09-24",
-      "thread": "sv",
-      "title": "Stale-content policy",
-      "status": "agreed",
-      "created": "2026-09-24",
-      "updated": "2026-09-24",
-      "due": null,
-      "detail": "Never delete. Unlist only when fully outdated AND misleading; otherwise redirect strategies.",
-      "where": "Short Video thread · 2026-09-24"
-    },
-    {
-      "id": "sv.docs-packaging.2026-09-27",
-      "thread": "sv",
-      "title": "Docs packaging formats",
-      "status": "agreed",
-      "created": "2026-09-24",
-      "updated": "2026-09-24",
-      "due": null,
-      "detail": "Approved; the full 40-document set still awaits review.",
-      "where": "Short Video thread · 2026-09-24"
-    },
-    {
-      "id": "sv.tagline-options.2026-09-27",
-      "thread": "sv",
-      "title": "Tagline — 5 options",
-      "status": "agreed",
-      "created": "2026-09-27",
-      "updated": "2026-09-27",
-      "due": null,
-      "detail": "LOCKED 2026-09-27 — BalRam picked #5: \"Understand AI, one short at a time.\"",
-      "where": "Short Video thread · 2026-09-27",
-      "options": [
-        "Artificial intelligence, intelligently explained.",
-        "AI, explained intelligently.",
-        "Making AI make sense.",
-        "Smart videos about smart machines.",
-        "Understand AI, one short at a time."
-      ]
-    },
-    {
-      "id": "sv.docs-full-set.2026-09-27",
-      "thread": "sv",
-      "title": "Full documentation set (40 docs)",
-      "status": "pending_review",
-      "created": "2026-09-25",
-      "updated": "2026-09-25",
-      "due": null,
-      "detail": "Shared reading link + ZIP delivered; packaging approved, full set not yet reviewed.",
-      "where": "Short Video thread · 2026-09-25"
-    },
-    {
-      "id": "sv.business-plan-review.2026-09-27",
-      "thread": "sv",
-      "title": "Business plan review",
-      "status": "pending_review",
-      "created": "2026-09-27",
-      "updated": "2026-09-27",
-      "due": null,
-      "detail": "Start at section 1 + section 13 with KEEP / PARK / REMOVE, then Phase 1/2/3 classification.",
-      "where": "Short Video thread · 2026-09-27"
-    },
-    {
-      "id": "sv.risk-register.2026-09-26",
-      "thread": "sv",
-      "title": "Risk register",
-      "status": "pending_review",
-      "created": "2026-09-26",
-      "updated": "2026-09-27",
-      "due": null,
-      "detail": "Delivered; not yet folded into the master plans. Queued addition: Meta cloud unavailability / denied-access risk.",
-      "where": "Short Video thread · 2026-09-26"
-    },
-    {
-      "id": "sv.github-setup.2026-09-25",
-      "thread": "sv",
-      "title": "GitHub account + repo + Pages docs site",
-      "status": "blocked",
-      "created": "2026-09-25",
-      "updated": "2026-09-27",
-      "due": null,
-      "detail": "Account technology-consults verified working via API on 2026-09-27 (classic PAT authenticates; repo creation confirmed). The new-account signup flow is abandoned — no username/email needed. Remaining: create the docs repo, push the 40-doc site, enable Pages — queued behind the docs-set review.",
-      "where": "Short Video thread · 2026-09-25",
-      "blockedBy": [
-        {
-          "kind": "task",
-          "id": "sv.docs-full-set.2026-09-27"
-        },
-        {
-          "kind": "external",
-          "note": "After docs review: create repo + push site + enable Pages (API-ready since 2026-09-27)"
-        }
-      ]
-    },
-    {
-      "id": "sv.tiktok-display-name.2026-09-27",
-      "thread": "sv",
-      "title": "TikTok display name → The Intelligently Artificial",
-      "status": "blocked",
-      "created": "2026-09-27",
-      "updated": "2026-09-27",
-      "due": "2026-10-04",
-      "detail": "7-day lock lifts around Oct 4; you handle it there.",
-      "where": "Short Video thread · 2026-09-27",
-      "blockedBy": [
-        {
-          "kind": "external",
-          "note": "TikTok 7-day display-name lock — lifts ~2026-10-04"
-        }
-      ]
-    },
-    {
-      "id": "sv.full-automation.2026-09-24",
-      "thread": "sv",
-      "title": "Full publishing automation",
-      "status": "parked",
-      "created": "2026-09-24",
-      "updated": "2026-09-24",
-      "due": null,
-      "detail": "Begins only after “lock the vision” or equivalent explicit go-ahead.",
-      "where": "Short Video thread · 2026-09-24"
-    },
-    {
-      "id": "sv.builder-digest.2026-09-26",
-      "thread": "sv",
-      "title": "Builder-email digest",
-      "status": "parked",
-      "created": "2026-09-26",
-      "updated": "2026-09-26",
-      "due": null,
-      "detail": "Disabled 2026-09-26; stays off until you ask to restore it.",
-      "where": "Short Video thread · 2026-09-26"
-    },
-    {
-      "id": "sv.rej-human-ugc.2026-09-26",
-      "thread": "sv",
-      "title": "Real-human UGC",
-      "status": "rejected",
-      "created": "2026-09-24",
-      "updated": "2026-09-24",
-      "due": null,
-      "detail": "Ruled out “at least for now”.",
-      "where": "Short Video thread · 2026-09-24"
-    },
-    {
-      "id": "sv.rej-negative-news.2026-09-24",
-      "thread": "sv",
-      "title": "Negative news topics",
-      "status": "rejected",
-      "created": "2026-09-24",
-      "updated": "2026-09-24",
-      "due": null,
-      "detail": "Scandals and controversies excluded from news-reactive topics.",
-      "where": "Short Video thread · 2026-09-24"
-    },
-    {
-      "id": "sv.rej-guardrails-name.2026-09-26",
-      "thread": "sv",
-      "title": "Brand name Guardrails",
-      "status": "rejected",
-      "created": "2026-09-26",
-      "updated": "2026-09-26",
-      "due": null,
-      "detail": "Conflict: Guardrails AI, funded and acquired Sept 2026.",
-      "where": "Short Video thread · 2026-09-26"
-    },
-    {
-      "id": "sv.rej-neural-notes.2026-09-26",
-      "thread": "sv",
-      "title": "Brand name Neural Notes",
-      "status": "rejected",
-      "created": "2026-09-26",
-      "updated": "2026-09-26",
-      "due": null,
-      "detail": "Crowded with same-name YouTube channels.",
-      "where": "Short Video thread · 2026-09-26"
-    },
-    {
-      "id": "sv.rej-agent-loop.2026-09-26",
-      "thread": "sv",
-      "title": "Brand name Agent Loop",
-      "status": "rejected",
-      "created": "2026-09-26",
-      "updated": "2026-09-26",
-      "due": null,
-      "detail": "@theagentloop taken by an active same-niche channel.",
-      "where": "Short Video thread · 2026-09-26"
-    },
-    {
-      "id": "sv.rej-the-eval.2026-09-26",
-      "thread": "sv",
-      "title": "Brand name The Eval",
-      "status": "rejected",
-      "created": "2026-09-26",
-      "updated": "2026-09-26",
-      "due": null,
-      "detail": "Insider jargon; wrong for a newcomer audience.",
-      "where": "Short Video thread · 2026-09-26"
-    },
-    {
-      "id": "sv.tagline-done.2026-09-27",
-      "thread": "sv",
-      "title": "1. Tagline → done",
-      "status": "agreed",
-      "created": null,
-      "updated": "2026-09-27",
-      "due": null,
-      "detail": "Tagline locked 2026-09-27: \"Understand AI, one short at a time.\"",
-      "where": "Short Video thread · date unrecorded"
-    },
-    {
-      "id": "sv.profile-bios.2026-09-27",
-      "thread": "sv",
-      "title": "2. Profile bios / about text",
-      "status": "agreed",
-      "created": null,
-      "updated": "2026-09-27",
-      "due": null,
-      "detail": "Drafted once the tagline is locked.",
-      "where": "Approved by BalRam 2026-09-27 (\"No need to still review\") — drafts locked as final in profile-bios.md.",
-      "blockedBy": [
-        {
-          "kind": "task",
-          "id": "sv.tagline-done.2026-09-27"
-        }
-      ]
-    },
-    {
-      "id": "sv.caption-style.2026-09-27",
-      "thread": "sv",
-      "title": "3. Caption style + hashtags",
-      "status": "pending_review",
-      "created": null,
-      "updated": "2026-09-27",
-      "due": null,
-      "detail": "After bios.",
-      "where": "Draft delivered to BalRam 2026-09-27 (caption-style.md); awaiting his adjust/done.",
-      "blockedBy": [
-        {
-          "kind": "task",
-          "id": "sv.profile-bios.2026-09-27"
-        }
-      ]
-    },
-    {
-      "id": "sv.visual-identity.2026-09-27",
-      "thread": "sv",
-      "title": "4. Avatar, profile photos, banners",
-      "status": "blocked",
-      "created": null,
-      "updated": null,
-      "due": null,
-      "detail": "Visual identity comes last, once the words are locked.",
-      "where": "Short Video thread · date unrecorded",
-      "blockedBy": [
-        {
-          "kind": "task",
-          "id": "sv.caption-style.2026-09-27"
-        }
-      ]
-    },
-    {
-      "id": "tr.etf-format.2026-09-22",
-      "thread": "tr",
-      "title": "ETF alert format locked",
-      "status": "agreed",
-      "created": "2026-09-24",
-      "updated": "2026-09-24",
-      "due": null,
-      "detail": "Stacked QQQ/SPY/GLD cards, price + day-change pill, S/R (20-session) in header, 1M + 3M daily charts, latest econ markers on 1M only, unlabeled S/R lines on 3M, Upcoming CPI/PPI footnote. (Format iterated 2026-09-22 → 2026-09-24.)",
-      "where": "Trading thread · 2026-09-24"
-    },
-    {
-      "id": "tr.alert-schedule.2026-09-22",
-      "thread": "tr",
-      "title": "Alert schedule",
-      "status": "agreed",
-      "created": "2026-09-22",
-      "updated": "2026-09-22",
-      "due": null,
-      "detail": "NYSE trading days at 08:00, 10:00, 12:00, 14:00, 15:30, 18:00, 20:00 ET.",
-      "where": "Trading thread · 2026-09-22"
-    },
-    {
-      "id": "tr.trading-signals.2026-09-24",
-      "thread": "tr",
-      "title": "Trading signals",
-      "status": "agreed",
-      "created": "2026-09-24",
-      "updated": "2026-09-24",
-      "due": null,
-      "detail": "Morning report 07:30 ET always sends; intraday every 2h from 09:30 ET, silent unless a BUY/SELL signal at ≥80% confidence changed or rides a major event.",
-      "where": "Trading thread · 2026-09-24"
-    },
-    {
-      "id": "tr.signal-scorecard.2026-09-25",
-      "thread": "tr",
-      "title": "Signal scorecard",
-      "status": "agreed",
-      "created": "2026-09-25",
-      "updated": "2026-09-25",
-      "due": null,
-      "detail": "Runs daily ~08:42 ET; posts only when something changed, otherwise silent.",
-      "where": "Trading thread · 2026-09-25"
-    },
-    {
-      "id": "tr.etf-live-app.2026-09-26",
-      "thread": "tr",
-      "title": "ETF live web app",
-      "status": "agreed",
-      "created": "2026-09-26",
-      "updated": "2026-09-26",
-      "due": null,
-      "detail": "Single-file page with server-baked data bundle, refreshed every 5 min on weekdays.",
-      "where": "Trading thread · 2026-09-26"
-    },
-    {
-      "id": "tr.chat-only.2026-09-22",
-      "thread": "tr",
-      "title": "Chat-only delivery",
-      "status": "agreed",
-      "created": "2026-09-22",
-      "updated": "2026-09-22",
-      "due": null,
-      "detail": "Email alerts disabled 2026-09-22; everything lands in the Trading chat.",
-      "where": "Trading thread · 2026-09-22"
-    },
-    {
-      "id": "tr.scorecard-grading.2026-09-25",
-      "thread": "tr",
-      "title": "Scorecard grading rule",
-      "status": "pending_review",
-      "created": "2026-09-25",
-      "updated": "2026-09-25",
-      "due": null,
-      "detail": "Awaiting your call on how scorecard results are graded.",
-      "where": "Trading thread · 2026-09-25"
-    },
-    {
-      "id": "tr.steadier-rule.2026-09-25",
-      "thread": "tr",
-      "title": "Apply steadier rule live",
-      "status": "pending_review",
-      "created": "2026-09-25",
-      "updated": "2026-09-25",
-      "due": null,
-      "detail": "Research converged; needs your explicit approval before any live-engine change.",
-      "where": "Trading thread · 2026-09-25"
-    },
-    {
-      "id": "tr.oil-nasdaq.2026-09-25",
-      "thread": "tr",
-      "title": "Add oil + Nasdaq Composite to morning report?",
-      "status": "pending_review",
-      "created": "2026-09-25",
-      "updated": "2026-09-25",
-      "due": null,
-      "detail": "Your call.",
-      "where": "Trading thread · 2026-09-25"
-    },
-    {
-      "id": "tr.unified-engine.2026-09-25",
-      "thread": "tr",
-      "title": "Unified-engine design as build target",
-      "status": "pending_review",
-      "created": "2026-09-25",
-      "updated": "2026-09-25",
-      "due": null,
-      "detail": "Approve the three-layer engine design or redirect.",
-      "where": "Trading thread · 2026-09-25"
-    },
-    {
-      "id": "tr.supertrend-role.2026-09-25",
-      "thread": "tr",
-      "title": "Supertrend’s role",
-      "status": "pending_review",
-      "created": "2026-09-25",
-      "updated": "2026-09-25",
-      "due": null,
-      "detail": "Research-only vs second-opinion line vs bands-only.",
-      "where": "Trading thread · 2026-09-25"
-    },
-    {
-      "id": "tr.scorecard-live.2026-09-25",
-      "thread": "tr",
-      "title": "Scorecard live scoring",
-      "status": "in_progress",
-      "created": "2026-09-25",
-      "updated": null,
-      "due": "2026-09-28",
-      "detail": "Real signal scoring starts Monday 2026-09-28.",
-      "where": "Trading thread · 2026-09-25"
-    },
-    {
-      "id": "tr.live-engine-changes.2026-09-25",
-      "thread": "tr",
-      "title": "Live engine changes",
-      "status": "parked",
-      "created": "2026-09-25",
-      "updated": "2026-09-25",
-      "due": null,
-      "detail": "Nothing goes live without your explicit approval.",
-      "where": "Trading thread · 2026-09-25"
-    },
-    {
-      "id": "vh.daily-scan.2026-09-24",
-      "thread": "vh",
-      "title": "Daily deal scan",
-      "status": "agreed",
-      "created": "2026-09-22",
-      "updated": null,
-      "due": null,
-      "detail": "08:00 ET scan with locked qualification rules: 48-mo lease at 20,000 km/yr + 72/84-mo finance, sub-3% rate, $150–$200 biweekly tax-included, $5,000 down, ~$45k net, above-base trim, Kia-only loyalty.",
-      "where": "Vehicle thread · 2026-09-22"
-    },
-    {
-      "id": "vh.report-format.2026-09-24",
-      "thread": "vh",
-      "title": "Report format",
-      "status": "agreed",
-      "created": "2026-09-24",
-      "updated": "2026-09-24",
-      "due": null,
-      "detail": "Collapsible static-data panel + per-deal tables; qualifying payment bolded.",
-      "where": "Vehicle thread · 2026-09-24"
-    },
-    {
-      "id": "vh.calc-figures.2026-09-27",
-      "thread": "vh",
-      "title": "Calculator-verified figures",
-      "status": "agreed",
-      "created": "2026-09-27",
-      "updated": "2026-09-27",
-      "due": null,
-      "detail": "Niro EV Wind+ $189.49 lease / $290.08 finance; EV3 Wind $208.18 / $290.24; EV5 Wind $245.06 / $337.01; Equinox EV RS $319 lease (miss) / $343 finance.",
-      "where": "Vehicle thread · 2026-09-27"
-    },
-    {
-      "id": "vh.daily-suv-scan.2026-09-24",
-      "thread": "vh",
-      "title": "Daily SUV scan",
-      "status": "in_progress",
-      "created": "2026-09-22",
-      "updated": "2026-09-27",
-      "due": null,
-      "detail": "Runs every morning at 08:00 ET.",
-      "where": "Vehicle thread · 2026-09-22"
-    },
-    {
-      "id": "vh.payment-only.2026-09-26",
-      "thread": "vh",
-      "title": "Payment-only scan criteria",
-      "status": "parked",
-      "created": null,
-      "updated": null,
-      "due": null,
-      "detail": "Proposal to replace standing rules with payment-only logic was not approved; standing rules stay.",
-      "where": "Vehicle thread · date unrecorded"
-    },
-    {
-      "id": "sv.meta-app-setup.2026-09-27",
-      "thread": "sv",
-      "title": "5. Meta app setup (yours)",
-      "status": "in_progress",
-      "created": "2026-09-27",
-      "updated": "2026-09-27",
-      "due": null,
-      "detail": "YOUR STEPS — plain words, verified against Meta's official docs (2026-09-27):\n\nBEFORE YOU START — check these two things:\n• Your Instagram (@the_intelligently_artificial) is a Professional account (Business or Creator), not personal. Check in the Instagram app: Settings > Account type.\n• That Instagram is linked to your Facebook Page, and your personal Facebook account is an admin of that Page.\n\nREGISTER AS A DEVELOPER FIRST (you are on this page now):\n1. Finish the signup: verify your phone number (they text you a code), then contact info, then about you.\n   • If the page rejects your number: it must be added through Accounts Center first — go to Accounts Center > Personal details > Contact info and add it there.\n   • If it's already listed there: tap the number row to confirm/verify it if offered, then refresh the developer page and continue.\n   • Last resort: the developer page also lets you verify with a credit card instead (link at the bottom).\n2. Only after that does the \"My Apps\" menu appear.\n\nCREATE THE APP:\n3. Open My Apps, then Create app.\n4. Enter an app name (e.g. \"Intelligently Artificial Publisher\") and your contact email.\n5. When it asks for use cases, select BOTH:\n   • \"Manage messaging & content on Instagram\" (lets the app publish to Instagram)\n   • \"Manage everything on your Page\" (lets the app publish to your Facebook Page)\n6. YOUR STEPS — get the token, then store it:\n   • Generate the token: in the app dashboard's left menu, open Instagram > API setup with Instagram business login, click Generate token next to your Instagram account (@the_intelligently_artificial), log into Instagram if asked, and copy the token. Per Meta's docs this token is long-lived (valid 60 days).\n   • Store it: open this secure link and paste the token there (it goes straight to secure storage, never shown in chat):\n     https://agent.meta.ai/connect/api-key?service=meta&spec=eyJjb25uZWN0b3IiOnsiaG9zdHMiOlsiZ3JhcGguZmFjZWJvb2suY29tIiwiZ3JhcGguaW5zdGFncmFtLmNvbSIsInJ1cGxvYWQuZmFjZWJvb2suY29tIl0sIm1vZGUiOiJhcGlfa2V5IiwibmFtZSI6ImN1c3RvbS5tZXRhIiwidG9rZW5fcHJveHkiOlt7ImZpZWxkIjoiYWNjZXNzX3Rva2VuIiwicGxhY2VtZW50Ijp7InF1ZXJ5X3BhcmFtIjoiYWNjZXNzX3Rva2VuIn19XX0sInZlcnNpb24iOjJ9&session_id=ac30e921-b994-4f0f-9fcb-502690b2c302\n7. (Assistant, after the token.) I'll confirm instagram_business_content_publish is granted from the token itself; the publish test proves it.\n8. (Assistant, after the token.) I'll confirm pages_manage_posts the same way.\n\nWHAT HAPPENS NEXT:\n• When you reply \"done\", I take it from there.\n• Then I run the two publish tests: one video to your Facebook Page, one reel to Instagram — through your app.\n\nNOTE:\n• Your app's overview screen confirmed \"No requirements for the use cases on this app\" — no App Review or business verification needed. Resolved 2026-09-27.",
-      "where": "Short Video thread · 2026-09-27"
-    },
-    {
-      "id": "sv.fb-publish-test.2026-09-27",
-      "thread": "sv",
-      "title": "6. Facebook production publish test",
-      "status": "blocked",
-      "created": "2026-09-27",
-      "updated": "2026-09-28",
-      "due": null,
-      "detail": "EXECUTION ONLY — the code is built in sv.meta-publish-skill.2026-09-27.\n• Run the pre-built Facebook Page video publish CLI through the custom.meta connector skill.\n• Verify: video visible on the Facebook Page.\n• Cleanup: delete the test video after verification.\n• Blocked only on the token being stored in the connector — nothing else.",
-      "where": "Short Video thread · 2026-09-27",
-      "blockedBy": [
-        {
-          "kind": "task",
-          "id": "sv.meta-app-setup.2026-09-27"
-        },
-        {
-          "kind": "task",
-          "id": "sv.meta-publish-skill.2026-09-27"
-        }
-      ]
-    },
-    {
-      "id": "sv.ig-publish-test.2026-09-27",
-      "thread": "sv",
-      "title": "7. Instagram production publish test",
-      "status": "blocked",
-      "created": "2026-09-27",
-      "updated": "2026-09-28",
-      "due": null,
-      "detail": "EXECUTION ONLY — the code is built in sv.meta-publish-skill.2026-09-27.\n• Run the pre-built Instagram reel publish CLI through the custom.meta connector skill.\n• Verify: container status -> published; reel visible on @the_intelligently_artificial.\n• Cleanup: delete the test reel after verification.\n• Blocked only on the token being stored in the connector — nothing else.",
-      "where": "Short Video thread · 2026-09-27",
-      "blockedBy": [
-        {
-          "kind": "task",
-          "id": "sv.meta-app-setup.2026-09-27"
-        },
-        {
-          "kind": "task",
-          "id": "sv.meta-publish-skill.2026-09-27"
-        }
-      ]
-    },
-    {
-      "id": "sv.board-format-sweep.2026-09-27",
-      "thread": "sv",
-      "title": "Board-wide: reformat all task details for readability",
-      "status": "agreed",
-      "created": "2026-09-27",
-      "updated": "2026-09-27",
-      "due": null,
-      "detail": "Sweep complete 2026-09-27: scanned all 56 task details. Only one had multi-line content (the Meta app setup instructions) and it was already reformatted with bullets + one-step-per-line. All other details are single-line and need no change. The board-wide rendering fix (white-space:pre-wrap on .detail) is live so line breaks display correctly.",
-      "where": "Short Video thread · 2026-09-27"
-    },
-    {
-      "id": "sv.meta-publish-skill.2026-09-27",
-      "thread": "sv",
-      "title": "Build Meta publishing skill on the custom.meta connector (production path)",
-      "status": "agreed",
-      "created": "2026-09-27",
-      "updated": "2026-09-28",
-      "due": null,
-      "blockedBy": [],
-      "detail": "Assistant task — build now, test after token is stored:\n• Scaffold the connector skill (custom.meta) and write the publish CLIs.\n• CLIs: Instagram reel publish + status check, token/permission verify, Facebook Page video publish.\n• All API calls go through the connector's credential helper — the raw token never appears in code, logs, or outputs.\n• Testing (real API calls) waits for the token in the connector. Build and syntax-check everything now.\n• DONE 2026-09-28: skill + 4 CLIs built, compile. Live testing waits on token — tracked in sv.fb-publish-test / sv.ig-publish-test.",
-      "where": "Short Video thread · 2026-09-27"
-    },
-    {
-      "id": "sv.youtube-publish-build.2026-09-27",
-      "thread": "sv",
-      "title": "Build YouTube Shorts publisher code + test design",
-      "status": "agreed",
-      "created": "2026-09-28",
-      "updated": "2026-09-28",
-      "due": null,
-      "blockedBy": [],
-      "detail": "Build now; credentials only at validation.\n• Uploader CLI: videos.insert to www.googleapis.com/upload/youtube/v3/videos, youtube.upload scope.\n• OAuth flow code: accounts.google.com/o/oauth2/v2/auth -> oauth2.googleapis.com/token.\n• OPEN ISSUE: the vault's request_api_access refused Google (auth/token endpoints on different parent domains). Token-storage mechanism needs a separate design — abstract the storage point in code, do not invent one.\n• Test design: upload unlisted test Short, verify via API, delete after.\n• DONE 2026-09-28: uploader + OAuth + abstracted token store built, compiles.",
-      "where": "Short Video thread · 2026-09-27"
-    },
-    {
-      "id": "sv.tiktok-publish-build.2026-09-27",
-      "thread": "sv",
-      "title": "Map TikTok publishing mechanism, then build code + test design",
-      "status": "agreed",
-      "created": "2026-09-28",
-      "updated": "2026-09-28",
-      "due": null,
-      "blockedBy": [],
-      "detail": "Mechanism map FIRST (standing rule), then build. Credentials only at validation.\n• Known: TikTok Content Posting API; app approval not guaranteed (semi-manual fallback flagged in tech spec).\n• Map: exact endpoints, auth, app review requirements, then build the publisher CLI + test design.\n• DONE 2026-09-28: mechanism mapped from official docs, publisher built, offline checks pass.",
-      "where": "Short Video thread · 2026-09-27"
-    },
-    {
-      "id": "sv.x-publish-build.2026-09-27",
-      "thread": "sv",
-      "title": "Map X publishing mechanism, then build code + test design",
-      "status": "agreed",
-      "created": "2026-09-28",
-      "updated": "2026-09-28",
-      "due": null,
-      "blockedBy": [],
-      "detail": "Mechanism map FIRST (standing rule), then build. Credentials only at validation.\n• Known: X API app tokens needed; developer account required.\n• Map: exact endpoints (video upload + tweet), auth, then build the publisher CLI + test design.\n• DONE 2026-09-28: publisher + mechanism map built. Marked DORMANT same day (defensive handle only) — see DORMANT.md.",
-      "where": "Short Video thread · 2026-09-27"
-    },
-    {
-      "id": "sv.publish-build-batch.2026-09-27",
-      "thread": "sv",
-      "title": "Overnight build: all platform publishing code + test designs, 8 AM summary",
-      "status": "agreed",
-      "created": "2026-09-28",
-      "updated": "2026-09-28",
-      "due": null,
-      "blockedBy": [],
-      "detail": "Build ALL publishing code + test designs locally overnight; credentials only at validation.\n• Meta (IG+FB): skill built by Bandhu — done, compiles.\n• YouTube: subagent building uploader + OAuth (token store abstracted).\n• TikTok: subagent mapping mechanism, then building.\n• X: subagent mapping mechanism, then building.\n• 8 AM summary via cron publish-build-summary-8am in the build side chat; BalRam reviews, then SHIP pushes to the short-video repo.\n• No git until SHIP. Status update to the Short Video tracker thread once done.\n• DONE 2026-09-28: all 4 platforms built, 8 AM summary delivered. Code push now tracked in sv.publish-code-ship.2026-09-28 (waits on his SHIP).",
-      "where": "Short Video thread · 2026-09-27"
-    },
-    {
-      "id": "sv.publish-docs.2026-09-28",
-      "thread": "sv",
-      "title": "Publish docs: technical + non-technical architecture docs (md + pdf)",
-      "status": "agreed",
-      "created": "2026-09-28",
-      "updated": "2026-09-28",
-      "due": null,
-      "where": "Short AI videos project side chat · 2026-09-28",
-      "blockedBy": [],
-      "detail": "Write architecture docs for the publishing pipeline, destined for the short-video repo.\n• Technical (readme.md + /docs md+pdf): common doc covering all platforms + one per platform (Meta, YouTube, TikTok, X) — with flow/use-case/component diagrams.\n• Content: third-party libs (currently stdlib-only by design), common scripts + how they work, lib update/vulnerability policy, components + interconnectivity, DB (none — stateless CLIs).\n• Non-technical (/docs pdf only): common overview + one per platform — plain-language architecture, use case, scope, features, limitations, challenges + mitigations.\n• Open: push docs to repo now vs stage for SHIP batch — awaiting his call.\n• DONE 2026-09-28: all 15 files pushed to technology-consults/short-video (commit ad310c31) — README.md (common tech architecture, replaced placeholder), docs/: 4 platform tech .md + 10 PDFs (5 technical + 5 non-technical) + 15 diagram PNGs."
-    },
-    {
-      "id": "sv.x-dormant-docs-update.2026-09-28",
-      "thread": "sv",
-      "title": "X publish dormant + docs: folder structure + X status, push to git",
-      "status": "agreed",
-      "created": "2026-09-28",
-      "updated": "2026-09-28",
-      "due": null,
-      "where": "Short AI videos project side chat · 2026-09-28",
-      "blockedBy": [],
-      "detail": "X was always defensive-handle-only (no publishing) — the X publisher was built under \"all platforms\" without flagging the conflict.\n• Workspace: add DORMANT.md + runtime guard in x-publish skill so it cannot run unless explicitly enabled.\n• Docs: add \"codebase folder structure\" section to readme + all 4 platform tech docs; mark X DORMANT in tech docs + overviews.\n• Regenerate affected PDFs (5 technical + overview + x-overview) and push to short-video repo via API.\n• Record: X stays dormant and is skipped by the future scheduler until he reactivates it.\n• DONE 2026-09-28: guard + DORMANT.md in workspace skill (verified: exits 3, no network); folder-structure sections added to readme + 4 platform tech docs; X marked dormant in tech docs + overviews; 7 PDFs regenerated; pushed to technology-consults/short-video (commit 96aa5ee0)."
-    },
-    {
-      "id": "sv.docs-review.2026-09-28",
-      "thread": "sv",
-      "title": "Review publishing pipeline docs in the repo (yours)",
-      "status": "in_progress",
-      "created": "2026-09-28",
-      "updated": "2026-09-28",
-      "due": null,
-      "where": "Short AI videos project side chat · 2026-09-28",
-      "blockedBy": [],
-      "detail": "His step: review the technical + non-technical docs pushed to technology-consults/short-video (readme + docs/). On his done, the publishing code becomes eligible for SHIP."
-    },
-    {
-      "id": "sv.publish-code-ship.2026-09-28",
-      "thread": "sv",
-      "title": "SHIP: push publishing code to the short-video repo",
-      "status": "blocked",
-      "created": "2026-09-28",
-      "updated": "2026-09-28",
-      "due": null,
-      "where": "Short AI videos project side chat · 2026-09-28",
-      "blockedBy": [
-        {
-          "kind": "task",
-          "id": "sv.docs-review.2026-09-28"
-        }
-      ],
-      "detail": "Blocked on his docs review + standalone SHIP. Then: clarify -> list asks -> change plan -> written confirmation -> push code (X ships dormant) to technology-consults/short-video via API."
-    },
-    {
-      "id": "sv.caption-style.2026-09-28",
-      "thread": "sv",
-      "title": "Caption / hashtag style approval (yours)",
-      "status": "in_progress",
-      "created": "2026-09-28",
-      "updated": "2026-09-28",
-      "due": null,
-      "where": "Short AI videos project side chat · 2026-09-28",
-      "blockedBy": [],
-      "detail": "His step: written approval of caption/hashtag style. Blocks sv.visual-identity.2026-09-27 (avatar, profile photos, banners)."
-    },
-    {
-      "id": "sv.intro-video-review.2026-09-28",
-      "thread": "sv",
-      "title": "Intro video review: audio + visual + written approval (yours)",
-      "status": "in_progress",
-      "created": "2026-09-28",
-      "updated": "2026-09-28",
-      "due": null,
-      "where": "Short AI videos project side chat · 2026-09-28",
-      "blockedBy": [],
-      "detail": "His step on ~/workspace/short-video/intro/intro-final.mp4 (39.4s, 1080x1920): audible review, pronunciation/pauses, every-scene visual, safe-area/clipping. Written approval required before any publication."
-    },
-    {
-      "id": "vh.payment-only-scan.2026-09-28",
-      "thread": "vh",
-      "title": "Second daily update — payment-only scan",
-      "status": "agreed",
-      "created": "2026-09-28",
-      "updated": "2026-09-28",
-      "due": null,
-      "detail": "BalRam confirmed 2026-09-28: run a SECOND daily SUV update using payment-only criteria (no rate requirement; lease ≤ $265 / finance 72 mo ≤ $365 bi-weekly tax-in, $5k down, Ontario, above-base, ~$45k net). The original rate-based scan is unchanged. Cron phev-ev-suv-payment-watch created, daily ~08:40 ET, delivering to the Vehicle thread. Distinct from vh.payment-only.2026-09-26 (replace-proposal, not approved) which stays parked.",
-      "where": "Vehicle thread · 2026-09-28"
-    },
-    {
-      "id": "tr.signal-engine-git-docs.2026-09-28",
-      "thread": "tr",
-      "title": "Signal engine code + docs in git",
-      "status": "in_progress",
-      "created": "2026-09-28",
-      "updated": "2026-09-28",
-      "due": null,
-      "detail": "Commit the trading-signal engine (build_signals.py) to the trading GitHub repo with docs for both a technical audience and a non-technical (plain words) audience. Asked 2026-09-28: engine code is build_signals.py only (not the wider etf-alerts scripts).",
-      "where": "Trading thread · 2026-09-28"
-    },
-    {
-      "id": "sv.board-watch-sweep.2026-09-28",
-      "thread": "sv",
-      "title": "Widen hourly board watch: idle + stalled task pickup sweep",
-      "status": "agreed",
-      "created": "2026-09-28",
-      "updated": "2026-09-28",
-      "due": null,
-      "where": "Short AI videos project side chat · 2026-09-28",
-      "blockedBy": [],
-      "detail": "Assistant task — widen the hourly board-unblock-watch crons (sv/tr/vh) with a pickup sweep.\n• unblock_watch.py: add --sweep mode -> todo with clear blockers never handled (\"idle\"); in_progress updated >72h ago, not recurring-like (\"stalled\", report-only).\n• Update all three cron bodies via cron.update: run unblock check + sweep each hour; idle mine->do, idle his->poke, stalled->report only; mark handled.\n• Test both script modes before finishing. No status edits; handled-state discipline unchanged."
-    },
-    {
-      "id": "tr.review-signal-engine-git-docs.2026-09-28",
-      "thread": "tr",
-      "title": "Review: signal engine code + docs in git",
-      "status": "in_progress",
-      "created": "2026-09-28",
-      "updated": "2026-09-28",
-      "due": null,
-      "detail": "BalRam's review step: src/build_signals.py, docs/signal-engine-technical.md, docs/signal-engine-plain-words.md in technology-consults/trading (commit fdcbf847). He marks agreed when satisfied.",
-      "where": "Trading thread · 2026-09-28"
-    },
-    {
-      "id": "tr.etf-alerts-builder-git-docs.2026-09-28",
-      "thread": "tr",
-      "title": "ETF alert builder code + docs in git",
-      "status": "agreed",
-      "created": "2026-09-28",
-      "updated": "2026-09-28",
-      "due": null,
-      "detail": "Commit the ETF update alert builder (build_widget.py + its econ_events.json data) to the trading GitHub repo with docs for technical and non-technical audiences. Asked 2026-09-28: do it now, no SHIP/RUN wait. Committed 2026-09-28 (04a3e1ac): src/build_widget.py + src/econ_events.json + docs/etf-alert-builder-technical.md + docs/etf-alert-builder-plain-words.md, verified live.",
-      "where": "Trading thread · 2026-09-28"
-    },
-    {
-      "id": "tr.review-etf-alert-builder-git-docs.2026-09-28",
-      "thread": "tr",
-      "title": "Review: ETF alert builder code + docs in git",
-      "status": "in_progress",
-      "created": "2026-09-28",
-      "updated": "2026-09-28",
-      "due": null,
-      "detail": "BalRam's review step: src/build_widget.py, src/econ_events.json, docs/etf-alert-builder-technical.md, docs/etf-alert-builder-plain-words.md in technology-consults/trading (commit 04a3e1ac). He marks agreed when satisfied.",
-      "where": "Trading thread · 2026-09-28"
-    },
-    {
-      "id": "tr.trading-portal-repo.2026-09-28",
-      "thread": "tr",
-      "title": "Move live app to new trading-portal repo + Pages deploy",
-      "status": "agreed",
-      "created": "2026-09-28",
-      "updated": "2026-09-28",
-      "due": null,
-      "detail": "Move etf-live.html, etf-live.css, etf-live-bundle.json from technology-consults/trading to a NEW repo technology-consults/trading-portal; enable GitHub Pages on the new repo; repoint the 5-min bundle cron to push to the new repo; update docs + memory with the new URL. Asked 2026-09-28: do it now, explicit instruction (no SHIP/RUN needed). DONE 2026-09-28: new repo technology-consults/trading-portal (4 files: etf-live.html, etf-live.css, etf-live-bundle.json, README.md), Pages enabled, deployed page sha256-verified vs committed source; old files removed from trading repo; build_live_bundle.py repointed; docs + memory updated.",
-      "where": "Trading thread · 2026-09-28"
-    },
-    {
-      "id": "tr.review-trading-portal-repo.2026-09-28",
-      "thread": "tr",
-      "title": "Review: live app moved to trading-portal repo + Pages",
-      "status": "in_progress",
-      "created": "2026-09-28",
-      "updated": "2026-09-28",
-      "due": null,
-      "detail": "BalRam's review step: live ETF portal now in technology-consults/trading-portal, Pages at https://technology-consults.github.io/trading-portal/etf-live.html. Old URL dead. He marks agreed when satisfied.",
-      "where": "Trading thread · 2026-09-28"
-    },
-    {
-      "id": "tr.version-all-deployable-repos.2026-09-28",
-      "thread": "tr",
-      "title": "Version all deployable repos + deploy versioned builds",
-      "status": "agreed",
-      "created": "2026-09-28",
-      "updated": "2026-09-28",
-      "due": null,
-      "detail": "Per 2026-09-28 release-tag rule: tag every deployable repo's deployed commit (semver). Unversioned repos get tagged + versioned build deployed; versioned repos whose deployed build isn't tagged get the latest version built + deployed. Explicit instruction from BalRam — no SHIP/RUN needed. DONE 2026-09-28: trading-portal v1.0.0 (Pages rebuild from tagged commit, live 200); bandhu-portal v1.0.0 (worker redeployed from tagged commit via Cloudflare API, live verified 200/410); Pages disabled on trading (portal moved out). Skipped (not deployed): cross-thread-task-status-tracker, short-video, vehicle.",
-      "where": "Trading thread · 2026-09-28"
-    },
-    {
-      "id": "tr.review-version-all-deployable-repos.2026-09-28",
-      "thread": "tr",
-      "title": "Review: all deployable repos versioned (v1.0.0) + builds deployed",
-      "status": "in_progress",
-      "created": "2026-09-28",
-      "updated": "2026-09-28",
-      "due": null,
-      "detail": "BalRam's review step: trading-portal and bandhu-portal tagged v1.0.0 with versioned builds deployed and verified live; Pages disabled on trading. He marks agreed when satisfied.",
-      "where": "Trading thread · 2026-09-28"
-    },
-    {
-      "id": "sv.workspace-git-clone.2026-09-28",
-      "thread": "sv",
-      "title": "One-time clone of all repos; archive workspace git-source folders",
-      "status": "agreed",
-      "created": "2026-09-28",
-      "updated": "2026-09-28",
-      "due": null,
-      "where": "Short AI videos project side chat · 2026-09-28",
-      "blockedBy": [],
-      "detail": "Assistant task — one-time git clone of all project repos + archive existing workspace folders that are git code sources.\n• Inventory repos and map each workspace source folder to its repo; confirm mapping with BalRam BEFORE moving anything.\n• Clone to ~/workspace/repos/<name>; move workspace source folders to ~/workspace/archive/<name>-<date>/ (recoverable).\n• Verify each clone: git log matches remote HEAD.\n• Standing rule going forward: every code-change task gets a pre-work pull/sync task; conflicts resolved via CLI, unresolvable -> task for BalRam.\nDONE 2026-09-28: 6 repos cloned to ~/workspace/repos/<name>, HEAD verified vs remote. Old workspace source folders archived to ~/workspace/archive/*-2026-09-28/. 10 cron bodies repointed via cron.update. Unpushed finds carried into clones: portal push_ev_deals.py KV-key fix (M), trading 4 uncommitted scripts (untracked), board live tasks.json (M)."
-    },
-    {
-      "id": "sv.review-workspace-git-clone.2026-09-28",
-      "thread": "sv",
-      "title": "Review: repos cloned, workspace sources archived, crons repointed",
-      "status": "in_progress",
-      "created": "2026-09-28",
-      "updated": "2026-09-28",
-      "due": null,
-      "where": "Short AI videos project side chat · 2026-09-28",
-      "blockedBy": [],
-      "detail": "BalRam's review step: all 6 repos cloned to ~/workspace/repos/<name> with HEAD verified; old workspace source folders moved to ~/workspace/archive/*-2026-09-28/; 10 cron bodies repointed (cron.update). He marks agreed when satisfied. Note: portal push_ev_deals.py carried an unpushed KV-key fix into the clone (shows as modified) — needs a future SHIP to commit."
-    },
-    {
-      "id": "sv.pull-sync-push-batch.2026-09-28",
-      "thread": "sv",
-      "title": "Pull/sync 3 repos before pushing local changes",
-      "status": "agreed",
-      "created": "2026-09-28",
-      "updated": "2026-09-28",
-      "due": null,
-      "where": "Short AI videos project side chat · 2026-09-28",
-      "blockedBy": [],
-      "detail": "Pull bandhu-portal, trading, cross-thread-task-status-tracker; then commit+push local changes (BalRam: \"push all local repo changes to git now\").\nDONE 2026-09-28: pulled 3 repos; pushed bandhu-portal (KV-key fix), trading (cron tooling + widget path), cross-thread (board data + build tooling). One real merge resolved: remote had moved (b3c00e0), merged locally, no conflicts."
-    },
-    {
-      "id": "sv.review-push-batch.2026-09-28",
-      "thread": "sv",
-      "title": "Review: pushed local repo changes (3 commits)",
-      "status": "in_progress",
-      "created": "2026-09-28",
-      "updated": "2026-09-28",
-      "due": null,
-      "where": "Short AI videos project side chat · 2026-09-28",
-      "blockedBy": [],
-      "detail": "BalRam's review step for the 2026-09-28 push batch (he said: push all local repo changes to git now). He marks agreed when satisfied — versioning (tags) and any redeploys trigger only AFTER this review completes.\nCommits:\n• bandhu-portal — Fix EV deals KV key to p:ev-deals/index.html:\n  https://github.com/technology-consults/bandhu-portal/commit/e5bddc3882b408e759a43ee7bdd1348f4267c63f\n• trading — Commit ETF cron tooling (email/live-bundle/scorecard/engine-review); widget econ events repointed to repo:\n  https://github.com/technology-consults/trading/commit/2bc3a476df5fff481c41e0257aacba57ce69d94c\n• cross-thread-task-status-tracker — Board data update; add build tooling (push_board.py + unblock_watch.py):\n  https://github.com/technology-consults/cross-thread-task-status-tracker/commit/e9737e64af235ce237f185b9ebf4af9d6a040a1b\nNotes: one real merge resolved on cross-thread (remote had moved to b3c00e0; merged locally, no conflicts). All three pushes went through the GitHub API (API-only rule); plain git push has no credential on this machine."
-    },
-    {
-      "id": "sv.task-updates-to-trackers.2026-09-28",
-      "thread": "sv",
-      "title": "Push board task updates to project task-tracker threads",
-      "status": "agreed",
-      "created": "2026-09-28",
-      "updated": "2026-09-28",
-      "due": null,
-      "where": "Short AI videos project side chat · 2026-09-28",
-      "blockedBy": [],
-      "detail": "BalRam 2026-09-28: board task updates (new tasks, status changes) must be delivered to the project's task TRACKER thread on every board publish — not the project discussion threads. Extend push_board.py's post-push check to emit per-thread TASK UPDATES (like UNBLOCK REPORT); agent delivers each to that project's tracker thread. Pre-work pull: repo at e9737e6, verified clean vs origin before editing.\nDONE 2026-09-28: push_board.py now emits per-thread TASK UPDATES blocks (new tasks + status changes) with the project tracker thread id; live-tested and delivered to the sv tracker."
-    },
-    {
-      "id": "sv.review-task-updates-to-trackers.2026-09-28",
-      "thread": "sv",
-      "title": "Review: board task updates now go to project task-tracker threads",
-      "status": "in_progress",
-      "created": "2026-09-28",
-      "updated": "2026-09-28",
-      "due": null,
-      "where": "Short AI videos project side chat · 2026-09-28",
-      "blockedBy": [],
-      "detail": "BalRam's review step (his 2026-09-28 instruction: task updates to project task TRACKER threads, not discussion threads). He marks agreed when satisfied.\nCommit:\n• cross-thread-task-status-tracker — Emit per-thread TASK UPDATES on board publish:\n  https://github.com/technology-consults/cross-thread-task-status-tracker/commit/0c1909e3b331839fcde4c2d9ed6dd6e9ed6ae5f1\nBehavior: on every board publish, each thread with new/changed tasks gets a TASK UPDATES block; the agent delivers it to that project's task tracker thread (sv/d82796e3, tr/1ff0cb94, vh/547fb3d1). Live-tested 2026-09-28 with delivery to the sv tracker."
+  "vh": {
+   "name": "Vehicle",
+   "tracker": "Vehicle — task tracker"
+  }
+ },
+ "tasks": [
+  {
+   "id": "sv.brand-name.2026-09-26",
+   "thread": "sv",
+   "title": "Brand name: The Intelligently Artificial",
+   "status": "agreed",
+   "created": "2026-09-26",
+   "updated": "2026-09-26",
+   "due": null,
+   "detail": "Locked after full clearance: USPTO/CIPO trademark screens clean, domains available, no same-niche competitor or media-property collision.",
+   "where": "Short Video thread · 2026-09-26"
+  },
+  {
+   "id": "sv.handles-secured.2026-09-27",
+   "thread": "sv",
+   "title": "All 5 platform handles secured",
+   "status": "agreed",
+   "created": "2026-09-27",
+   "updated": "2026-09-27",
+   "due": null,
+   "detail": "YouTube @the_intelligently_artificial · Instagram @the_intelligently_artificial · Facebook the.intelligently.artificial · TikTok @the_intelligently (24-char cap) · X @intlgt_artfcial (15-char cap, defensive hold only).",
+   "where": "Short Video thread · 2026-09-27"
+  },
+  {
+   "id": "sv.brand-email.2026-09-26",
+   "thread": "sv",
+   "title": "Brand email",
+   "status": "agreed",
+   "created": "2026-09-26",
+   "updated": "2026-09-26",
+   "due": null,
+   "detail": "intelligently.artificial.collab@gmail.com — for platform logins, communication, and leads.",
+   "where": "Short Video thread · 2026-09-26"
+  },
+  {
+   "id": "sv.personal-accounts-2fa.2026-09-26",
+   "thread": "sv",
+   "title": "All personal accounts + 2FA",
+   "status": "agreed",
+   "created": null,
+   "updated": "2026-09-27",
+   "due": null,
+   "detail": "No paid business tiers to start. Two-factor authentication is required during account setup — but universal completion across all personal accounts is unconfirmed.",
+   "where": "Short Video thread · date unrecorded"
+  },
+  {
+   "id": "sv.narrator-voice.2026-09-26",
+   "thread": "sv",
+   "title": "Narrator voice-crisp",
+   "status": "agreed",
+   "created": "2026-09-26",
+   "updated": "2026-09-26",
+   "due": null,
+   "detail": "Confident, dynamic, chipper female American voice. Vendor remains unverified.",
+   "where": "Short Video thread · 2026-09-26"
+  },
+  {
+   "id": "sv.channel-niche.2026-09-24",
+   "thread": "sv",
+   "title": "Channel niche",
+   "status": "agreed",
+   "created": "2026-09-24",
+   "updated": "2026-09-24",
+   "due": null,
+   "detail": "Primary: AI Technology Education. Backups: history/mythology explainers, carefully guarded real-world crime news.",
+   "where": "Short Video thread · 2026-09-24"
+  },
+  {
+   "id": "sv.content-guardrails.2026-09-24",
+   "thread": "sv",
+   "title": "Universal content guardrails",
+   "status": "agreed",
+   "created": "2026-09-24",
+   "updated": "2026-09-24",
+   "due": null,
+   "detail": "No sensitive/objectionable content, nothing involving children, no current politics, nothing controversial — every niche, enforced at ideation.",
+   "where": "Short Video thread · 2026-09-24"
+  },
+  {
+   "id": "sv.news-scope.2026-09-24",
+   "thread": "sv",
+   "title": "News scope",
+   "status": "agreed",
+   "created": "2026-09-24",
+   "updated": "2026-09-24",
+   "due": null,
+   "detail": "Product/feature announcements, launches, new tools, pricing changes only. No scandals or reputational stories.",
+   "where": "Short Video thread · 2026-09-24"
+  },
+  {
+   "id": "sv.no-human-ugc.2026-09-24",
+   "thread": "sv",
+   "title": "Real-human UGC ruled out",
+   "status": "agreed",
+   "created": "2026-09-24",
+   "updated": "2026-09-24",
+   "due": null,
+   "detail": "Only disclosed AI-avatar/generated UGC may be considered, or UGC stays deprioritized.",
+   "where": "Short Video thread · 2026-09-24"
+  },
+  {
+   "id": "sv.publishing-gate.2026-09-24",
+   "thread": "sv",
+   "title": "Publishing gate",
+   "status": "agreed",
+   "created": "2026-09-24",
+   "updated": "2026-09-24",
+   "due": null,
+   "detail": "Per-video approval during the pilot; full automation only after “go auto” / “lock the vision”.",
+   "where": "Short Video thread · 2026-09-24"
+  },
+  {
+   "id": "sv.original-media.2026-09-24",
+   "thread": "sv",
+   "title": "100% original media",
+   "status": "agreed",
+   "created": "2026-09-24",
+   "updated": "2026-09-24",
+   "due": null,
+   "detail": "AI illustrations + own automated screen captures. Never internet video; never present an AI mock interface as a genuine screenshot.",
+   "where": "Short Video thread · 2026-09-24"
+  },
+  {
+   "id": "sv.min-cost.2026-09-24",
+   "thread": "sv",
+   "title": "Min cost, max impact",
+   "status": "agreed",
+   "created": "2026-09-23",
+   "updated": "2026-09-23",
+   "due": null,
+   "detail": "Every cost shown upfront plus recurring. The pipeline objective.",
+   "where": "Short Video thread · 2026-09-23"
+  },
+  {
+   "id": "sv.five-pipelines.2026-09-24",
+   "thread": "sv",
+   "title": "Five independent pipelines",
+   "status": "agreed",
+   "created": "2026-09-24",
+   "updated": "2026-09-24",
+   "due": null,
+   "detail": "Create-and-publish, promotion, housekeeping, performance-monitoring, earnings-improvement — each with anomaly detection, failure history, bounded retries/fallbacks/quarantine, self-healing, severity-tiered alerts.",
+   "where": "Short Video thread · 2026-09-24"
+  },
+  {
+   "id": "sv.reporting-split.2026-09-25",
+   "thread": "sv",
+   "title": "Reporting split",
+   "status": "agreed",
+   "created": "2026-09-25",
+   "updated": "2026-09-25",
+   "due": null,
+   "detail": "Each pipeline owns its operational reports; performance-monitoring owns shared formats and R1/R2/R3 rollups (R1/R2/R3 still proposals).",
+   "where": "Short Video thread · 2026-09-25"
+  },
+  {
+   "id": "sv.stale-policy.2026-09-24",
+   "thread": "sv",
+   "title": "Stale-content policy",
+   "status": "agreed",
+   "created": "2026-09-24",
+   "updated": "2026-09-24",
+   "due": null,
+   "detail": "Never delete. Unlist only when fully outdated AND misleading; otherwise redirect strategies.",
+   "where": "Short Video thread · 2026-09-24"
+  },
+  {
+   "id": "sv.docs-packaging.2026-09-27",
+   "thread": "sv",
+   "title": "Docs packaging formats",
+   "status": "agreed",
+   "created": "2026-09-24",
+   "updated": "2026-09-24",
+   "due": null,
+   "detail": "Approved; the full 40-document set still awaits review.",
+   "where": "Short Video thread · 2026-09-24"
+  },
+  {
+   "id": "sv.tagline-options.2026-09-27",
+   "thread": "sv",
+   "title": "Tagline — 5 options",
+   "status": "agreed",
+   "created": "2026-09-27",
+   "updated": "2026-09-27",
+   "due": null,
+   "detail": "LOCKED 2026-09-27 — BalRam picked #5: \"Understand AI, one short at a time.\"",
+   "where": "Short Video thread · 2026-09-27",
+   "options": [
+    "Artificial intelligence, intelligently explained.",
+    "AI, explained intelligently.",
+    "Making AI make sense.",
+    "Smart videos about smart machines.",
+    "Understand AI, one short at a time."
+   ]
+  },
+  {
+   "id": "sv.docs-full-set.2026-09-27",
+   "thread": "sv",
+   "title": "Full documentation set (40 docs)",
+   "status": "pending_review",
+   "created": "2026-09-25",
+   "updated": "2026-09-25",
+   "due": null,
+   "detail": "Shared reading link + ZIP delivered; packaging approved, full set not yet reviewed.",
+   "where": "Short Video thread · 2026-09-25"
+  },
+  {
+   "id": "sv.business-plan-review.2026-09-27",
+   "thread": "sv",
+   "title": "Business plan review",
+   "status": "pending_review",
+   "created": "2026-09-27",
+   "updated": "2026-09-27",
+   "due": null,
+   "detail": "Start at section 1 + section 13 with KEEP / PARK / REMOVE, then Phase 1/2/3 classification.",
+   "where": "Short Video thread · 2026-09-27"
+  },
+  {
+   "id": "sv.risk-register.2026-09-26",
+   "thread": "sv",
+   "title": "Risk register",
+   "status": "pending_review",
+   "created": "2026-09-26",
+   "updated": "2026-09-27",
+   "due": null,
+   "detail": "Delivered; not yet folded into the master plans. Queued addition: Meta cloud unavailability / denied-access risk.",
+   "where": "Short Video thread · 2026-09-26"
+  },
+  {
+   "id": "sv.github-setup.2026-09-25",
+   "thread": "sv",
+   "title": "GitHub account + repo + Pages docs site",
+   "status": "blocked",
+   "created": "2026-09-25",
+   "updated": "2026-09-27",
+   "due": null,
+   "detail": "Account technology-consults verified working via API on 2026-09-27 (classic PAT authenticates; repo creation confirmed). The new-account signup flow is abandoned — no username/email needed. Remaining: create the docs repo, push the 40-doc site, enable Pages — queued behind the docs-set review.",
+   "where": "Short Video thread · 2026-09-25",
+   "blockedBy": [
+    {
+     "kind": "task",
+     "id": "sv.docs-full-set.2026-09-27"
+    },
+    {
+     "kind": "external",
+     "note": "After docs review: create repo + push site + enable Pages (API-ready since 2026-09-27)"
     }
-  ]
+   ]
+  },
+  {
+   "id": "sv.tiktok-display-name.2026-09-27",
+   "thread": "sv",
+   "title": "TikTok display name → The Intelligently Artificial",
+   "status": "blocked",
+   "created": "2026-09-27",
+   "updated": "2026-09-27",
+   "due": "2026-10-04",
+   "detail": "7-day lock lifts around Oct 4; you handle it there.",
+   "where": "Short Video thread · 2026-09-27",
+   "blockedBy": [
+    {
+     "kind": "external",
+     "note": "TikTok 7-day display-name lock — lifts ~2026-10-04"
+    }
+   ]
+  },
+  {
+   "id": "sv.full-automation.2026-09-24",
+   "thread": "sv",
+   "title": "Full publishing automation",
+   "status": "parked",
+   "created": "2026-09-24",
+   "updated": "2026-09-24",
+   "due": null,
+   "detail": "Begins only after “lock the vision” or equivalent explicit go-ahead.",
+   "where": "Short Video thread · 2026-09-24"
+  },
+  {
+   "id": "sv.builder-digest.2026-09-26",
+   "thread": "sv",
+   "title": "Builder-email digest",
+   "status": "parked",
+   "created": "2026-09-26",
+   "updated": "2026-09-26",
+   "due": null,
+   "detail": "Disabled 2026-09-26; stays off until you ask to restore it.",
+   "where": "Short Video thread · 2026-09-26"
+  },
+  {
+   "id": "sv.rej-human-ugc.2026-09-26",
+   "thread": "sv",
+   "title": "Real-human UGC",
+   "status": "rejected",
+   "created": "2026-09-24",
+   "updated": "2026-09-24",
+   "due": null,
+   "detail": "Ruled out “at least for now”.",
+   "where": "Short Video thread · 2026-09-24"
+  },
+  {
+   "id": "sv.rej-negative-news.2026-09-24",
+   "thread": "sv",
+   "title": "Negative news topics",
+   "status": "rejected",
+   "created": "2026-09-24",
+   "updated": "2026-09-24",
+   "due": null,
+   "detail": "Scandals and controversies excluded from news-reactive topics.",
+   "where": "Short Video thread · 2026-09-24"
+  },
+  {
+   "id": "sv.rej-guardrails-name.2026-09-26",
+   "thread": "sv",
+   "title": "Brand name Guardrails",
+   "status": "rejected",
+   "created": "2026-09-26",
+   "updated": "2026-09-26",
+   "due": null,
+   "detail": "Conflict: Guardrails AI, funded and acquired Sept 2026.",
+   "where": "Short Video thread · 2026-09-26"
+  },
+  {
+   "id": "sv.rej-neural-notes.2026-09-26",
+   "thread": "sv",
+   "title": "Brand name Neural Notes",
+   "status": "rejected",
+   "created": "2026-09-26",
+   "updated": "2026-09-26",
+   "due": null,
+   "detail": "Crowded with same-name YouTube channels.",
+   "where": "Short Video thread · 2026-09-26"
+  },
+  {
+   "id": "sv.rej-agent-loop.2026-09-26",
+   "thread": "sv",
+   "title": "Brand name Agent Loop",
+   "status": "rejected",
+   "created": "2026-09-26",
+   "updated": "2026-09-26",
+   "due": null,
+   "detail": "@theagentloop taken by an active same-niche channel.",
+   "where": "Short Video thread · 2026-09-26"
+  },
+  {
+   "id": "sv.rej-the-eval.2026-09-26",
+   "thread": "sv",
+   "title": "Brand name The Eval",
+   "status": "rejected",
+   "created": "2026-09-26",
+   "updated": "2026-09-26",
+   "due": null,
+   "detail": "Insider jargon; wrong for a newcomer audience.",
+   "where": "Short Video thread · 2026-09-26"
+  },
+  {
+   "id": "sv.tagline-done.2026-09-27",
+   "thread": "sv",
+   "title": "1. Tagline → done",
+   "status": "agreed",
+   "created": null,
+   "updated": "2026-09-27",
+   "due": null,
+   "detail": "Tagline locked 2026-09-27: \"Understand AI, one short at a time.\"",
+   "where": "Short Video thread · date unrecorded"
+  },
+  {
+   "id": "sv.profile-bios.2026-09-27",
+   "thread": "sv",
+   "title": "2. Profile bios / about text",
+   "status": "agreed",
+   "created": null,
+   "updated": "2026-09-27",
+   "due": null,
+   "detail": "Drafted once the tagline is locked.",
+   "where": "Approved by BalRam 2026-09-27 (\"No need to still review\") — drafts locked as final in profile-bios.md.",
+   "blockedBy": [
+    {
+     "kind": "task",
+     "id": "sv.tagline-done.2026-09-27"
+    }
+   ]
+  },
+  {
+   "id": "sv.caption-style.2026-09-27",
+   "thread": "sv",
+   "title": "3. Caption style + hashtags",
+   "status": "pending_review",
+   "created": null,
+   "updated": "2026-09-27",
+   "due": null,
+   "detail": "After bios.",
+   "where": "Draft delivered to BalRam 2026-09-27 (caption-style.md); awaiting his adjust/done.",
+   "blockedBy": [
+    {
+     "kind": "task",
+     "id": "sv.profile-bios.2026-09-27"
+    }
+   ]
+  },
+  {
+   "id": "sv.visual-identity.2026-09-27",
+   "thread": "sv",
+   "title": "4. Avatar, profile photos, banners",
+   "status": "blocked",
+   "created": null,
+   "updated": null,
+   "due": null,
+   "detail": "Visual identity comes last, once the words are locked.",
+   "where": "Short Video thread · date unrecorded",
+   "blockedBy": [
+    {
+     "kind": "task",
+     "id": "sv.caption-style.2026-09-27"
+    }
+   ]
+  },
+  {
+   "id": "tr.etf-format.2026-09-22",
+   "thread": "tr",
+   "title": "ETF alert format locked",
+   "status": "agreed",
+   "created": "2026-09-24",
+   "updated": "2026-09-24",
+   "due": null,
+   "detail": "Stacked QQQ/SPY/GLD cards, price + day-change pill, S/R (20-session) in header, 1M + 3M daily charts, latest econ markers on 1M only, unlabeled S/R lines on 3M, Upcoming CPI/PPI footnote. (Format iterated 2026-09-22 → 2026-09-24.)",
+   "where": "Trading thread · 2026-09-24"
+  },
+  {
+   "id": "tr.alert-schedule.2026-09-22",
+   "thread": "tr",
+   "title": "Alert schedule",
+   "status": "agreed",
+   "created": "2026-09-22",
+   "updated": "2026-09-22",
+   "due": null,
+   "detail": "NYSE trading days at 08:00, 10:00, 12:00, 14:00, 15:30, 18:00, 20:00 ET.",
+   "where": "Trading thread · 2026-09-22"
+  },
+  {
+   "id": "tr.trading-signals.2026-09-24",
+   "thread": "tr",
+   "title": "Trading signals",
+   "status": "agreed",
+   "created": "2026-09-24",
+   "updated": "2026-09-24",
+   "due": null,
+   "detail": "Morning report 07:30 ET always sends; intraday every 2h from 09:30 ET, silent unless a BUY/SELL signal at ≥80% confidence changed or rides a major event.",
+   "where": "Trading thread · 2026-09-24"
+  },
+  {
+   "id": "tr.signal-scorecard.2026-09-25",
+   "thread": "tr",
+   "title": "Signal scorecard",
+   "status": "agreed",
+   "created": "2026-09-25",
+   "updated": "2026-09-25",
+   "due": null,
+   "detail": "Runs daily ~08:42 ET; posts only when something changed, otherwise silent.",
+   "where": "Trading thread · 2026-09-25"
+  },
+  {
+   "id": "tr.etf-live-app.2026-09-26",
+   "thread": "tr",
+   "title": "ETF live web app",
+   "status": "agreed",
+   "created": "2026-09-26",
+   "updated": "2026-09-26",
+   "due": null,
+   "detail": "Single-file page with server-baked data bundle, refreshed every 5 min on weekdays.",
+   "where": "Trading thread · 2026-09-26"
+  },
+  {
+   "id": "tr.chat-only.2026-09-22",
+   "thread": "tr",
+   "title": "Chat-only delivery",
+   "status": "agreed",
+   "created": "2026-09-22",
+   "updated": "2026-09-22",
+   "due": null,
+   "detail": "Email alerts disabled 2026-09-22; everything lands in the Trading chat.",
+   "where": "Trading thread · 2026-09-22"
+  },
+  {
+   "id": "tr.scorecard-grading.2026-09-25",
+   "thread": "tr",
+   "title": "Scorecard grading rule",
+   "status": "pending_review",
+   "created": "2026-09-25",
+   "updated": "2026-09-25",
+   "due": null,
+   "detail": "Awaiting your call on how scorecard results are graded.",
+   "where": "Trading thread · 2026-09-25"
+  },
+  {
+   "id": "tr.steadier-rule.2026-09-25",
+   "thread": "tr",
+   "title": "Apply steadier rule live",
+   "status": "pending_review",
+   "created": "2026-09-25",
+   "updated": "2026-09-25",
+   "due": null,
+   "detail": "Research converged; needs your explicit approval before any live-engine change.",
+   "where": "Trading thread · 2026-09-25"
+  },
+  {
+   "id": "tr.oil-nasdaq.2026-09-25",
+   "thread": "tr",
+   "title": "Add oil + Nasdaq Composite to morning report?",
+   "status": "pending_review",
+   "created": "2026-09-25",
+   "updated": "2026-09-25",
+   "due": null,
+   "detail": "Your call.",
+   "where": "Trading thread · 2026-09-25"
+  },
+  {
+   "id": "tr.unified-engine.2026-09-25",
+   "thread": "tr",
+   "title": "Unified-engine design as build target",
+   "status": "pending_review",
+   "created": "2026-09-25",
+   "updated": "2026-09-25",
+   "due": null,
+   "detail": "Approve the three-layer engine design or redirect.",
+   "where": "Trading thread · 2026-09-25"
+  },
+  {
+   "id": "tr.supertrend-role.2026-09-25",
+   "thread": "tr",
+   "title": "Supertrend’s role",
+   "status": "pending_review",
+   "created": "2026-09-25",
+   "updated": "2026-09-25",
+   "due": null,
+   "detail": "Research-only vs second-opinion line vs bands-only.",
+   "where": "Trading thread · 2026-09-25"
+  },
+  {
+   "id": "tr.scorecard-live.2026-09-25",
+   "thread": "tr",
+   "title": "Scorecard live scoring",
+   "status": "in_progress",
+   "created": "2026-09-25",
+   "updated": null,
+   "due": "2026-09-28",
+   "detail": "Real signal scoring starts Monday 2026-09-28.",
+   "where": "Trading thread · 2026-09-25"
+  },
+  {
+   "id": "tr.live-engine-changes.2026-09-25",
+   "thread": "tr",
+   "title": "Live engine changes",
+   "status": "parked",
+   "created": "2026-09-25",
+   "updated": "2026-09-25",
+   "due": null,
+   "detail": "Nothing goes live without your explicit approval.",
+   "where": "Trading thread · 2026-09-25"
+  },
+  {
+   "id": "vh.daily-scan.2026-09-24",
+   "thread": "vh",
+   "title": "Daily deal scan",
+   "status": "agreed",
+   "created": "2026-09-22",
+   "updated": null,
+   "due": null,
+   "detail": "08:00 ET scan with locked qualification rules: 48-mo lease at 20,000 km/yr + 72/84-mo finance, sub-3% rate, $150–$200 biweekly tax-included, $5,000 down, ~$45k net, above-base trim, Kia-only loyalty.",
+   "where": "Vehicle thread · 2026-09-22"
+  },
+  {
+   "id": "vh.report-format.2026-09-24",
+   "thread": "vh",
+   "title": "Report format",
+   "status": "agreed",
+   "created": "2026-09-24",
+   "updated": "2026-09-24",
+   "due": null,
+   "detail": "Collapsible static-data panel + per-deal tables; qualifying payment bolded.",
+   "where": "Vehicle thread · 2026-09-24"
+  },
+  {
+   "id": "vh.calc-figures.2026-09-27",
+   "thread": "vh",
+   "title": "Calculator-verified figures",
+   "status": "agreed",
+   "created": "2026-09-27",
+   "updated": "2026-09-27",
+   "due": null,
+   "detail": "Niro EV Wind+ $189.49 lease / $290.08 finance; EV3 Wind $208.18 / $290.24; EV5 Wind $245.06 / $337.01; Equinox EV RS $319 lease (miss) / $343 finance.",
+   "where": "Vehicle thread · 2026-09-27"
+  },
+  {
+   "id": "vh.daily-suv-scan.2026-09-24",
+   "thread": "vh",
+   "title": "Daily SUV scan",
+   "status": "in_progress",
+   "created": "2026-09-22",
+   "updated": "2026-09-27",
+   "due": null,
+   "detail": "Runs every morning at 08:00 ET.",
+   "where": "Vehicle thread · 2026-09-22"
+  },
+  {
+   "id": "vh.payment-only.2026-09-26",
+   "thread": "vh",
+   "title": "Payment-only scan criteria",
+   "status": "parked",
+   "created": null,
+   "updated": null,
+   "due": null,
+   "detail": "Proposal to replace standing rules with payment-only logic was not approved; standing rules stay.",
+   "where": "Vehicle thread · date unrecorded"
+  },
+  {
+   "id": "sv.meta-app-setup.2026-09-27",
+   "thread": "sv",
+   "title": "5. Meta app setup (yours)",
+   "status": "in_progress",
+   "created": "2026-09-27",
+   "updated": "2026-09-27",
+   "due": null,
+   "detail": "YOUR STEPS — plain words, verified against Meta's official docs (2026-09-27):\n\nBEFORE YOU START — check these two things:\n• Your Instagram (@the_intelligently_artificial) is a Professional account (Business or Creator), not personal. Check in the Instagram app: Settings > Account type.\n• That Instagram is linked to your Facebook Page, and your personal Facebook account is an admin of that Page.\n\nREGISTER AS A DEVELOPER FIRST (you are on this page now):\n1. Finish the signup: verify your phone number (they text you a code), then contact info, then about you.\n   • If the page rejects your number: it must be added through Accounts Center first — go to Accounts Center > Personal details > Contact info and add it there.\n   • If it's already listed there: tap the number row to confirm/verify it if offered, then refresh the developer page and continue.\n   • Last resort: the developer page also lets you verify with a credit card instead (link at the bottom).\n2. Only after that does the \"My Apps\" menu appear.\n\nCREATE THE APP:\n3. Open My Apps, then Create app.\n4. Enter an app name (e.g. \"Intelligently Artificial Publisher\") and your contact email.\n5. When it asks for use cases, select BOTH:\n   • \"Manage messaging & content on Instagram\" (lets the app publish to Instagram)\n   • \"Manage everything on your Page\" (lets the app publish to your Facebook Page)\n6. YOUR STEPS — get the token, then store it:\n   • Generate the token: in the app dashboard's left menu, open Instagram > API setup with Instagram business login, click Generate token next to your Instagram account (@the_intelligently_artificial), log into Instagram if asked, and copy the token. Per Meta's docs this token is long-lived (valid 60 days).\n   • Store it: open this secure link and paste the token there (it goes straight to secure storage, never shown in chat):\n     https://agent.meta.ai/connect/api-key?service=meta&spec=eyJjb25uZWN0b3IiOnsiaG9zdHMiOlsiZ3JhcGguZmFjZWJvb2suY29tIiwiZ3JhcGguaW5zdGFncmFtLmNvbSIsInJ1cGxvYWQuZmFjZWJvb2suY29tIl0sIm1vZGUiOiJhcGlfa2V5IiwibmFtZSI6ImN1c3RvbS5tZXRhIiwidG9rZW5fcHJveHkiOlt7ImZpZWxkIjoiYWNjZXNzX3Rva2VuIiwicGxhY2VtZW50Ijp7InF1ZXJ5X3BhcmFtIjoiYWNjZXNzX3Rva2VuIn19XX0sInZlcnNpb24iOjJ9&session_id=ac30e921-b994-4f0f-9fcb-502690b2c302\n7. (Assistant, after the token.) I'll confirm instagram_business_content_publish is granted from the token itself; the publish test proves it.\n8. (Assistant, after the token.) I'll confirm pages_manage_posts the same way.\n\nWHAT HAPPENS NEXT:\n• When you reply \"done\", I take it from there.\n• Then I run the two publish tests: one video to your Facebook Page, one reel to Instagram — through your app.\n\nNOTE:\n• Your app's overview screen confirmed \"No requirements for the use cases on this app\" — no App Review or business verification needed. Resolved 2026-09-27.",
+   "where": "Short Video thread · 2026-09-27"
+  },
+  {
+   "id": "sv.fb-publish-test.2026-09-27",
+   "thread": "sv",
+   "title": "6. Facebook production publish test",
+   "status": "blocked",
+   "created": "2026-09-27",
+   "updated": "2026-09-28",
+   "due": null,
+   "detail": "EXECUTION ONLY — the code is built in sv.meta-publish-skill.2026-09-27.\n• Run the pre-built Facebook Page video publish CLI through the custom.meta connector skill.\n• Verify: video visible on the Facebook Page.\n• Cleanup: delete the test video after verification.\n• Blocked only on the token being stored in the connector — nothing else.",
+   "where": "Short Video thread · 2026-09-27",
+   "blockedBy": [
+    {
+     "kind": "task",
+     "id": "sv.meta-app-setup.2026-09-27"
+    },
+    {
+     "kind": "task",
+     "id": "sv.meta-publish-skill.2026-09-27"
+    }
+   ]
+  },
+  {
+   "id": "sv.ig-publish-test.2026-09-27",
+   "thread": "sv",
+   "title": "7. Instagram production publish test",
+   "status": "blocked",
+   "created": "2026-09-27",
+   "updated": "2026-09-28",
+   "due": null,
+   "detail": "EXECUTION ONLY — the code is built in sv.meta-publish-skill.2026-09-27.\n• Run the pre-built Instagram reel publish CLI through the custom.meta connector skill.\n• Verify: container status -> published; reel visible on @the_intelligently_artificial.\n• Cleanup: delete the test reel after verification.\n• Blocked only on the token being stored in the connector — nothing else.",
+   "where": "Short Video thread · 2026-09-27",
+   "blockedBy": [
+    {
+     "kind": "task",
+     "id": "sv.meta-app-setup.2026-09-27"
+    },
+    {
+     "kind": "task",
+     "id": "sv.meta-publish-skill.2026-09-27"
+    }
+   ]
+  },
+  {
+   "id": "sv.board-format-sweep.2026-09-27",
+   "thread": "sv",
+   "title": "Board-wide: reformat all task details for readability",
+   "status": "agreed",
+   "created": "2026-09-27",
+   "updated": "2026-09-27",
+   "due": null,
+   "detail": "Sweep complete 2026-09-27: scanned all 56 task details. Only one had multi-line content (the Meta app setup instructions) and it was already reformatted with bullets + one-step-per-line. All other details are single-line and need no change. The board-wide rendering fix (white-space:pre-wrap on .detail) is live so line breaks display correctly.",
+   "where": "Short Video thread · 2026-09-27"
+  },
+  {
+   "id": "sv.meta-publish-skill.2026-09-27",
+   "thread": "sv",
+   "title": "Build Meta publishing skill on the custom.meta connector (production path)",
+   "status": "agreed",
+   "created": "2026-09-27",
+   "updated": "2026-09-28",
+   "due": null,
+   "blockedBy": [],
+   "detail": "Assistant task — build now, test after token is stored:\n• Scaffold the connector skill (custom.meta) and write the publish CLIs.\n• CLIs: Instagram reel publish + status check, token/permission verify, Facebook Page video publish.\n• All API calls go through the connector's credential helper — the raw token never appears in code, logs, or outputs.\n• Testing (real API calls) waits for the token in the connector. Build and syntax-check everything now.\n• DONE 2026-09-28: skill + 4 CLIs built, compile. Live testing waits on token — tracked in sv.fb-publish-test / sv.ig-publish-test.",
+   "where": "Short Video thread · 2026-09-27"
+  },
+  {
+   "id": "sv.youtube-publish-build.2026-09-27",
+   "thread": "sv",
+   "title": "Build YouTube Shorts publisher code + test design",
+   "status": "agreed",
+   "created": "2026-09-28",
+   "updated": "2026-09-28",
+   "due": null,
+   "blockedBy": [],
+   "detail": "Build now; credentials only at validation.\n• Uploader CLI: videos.insert to www.googleapis.com/upload/youtube/v3/videos, youtube.upload scope.\n• OAuth flow code: accounts.google.com/o/oauth2/v2/auth -> oauth2.googleapis.com/token.\n• OPEN ISSUE: the vault's request_api_access refused Google (auth/token endpoints on different parent domains). Token-storage mechanism needs a separate design — abstract the storage point in code, do not invent one.\n• Test design: upload unlisted test Short, verify via API, delete after.\n• DONE 2026-09-28: uploader + OAuth + abstracted token store built, compiles.",
+   "where": "Short Video thread · 2026-09-27"
+  },
+  {
+   "id": "sv.tiktok-publish-build.2026-09-27",
+   "thread": "sv",
+   "title": "Map TikTok publishing mechanism, then build code + test design",
+   "status": "agreed",
+   "created": "2026-09-28",
+   "updated": "2026-09-28",
+   "due": null,
+   "blockedBy": [],
+   "detail": "Mechanism map FIRST (standing rule), then build. Credentials only at validation.\n• Known: TikTok Content Posting API; app approval not guaranteed (semi-manual fallback flagged in tech spec).\n• Map: exact endpoints, auth, app review requirements, then build the publisher CLI + test design.\n• DONE 2026-09-28: mechanism mapped from official docs, publisher built, offline checks pass.",
+   "where": "Short Video thread · 2026-09-27"
+  },
+  {
+   "id": "sv.x-publish-build.2026-09-27",
+   "thread": "sv",
+   "title": "Map X publishing mechanism, then build code + test design",
+   "status": "agreed",
+   "created": "2026-09-28",
+   "updated": "2026-09-28",
+   "due": null,
+   "blockedBy": [],
+   "detail": "Mechanism map FIRST (standing rule), then build. Credentials only at validation.\n• Known: X API app tokens needed; developer account required.\n• Map: exact endpoints (video upload + tweet), auth, then build the publisher CLI + test design.\n• DONE 2026-09-28: publisher + mechanism map built. Marked DORMANT same day (defensive handle only) — see DORMANT.md.",
+   "where": "Short Video thread · 2026-09-27"
+  },
+  {
+   "id": "sv.publish-build-batch.2026-09-27",
+   "thread": "sv",
+   "title": "Overnight build: all platform publishing code + test designs, 8 AM summary",
+   "status": "agreed",
+   "created": "2026-09-28",
+   "updated": "2026-09-28",
+   "due": null,
+   "blockedBy": [],
+   "detail": "Build ALL publishing code + test designs locally overnight; credentials only at validation.\n• Meta (IG+FB): skill built by Bandhu — done, compiles.\n• YouTube: subagent building uploader + OAuth (token store abstracted).\n• TikTok: subagent mapping mechanism, then building.\n• X: subagent mapping mechanism, then building.\n• 8 AM summary via cron publish-build-summary-8am in the build side chat; BalRam reviews, then SHIP pushes to the short-video repo.\n• No git until SHIP. Status update to the Short Video tracker thread once done.\n• DONE 2026-09-28: all 4 platforms built, 8 AM summary delivered. Code push now tracked in sv.publish-code-ship.2026-09-28 (waits on his SHIP).",
+   "where": "Short Video thread · 2026-09-27"
+  },
+  {
+   "id": "sv.publish-docs.2026-09-28",
+   "thread": "sv",
+   "title": "Publish docs: technical + non-technical architecture docs (md + pdf)",
+   "status": "agreed",
+   "created": "2026-09-28",
+   "updated": "2026-09-28",
+   "due": null,
+   "where": "Short AI videos project side chat · 2026-09-28",
+   "blockedBy": [],
+   "detail": "Write architecture docs for the publishing pipeline, destined for the short-video repo.\n• Technical (readme.md + /docs md+pdf): common doc covering all platforms + one per platform (Meta, YouTube, TikTok, X) — with flow/use-case/component diagrams.\n• Content: third-party libs (currently stdlib-only by design), common scripts + how they work, lib update/vulnerability policy, components + interconnectivity, DB (none — stateless CLIs).\n• Non-technical (/docs pdf only): common overview + one per platform — plain-language architecture, use case, scope, features, limitations, challenges + mitigations.\n• Open: push docs to repo now vs stage for SHIP batch — awaiting his call.\n• DONE 2026-09-28: all 15 files pushed to technology-consults/short-video (commit ad310c31) — README.md (common tech architecture, replaced placeholder), docs/: 4 platform tech .md + 10 PDFs (5 technical + 5 non-technical) + 15 diagram PNGs."
+  },
+  {
+   "id": "sv.x-dormant-docs-update.2026-09-28",
+   "thread": "sv",
+   "title": "X publish dormant + docs: folder structure + X status, push to git",
+   "status": "agreed",
+   "created": "2026-09-28",
+   "updated": "2026-09-28",
+   "due": null,
+   "where": "Short AI videos project side chat · 2026-09-28",
+   "blockedBy": [],
+   "detail": "X was always defensive-handle-only (no publishing) — the X publisher was built under \"all platforms\" without flagging the conflict.\n• Workspace: add DORMANT.md + runtime guard in x-publish skill so it cannot run unless explicitly enabled.\n• Docs: add \"codebase folder structure\" section to readme + all 4 platform tech docs; mark X DORMANT in tech docs + overviews.\n• Regenerate affected PDFs (5 technical + overview + x-overview) and push to short-video repo via API.\n• Record: X stays dormant and is skipped by the future scheduler until he reactivates it.\n• DONE 2026-09-28: guard + DORMANT.md in workspace skill (verified: exits 3, no network); folder-structure sections added to readme + 4 platform tech docs; X marked dormant in tech docs + overviews; 7 PDFs regenerated; pushed to technology-consults/short-video (commit 96aa5ee0)."
+  },
+  {
+   "id": "sv.docs-review.2026-09-28",
+   "thread": "sv",
+   "title": "Review publishing pipeline docs in the repo (yours)",
+   "status": "in_progress",
+   "created": "2026-09-28",
+   "updated": "2026-09-28",
+   "due": null,
+   "where": "Short AI videos project side chat · 2026-09-28",
+   "blockedBy": [],
+   "detail": "His step: review the technical + non-technical docs pushed to technology-consults/short-video (readme + docs/). On his done, the publishing code becomes eligible for SHIP."
+  },
+  {
+   "id": "sv.publish-code-ship.2026-09-28",
+   "thread": "sv",
+   "title": "SHIP: push publishing code to the short-video repo",
+   "status": "blocked",
+   "created": "2026-09-28",
+   "updated": "2026-09-28",
+   "due": null,
+   "where": "Short AI videos project side chat · 2026-09-28",
+   "blockedBy": [
+    {
+     "kind": "task",
+     "id": "sv.docs-review.2026-09-28"
+    }
+   ],
+   "detail": "Blocked on his docs review + standalone SHIP. Then: clarify -> list asks -> change plan -> written confirmation -> push code (X ships dormant) to technology-consults/short-video via API."
+  },
+  {
+   "id": "sv.caption-style.2026-09-28",
+   "thread": "sv",
+   "title": "Caption / hashtag style approval (yours)",
+   "status": "in_progress",
+   "created": "2026-09-28",
+   "updated": "2026-09-28",
+   "due": null,
+   "where": "Short AI videos project side chat · 2026-09-28",
+   "blockedBy": [],
+   "detail": "His step: written approval of caption/hashtag style. Blocks sv.visual-identity.2026-09-27 (avatar, profile photos, banners)."
+  },
+  {
+   "id": "sv.intro-video-review.2026-09-28",
+   "thread": "sv",
+   "title": "Intro video review: audio + visual + written approval (yours)",
+   "status": "in_progress",
+   "created": "2026-09-28",
+   "updated": "2026-09-28",
+   "due": null,
+   "where": "Short AI videos project side chat · 2026-09-28",
+   "blockedBy": [],
+   "detail": "His step on ~/workspace/short-video/intro/intro-final.mp4 (39.4s, 1080x1920): audible review, pronunciation/pauses, every-scene visual, safe-area/clipping. Written approval required before any publication."
+  },
+  {
+   "id": "vh.payment-only-scan.2026-09-28",
+   "thread": "vh",
+   "title": "Second daily update — payment-only scan",
+   "status": "agreed",
+   "created": "2026-09-28",
+   "updated": "2026-09-28",
+   "due": null,
+   "detail": "BalRam confirmed 2026-09-28: run a SECOND daily SUV update using payment-only criteria (no rate requirement; lease ≤ $265 / finance 72 mo ≤ $365 bi-weekly tax-in, $5k down, Ontario, above-base, ~$45k net). The original rate-based scan is unchanged. Cron phev-ev-suv-payment-watch created, daily ~08:40 ET, delivering to the Vehicle thread. Distinct from vh.payment-only.2026-09-26 (replace-proposal, not approved) which stays parked.",
+   "where": "Vehicle thread · 2026-09-28"
+  },
+  {
+   "id": "tr.signal-engine-git-docs.2026-09-28",
+   "thread": "tr",
+   "title": "Signal engine code + docs in git",
+   "status": "in_progress",
+   "created": "2026-09-28",
+   "updated": "2026-09-28",
+   "due": null,
+   "detail": "Commit the trading-signal engine (build_signals.py) to the trading GitHub repo with docs for both a technical audience and a non-technical (plain words) audience. Asked 2026-09-28: engine code is build_signals.py only (not the wider etf-alerts scripts).",
+   "where": "Trading thread · 2026-09-28"
+  },
+  {
+   "id": "sv.board-watch-sweep.2026-09-28",
+   "thread": "sv",
+   "title": "Widen hourly board watch: idle + stalled task pickup sweep",
+   "status": "agreed",
+   "created": "2026-09-28",
+   "updated": "2026-09-28",
+   "due": null,
+   "where": "Short AI videos project side chat · 2026-09-28",
+   "blockedBy": [],
+   "detail": "Assistant task — widen the hourly board-unblock-watch crons (sv/tr/vh) with a pickup sweep.\n• unblock_watch.py: add --sweep mode -> todo with clear blockers never handled (\"idle\"); in_progress updated >72h ago, not recurring-like (\"stalled\", report-only).\n• Update all three cron bodies via cron.update: run unblock check + sweep each hour; idle mine->do, idle his->poke, stalled->report only; mark handled.\n• Test both script modes before finishing. No status edits; handled-state discipline unchanged."
+  },
+  {
+   "id": "tr.review-signal-engine-git-docs.2026-09-28",
+   "thread": "tr",
+   "title": "Review: signal engine code + docs in git",
+   "status": "in_progress",
+   "created": "2026-09-28",
+   "updated": "2026-09-28",
+   "due": null,
+   "detail": "BalRam's review step: src/build_signals.py, docs/signal-engine-technical.md, docs/signal-engine-plain-words.md in technology-consults/trading (commit fdcbf847). He marks agreed when satisfied.",
+   "where": "Trading thread · 2026-09-28"
+  },
+  {
+   "id": "tr.etf-alerts-builder-git-docs.2026-09-28",
+   "thread": "tr",
+   "title": "ETF alert builder code + docs in git",
+   "status": "agreed",
+   "created": "2026-09-28",
+   "updated": "2026-09-28",
+   "due": null,
+   "detail": "Commit the ETF update alert builder (build_widget.py + its econ_events.json data) to the trading GitHub repo with docs for technical and non-technical audiences. Asked 2026-09-28: do it now, no SHIP/RUN wait. Committed 2026-09-28 (04a3e1ac): src/build_widget.py + src/econ_events.json + docs/etf-alert-builder-technical.md + docs/etf-alert-builder-plain-words.md, verified live.",
+   "where": "Trading thread · 2026-09-28"
+  },
+  {
+   "id": "tr.review-etf-alert-builder-git-docs.2026-09-28",
+   "thread": "tr",
+   "title": "Review: ETF alert builder code + docs in git",
+   "status": "in_progress",
+   "created": "2026-09-28",
+   "updated": "2026-09-28",
+   "due": null,
+   "detail": "BalRam's review step: src/build_widget.py, src/econ_events.json, docs/etf-alert-builder-technical.md, docs/etf-alert-builder-plain-words.md in technology-consults/trading (commit 04a3e1ac). He marks agreed when satisfied.",
+   "where": "Trading thread · 2026-09-28"
+  },
+  {
+   "id": "tr.trading-portal-repo.2026-09-28",
+   "thread": "tr",
+   "title": "Move live app to new trading-portal repo + Pages deploy",
+   "status": "agreed",
+   "created": "2026-09-28",
+   "updated": "2026-09-28",
+   "due": null,
+   "detail": "Move etf-live.html, etf-live.css, etf-live-bundle.json from technology-consults/trading to a NEW repo technology-consults/trading-portal; enable GitHub Pages on the new repo; repoint the 5-min bundle cron to push to the new repo; update docs + memory with the new URL. Asked 2026-09-28: do it now, explicit instruction (no SHIP/RUN needed). DONE 2026-09-28: new repo technology-consults/trading-portal (4 files: etf-live.html, etf-live.css, etf-live-bundle.json, README.md), Pages enabled, deployed page sha256-verified vs committed source; old files removed from trading repo; build_live_bundle.py repointed; docs + memory updated.",
+   "where": "Trading thread · 2026-09-28"
+  },
+  {
+   "id": "tr.review-trading-portal-repo.2026-09-28",
+   "thread": "tr",
+   "title": "Review: live app moved to trading-portal repo + Pages",
+   "status": "in_progress",
+   "created": "2026-09-28",
+   "updated": "2026-09-28",
+   "due": null,
+   "detail": "BalRam's review step: live ETF portal now in technology-consults/trading-portal, Pages at https://technology-consults.github.io/trading-portal/etf-live.html. Old URL dead. He marks agreed when satisfied.",
+   "where": "Trading thread · 2026-09-28"
+  },
+  {
+   "id": "tr.version-all-deployable-repos.2026-09-28",
+   "thread": "tr",
+   "title": "Version all deployable repos + deploy versioned builds",
+   "status": "agreed",
+   "created": "2026-09-28",
+   "updated": "2026-09-28",
+   "due": null,
+   "detail": "Per 2026-09-28 release-tag rule: tag every deployable repo's deployed commit (semver). Unversioned repos get tagged + versioned build deployed; versioned repos whose deployed build isn't tagged get the latest version built + deployed. Explicit instruction from BalRam — no SHIP/RUN needed. DONE 2026-09-28: trading-portal v1.0.0 (Pages rebuild from tagged commit, live 200); bandhu-portal v1.0.0 (worker redeployed from tagged commit via Cloudflare API, live verified 200/410); Pages disabled on trading (portal moved out). Skipped (not deployed): cross-thread-task-status-tracker, short-video, vehicle.",
+   "where": "Trading thread · 2026-09-28"
+  },
+  {
+   "id": "tr.review-version-all-deployable-repos.2026-09-28",
+   "thread": "tr",
+   "title": "Review: all deployable repos versioned (v1.0.0) + builds deployed",
+   "status": "in_progress",
+   "created": "2026-09-28",
+   "updated": "2026-09-28",
+   "due": null,
+   "detail": "BalRam's review step: trading-portal and bandhu-portal tagged v1.0.0 with versioned builds deployed and verified live; Pages disabled on trading. He marks agreed when satisfied.",
+   "where": "Trading thread · 2026-09-28"
+  },
+  {
+   "id": "sv.workspace-git-clone.2026-09-28",
+   "thread": "sv",
+   "title": "One-time clone of all repos; archive workspace git-source folders",
+   "status": "agreed",
+   "created": "2026-09-28",
+   "updated": "2026-09-28",
+   "due": null,
+   "where": "Short AI videos project side chat · 2026-09-28",
+   "blockedBy": [],
+   "detail": "Assistant task — one-time git clone of all project repos + archive existing workspace folders that are git code sources.\n• Inventory repos and map each workspace source folder to its repo; confirm mapping with BalRam BEFORE moving anything.\n• Clone to ~/workspace/repos/<name>; move workspace source folders to ~/workspace/archive/<name>-<date>/ (recoverable).\n• Verify each clone: git log matches remote HEAD.\n• Standing rule going forward: every code-change task gets a pre-work pull/sync task; conflicts resolved via CLI, unresolvable -> task for BalRam.\nDONE 2026-09-28: 6 repos cloned to ~/workspace/repos/<name>, HEAD verified vs remote. Old workspace source folders archived to ~/workspace/archive/*-2026-09-28/. 10 cron bodies repointed via cron.update. Unpushed finds carried into clones: portal push_ev_deals.py KV-key fix (M), trading 4 uncommitted scripts (untracked), board live tasks.json (M)."
+  },
+  {
+   "id": "sv.review-workspace-git-clone.2026-09-28",
+   "thread": "sv",
+   "title": "Review: repos cloned, workspace sources archived, crons repointed",
+   "status": "in_progress",
+   "created": "2026-09-28",
+   "updated": "2026-09-28",
+   "due": null,
+   "where": "Short AI videos project side chat · 2026-09-28",
+   "blockedBy": [],
+   "detail": "BalRam's review step: all 6 repos cloned to ~/workspace/repos/<name> with HEAD verified; old workspace source folders moved to ~/workspace/archive/*-2026-09-28/; 10 cron bodies repointed (cron.update). He marks agreed when satisfied. Note: portal push_ev_deals.py carried an unpushed KV-key fix into the clone (shows as modified) — needs a future SHIP to commit."
+  },
+  {
+   "id": "sv.pull-sync-push-batch.2026-09-28",
+   "thread": "sv",
+   "title": "Pull/sync 3 repos before pushing local changes",
+   "status": "agreed",
+   "created": "2026-09-28",
+   "updated": "2026-09-28",
+   "due": null,
+   "where": "Short AI videos project side chat · 2026-09-28",
+   "blockedBy": [],
+   "detail": "Pull bandhu-portal, trading, cross-thread-task-status-tracker; then commit+push local changes (BalRam: \"push all local repo changes to git now\").\nDONE 2026-09-28: pulled 3 repos; pushed bandhu-portal (KV-key fix), trading (cron tooling + widget path), cross-thread (board data + build tooling). One real merge resolved: remote had moved (b3c00e0), merged locally, no conflicts."
+  },
+  {
+   "id": "sv.review-push-batch.2026-09-28",
+   "thread": "sv",
+   "title": "Review: pushed local repo changes (3 commits)",
+   "status": "in_progress",
+   "created": "2026-09-28",
+   "updated": "2026-09-28",
+   "due": null,
+   "where": "Short AI videos project side chat · 2026-09-28",
+   "blockedBy": [],
+   "detail": "BalRam's review step for the 2026-09-28 push batch (he said: push all local repo changes to git now). He marks agreed when satisfied — versioning (tags) and any redeploys trigger only AFTER this review completes.\nCommits:\n• bandhu-portal — Fix EV deals KV key to p:ev-deals/index.html:\n  https://github.com/technology-consults/bandhu-portal/commit/e5bddc3882b408e759a43ee7bdd1348f4267c63f\n• trading — Commit ETF cron tooling (email/live-bundle/scorecard/engine-review); widget econ events repointed to repo:\n  https://github.com/technology-consults/trading/commit/2bc3a476df5fff481c41e0257aacba57ce69d94c\n• cross-thread-task-status-tracker — Board data update; add build tooling (push_board.py + unblock_watch.py):\n  https://github.com/technology-consults/cross-thread-task-status-tracker/commit/e9737e64af235ce237f185b9ebf4af9d6a040a1b\nNotes: one real merge resolved on cross-thread (remote had moved to b3c00e0; merged locally, no conflicts). All three pushes went through the GitHub API (API-only rule); plain git push has no credential on this machine."
+  },
+  {
+   "id": "sv.task-updates-to-trackers.2026-09-28",
+   "thread": "sv",
+   "title": "Push board task updates to project task-tracker threads",
+   "status": "agreed",
+   "created": "2026-09-28",
+   "updated": "2026-09-28",
+   "due": null,
+   "where": "Short AI videos project side chat · 2026-09-28",
+   "blockedBy": [],
+   "detail": "BalRam 2026-09-28: board task updates (new tasks, status changes) must be delivered to the project's task TRACKER thread on every board publish — not the project discussion threads. Extend push_board.py's post-push check to emit per-thread TASK UPDATES (like UNBLOCK REPORT); agent delivers each to that project's tracker thread. Pre-work pull: repo at e9737e6, verified clean vs origin before editing.\nDONE 2026-09-28: push_board.py now emits per-thread TASK UPDATES blocks (new tasks + status changes) with the project tracker thread id; live-tested and delivered to the sv tracker."
+  },
+  {
+   "id": "sv.review-task-updates-to-trackers.2026-09-28",
+   "thread": "sv",
+   "title": "Review: board task updates now go to project task-tracker threads",
+   "status": "in_progress",
+   "created": "2026-09-28",
+   "updated": "2026-09-28",
+   "due": null,
+   "where": "Short AI videos project side chat · 2026-09-28",
+   "blockedBy": [],
+   "detail": "BalRam's review step (his 2026-09-28 instruction: task updates to project task TRACKER threads, not discussion threads). He marks agreed when satisfied.\nCommit:\n• cross-thread-task-status-tracker — Emit per-thread TASK UPDATES on board publish:\n  https://github.com/technology-consults/cross-thread-task-status-tracker/commit/0c1909e3b331839fcde4c2d9ed6dd6e9ed6ae5f1\nBehavior: on every board publish, each thread with new/changed tasks gets a TASK UPDATES block; the agent delivers it to that project's task tracker thread (sv/d82796e3, tr/1ff0cb94, vh/547fb3d1). Live-tested 2026-09-28 with delivery to the sv tracker."
+  },
+  {
+   "id": "sv.review-repo-write-strategy.2026-09-28",
+   "thread": "sv",
+   "title": "Review: repo-write enforcement strategy (yours)",
+   "status": "in_progress",
+   "created": "2026-09-28",
+   "updated": "2026-09-28",
+   "due": null,
+   "detail": "Review my suggestions for enforcing the pull-before-code agreement across all repos, then agree on a strategy with me.\n• Where we are: the pull-before-code rule is written down but nothing enforces it — I follow it by hand. Commits already go through the GitHub API, which refuses to overwrite a file that changed since I read it (fingerprint check).\n• Option 1 — pre-edit check script: prints a sync receipt before edits. Still relies on me remembering to run it.\n• Option 2 — drift-watch cron: reports any clone behind origin/main. Detection only, not prevention.\n• Option 3 (my recommendation) — save through the API, not the clone: read the file from GitHub, edit, write back with its fingerprint. GitHub itself rejects stale writes, so staleness becomes impossible by construction. The local clone stays as scratch only.\n• Open question: a small get/edit/put helper script so the read and fingerprint always come from one call.\nReply with the strategy you want, or your own variant.",
+   "where": "Main chat · 2026-09-28"
+  }
+ ]
 }
