@@ -1027,6 +1027,17 @@
    "due": null,
    "detail": "Review my suggestions for enforcing the pull-before-code agreement across all repos, then agree on a strategy with me.\n• Where we are: the pull-before-code rule is written down but nothing enforces it — I follow it by hand. Commits already go through the GitHub API, which refuses to overwrite a file that changed since I read it (fingerprint check).\n• Option 1 — pre-edit check script: prints a sync receipt before edits. Still relies on me remembering to run it.\n• Option 2 — drift-watch cron: reports any clone behind origin/main. Detection only, not prevention.\n• Option 3 (my recommendation) — save through the API, not the clone: read the file from GitHub, edit, write back with its fingerprint. GitHub itself rejects stale writes, so staleness becomes impossible by construction. The local clone stays as scratch only.\n• Open question: a small get/edit/put helper script so the read and fingerprint always come from one call.\nReply with the strategy you want, or your own variant.",
    "where": "Main chat · 2026-09-28"
+  },
+  {
+   "id": "sv.board-card-grid-mobile.2026-09-28",
+   "thread": "sv",
+   "title": "Fix: board card grid on phones (restore multi-column layout)",
+   "status": "in_progress",
+   "created": "2026-09-28",
+   "updated": "2026-09-28",
+   "due": null,
+   "detail": "BalRam: board shows everything stacked vertically on his phone; earlier it rendered as a card grid.\n• Cause: the board's responsive CSS collapses the card grid to a single column below 760px viewport width, so phones always get the vertical stack.\n• Fix: make 2 columns the base layout (both Flat view and By-thread view), keeping 3 columns on wide screens (1120px+). Cards will be narrower on phones (~190px each) — the trade-off for the card-grid look.\n• Deploy: commit board.css via GitHub API and sync portal KV (p:assets/board.css), then verify live.",
+   "where": "Main chat · 2026-09-28"
   }
  ]
 }
