@@ -641,7 +641,7 @@
    "created": "2026-09-27",
    "updated": "2026-09-27",
    "due": null,
-   "detail": "YOUR STEPS — plain words, verified against Meta's official docs (2026-09-27):\n\nBEFORE YOU START — check these two things:\n• Your Instagram (@the_intelligently_artificial) is a Professional account (Business or Creator), not personal. Check in the Instagram app: Settings > Account type.\n• That Instagram is linked to your Facebook Page, and your personal Facebook account is an admin of that Page.\n\nREGISTER AS A DEVELOPER FIRST (you are on this page now):\n1. Finish the signup: verify your phone number (they text you a code), then contact info, then about you.\n   • If the page rejects your number: it must be added through Accounts Center first — go to Accounts Center > Personal details > Contact info and add it there.\n   • If it's already listed there: tap the number row to confirm/verify it if offered, then refresh the developer page and continue.\n   • Last resort: the developer page also lets you verify with a credit card instead (link at the bottom).\n2. Only after that does the \"My Apps\" menu appear.\n\nCREATE THE APP:\n3. Open My Apps, then Create app.\n4. Enter an app name (e.g. \"Intelligently Artificial Publisher\") and your contact email.\n5. When it asks for use cases, select BOTH:\n   • \"Manage messaging & content on Instagram\" (lets the app publish to Instagram)\n   • \"Manage everything on your Page\" (lets the app publish to your Facebook Page)\n6. YOUR ONLY STEP — get the token: in the app dashboard's left menu, open Instagram > API setup with Instagram business login, click Generate token next to your Instagram account (@the_intelligently_artificial), log into Instagram if asked, and copy the token. Per Meta's docs this token is long-lived (valid 60 days). Paste it in chat.\n7. (Assistant, after the token.) I'll confirm instagram_business_content_publish is granted from the token itself; the publish test proves it.\n8. (Assistant, after the token.) I'll confirm pages_manage_posts the same way.\n\nWHAT HAPPENS NEXT:\n• When you reply \"done\", I take it from there.\n• Then I run the two publish tests: one video to your Facebook Page, one reel to Instagram — through your app.\n\nNOTE:\n• Your app's overview screen confirmed \"No requirements for the use cases on this app\" — no App Review or business verification needed. Resolved 2026-09-27.",
+   "detail": "YOUR STEPS — plain words, verified against Meta's official docs (2026-09-27):\n\nBEFORE YOU START — check these two things:\n• Your Instagram (@the_intelligently_artificial) is a Professional account (Business or Creator), not personal. Check in the Instagram app: Settings > Account type.\n• That Instagram is linked to your Facebook Page, and your personal Facebook account is an admin of that Page.\n\nREGISTER AS A DEVELOPER FIRST (you are on this page now):\n1. Finish the signup: verify your phone number (they text you a code), then contact info, then about you.\n   • If the page rejects your number: it must be added through Accounts Center first — go to Accounts Center > Personal details > Contact info and add it there.\n   • If it's already listed there: tap the number row to confirm/verify it if offered, then refresh the developer page and continue.\n   • Last resort: the developer page also lets you verify with a credit card instead (link at the bottom).\n2. Only after that does the \"My Apps\" menu appear.\n\nCREATE THE APP:\n3. Open My Apps, then Create app.\n4. Enter an app name (e.g. \"Intelligently Artificial Publisher\") and your contact email.\n5. When it asks for use cases, select BOTH:\n   • \"Manage messaging & content on Instagram\" (lets the app publish to Instagram)\n   • \"Manage everything on your Page\" (lets the app publish to your Facebook Page)\n6. YOUR STEPS — get the token, then store it:\n   • Generate the token: in the app dashboard's left menu, open Instagram > API setup with Instagram business login, click Generate token next to your Instagram account (@the_intelligently_artificial), log into Instagram if asked, and copy the token. Per Meta's docs this token is long-lived (valid 60 days).\n   • Store it: open this secure link and paste the token there (it goes straight to secure storage, never shown in chat):\n     https://agent.meta.ai/connect/api-key?service=meta&spec=eyJjb25uZWN0b3IiOnsiaG9zdHMiOlsiZ3JhcGguZmFjZWJvb2suY29tIiwiZ3JhcGguaW5zdGFncmFtLmNvbSIsInJ1cGxvYWQuZmFjZWJvb2suY29tIl0sIm1vZGUiOiJhcGlfa2V5IiwibmFtZSI6ImN1c3RvbS5tZXRhIiwidG9rZW5fcHJveHkiOlt7ImZpZWxkIjoiYWNjZXNzX3Rva2VuIiwicGxhY2VtZW50Ijp7InF1ZXJ5X3BhcmFtIjoiYWNjZXNzX3Rva2VuIn19XX0sInZlcnNpb24iOjJ9&session_id=ac30e921-b994-4f0f-9fcb-502690b2c302\n7. (Assistant, after the token.) I'll confirm instagram_business_content_publish is granted from the token itself; the publish test proves it.\n8. (Assistant, after the token.) I'll confirm pages_manage_posts the same way.\n\nWHAT HAPPENS NEXT:\n• When you reply \"done\", I take it from there.\n• Then I run the two publish tests: one video to your Facebook Page, one reel to Instagram — through your app.\n\nNOTE:\n• Your app's overview screen confirmed \"No requirements for the use cases on this app\" — no App Review or business verification needed. Resolved 2026-09-27.",
    "where": "Short Video thread · 2026-09-27"
   },
   {
@@ -658,6 +658,10 @@
     {
      "kind": "task",
      "id": "sv.meta-app-setup.2026-09-27"
+    },
+    {
+     "kind": "task",
+     "id": "sv.meta-publish-skill.2026-09-27"
     }
    ]
   },
@@ -675,6 +679,10 @@
     {
      "kind": "task",
      "id": "sv.meta-app-setup.2026-09-27"
+    },
+    {
+     "kind": "task",
+     "id": "sv.meta-publish-skill.2026-09-27"
     }
    ]
   },
@@ -687,6 +695,23 @@
    "updated": "2026-09-27",
    "due": null,
    "detail": "Sweep complete 2026-09-27: scanned all 56 task details. Only one had multi-line content (the Meta app setup instructions) and it was already reformatted with bullets + one-step-per-line. All other details are single-line and need no change. The board-wide rendering fix (white-space:pre-wrap on .detail) is live so line breaks display correctly.",
+   "where": "Short Video thread · 2026-09-27"
+  },
+  {
+   "id": "sv.meta-publish-skill.2026-09-27",
+   "thread": "sv",
+   "title": "Build Meta publishing skill on the custom.meta connector (production path)",
+   "status": "blocked",
+   "created": "2026-09-27",
+   "updated": "2026-09-27",
+   "due": null,
+   "blockedBy": [
+    {
+     "kind": "task",
+     "id": "sv.meta-app-setup.2026-09-27"
+    }
+   ],
+   "detail": "Assistant task. Once the Instagram token is stored in the custom.meta connector:\n• Scaffold the connector skill (reads credential mechanics from authd).\n• Write the publish CLIs (Instagram reel publish + status check; Facebook Page video publish).\n• Verify the credential attaches correctly with a harmless read-only call first.\n• The two publish tests must run through this skill — that IS the production path, per his 'test the real mechanism' rule. A raw-token test proves nothing.",
    "where": "Short Video thread · 2026-09-27"
   }
  ]
