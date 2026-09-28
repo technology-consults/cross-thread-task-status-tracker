@@ -1,0 +1,63 @@
+---
+id: phev-ev-suv-deal-watch
+title: EV SUV deal watch (Ontario)
+enabled: true
+owner: goal:sub-3-phev-ev-suv-deal-in-ontario
+mode: task
+schedule:
+  kind: daily
+  timezone: America/Toronto
+  time: 08:00:00
+delivery:
+  - chat_id: de5d7ab8-9709-4e7c-a556-fd5f582b2f7e
+metadata:
+  originating_chat_context_json: '{"chat_id":"de5d7ab8-9709-4e7c-a556-fd5f582b2f7e","origin_provider":"main","chat_kind":"direct","event_kind":"message","require_mention":false,"device_id":"5cd90c63bc608a44"}'
+  presentation_locale: en-US
+---
+Daily Ontario EV SUV deal scan for BalRam. Research current manufacturer lease and finance special offers in ONTARIO, Canada for fully electric (BEV) SUVs/crossovers.
+
+QUALIFYING CRITERIA (a deal must meet ALL of these):
+1. Vehicle: fully electric (BEV) SUV, trim ABOVE the base model. PHEVs and conventional hybrids are OUT OF SCOPE (rule change 2026-09-28).
+2. Net price approx CAD $45,000 AFTER deducting any manufacturer rebate/cash incentive (note MSRP, rebate, and net price separately; freight/PDI/taxes excluded from the $45k comparison).
+3. Interest rate BELOW 3% APR (lease or finance — state which, plus term in months).
+4. Estimated BI-WEEKLY payment with $5,000 down ≤ $200 (band $150–$200), evaluated on THREE configurations per candidate: (a) LEASE at 48 months with 20,000 km/year allowance; (b) FINANCE at 72 months; (c) FINANCE at 84 months. Finance math: amortize (net price − applicable EVAP − $5,000) at the offered APR over the term, bi-weekly = monthly × 12 / 26. Lease math: configure the site's lease calculator with 48-mo term, 20k km/yr, $5,000 down. A deal qualifies if ANY of the three configurations meets all criteria. Show the math briefly per candidate.
+
+LOYALTY RATES (standing user rule): BalRam qualifies for Kia loyalty ONLY. For Kia vehicles, loyalty-reduced rates may be used — state the reduction explicitly (e.g. 4.49% → 3.49% with the 1-pt Kia loyalty cut). For ALL other manufacturers, never use loyalty-discounted rates or loyalty checkbox options — evaluate only the publicly advertised non-loyalty rate. If a brand's advertised rate already bakes in a loyalty reduction (e.g. Hyundai's advertised rates bake in a 1% loyalty cut, so non-loyalty = advertised + 1pt), report the standard non-loyalty rate instead; if no non-loyalty rate is published, flag the candidate as failing the rate criterion. Mazda's advertised lease rates are already the non-loyalty rate (mazda.ca disclaimer verified 2026-09-24; loyalty floors to 0%).
+
+CONTEXT: Federal EVAP program exists ($5,000 for BEVs, transaction value ≤ $55,000 for SUVs, declining Jan 2027). BalRam confirmed on Kia's website (2026-09-23) that the federal rebate is applied via the site's select-option/build-and-price configurator: for any candidate whose total price is below the cap, use the website's select-option step if available to apply the EVAP amount, and FOLD it into the reported figures — the headline bi-weekly payment is what he would actually pay (net price minus manufacturer rebate minus EVAP, then $5,000 down). Always note the pre-EVAP net price (after manufacturer rebates only) alongside the post-EVAP figures so the rebate's effect is visible. Ontario has no provincial rebate.
+
+METHOD: Check manufacturer offer pages and GTA/Ontario dealer mirrors (Hyundai, Kia, Toyota, Mitsubishi, Mazda, Subaru, Honda, Ford, Chevrolet, VW, Nissan) — EVs only. Verify every URL you report by opening it — never invent or guess URLs.
+
+LINKS (standing user rule): Do not share homepages or unconfigured offer pages. For each deal reported, navigate the manufacturer site, select Ontario, select the relevant EV SUV and deal, open the payment calculator, fill in BIWEEKLY frequency and $5,000 down — configuring LEASE at 48 months with 20,000 km/year allowance, and FINANCE at both 72 and 84 months — then copy the FINAL address-bar URL and share that. If the site encodes the selections (province, vehicle, payment frequency, term, down payment) in the URL, that deep link is ideal. If it does not (SPA/page-state only), still share the deepest resulting URL you reached — not the homepage — and briefly note which selections actually persisted in the URL versus page state (e.g. province baked in, payment config in page state). Toyota-style build codes that restore the full configuration are acceptable equivalents. Baseline link results from 2026-09-22: Kia build-and-price encodes full payment config in query params (leaseTerm=60, paymentFrequency=BIWEEKLY, downPayment=5000, isLoyaltyRate=true, includeTaxes=true); Toyota uses buildcode=C8FO01 for a 2026 RAV4 PHEV SE AWD build (lease, bi-weekly, 60 mo, $5,000 down, Ontario); Mazda bakes province+build into the URL (prov_code=ON); Ford bakes province=ON+config IDs; Hyundai, Chevrolet, Nissan keep payment selections in page state only.
+
+BASELINE from 2026-09-22 (tax-included biweekly, lease, $5,000 down, Ontario; EV rows only): Kia Niro EV 2026 ($211.97 biweekly, 60-mo lease @ 3.49% AFTER 1% Kia loyalty reduction — note: loyalty takes 4.49% → 3.49%, NOT a literal 2.49% rate), Nissan Ariya SV 2027 ($284 biweekly, 60-mo lease @ 6.59%), Subaru Solterra (1.49% lease, ~$256 biweekly), Mustang Mach-E Select ($271 biweekly @ 6.49%), Chevrolet Equinox EV LT ($274 biweekly, 48-mo @ 6.9%).
+
+VERIFICATION (mandatory — runs every time, BEFORE the report is written):
+1. Every rate, MSRP, rebate, and payment figure in the report must come from a page opened during THIS run. Baseline figures above may tell you where to look but never substitute for re-verification — if a page is unreachable, say so and mark the candidate unverified rather than carrying the old number forward.
+2. Market scope: every program cited must be confirmed as a Canadian (Ontario where applicable) offer. US, Korean, or European programs are never presented as Canadian. If a program's market is ambiguous, label it unconfirmed — do not generalize across markets.
+3. Measurement standards: when comparing specifications across sources (cargo volume, range, etc.), confirm both figures use the same standard (SAE vs VDA, EPA vs WLTP vs NRCan). If standards differ, convert to one ruler and label it, or show each with its standard marked — never present mixed-standard figures as a direct comparison.
+4. Inferences labeled: any business interpretation (e.g. "looks like a clearance bonus", "likely ends when…") is labeled as inference, not stated as fact.
+5. If any check in 1–4 cannot be completed for a figure, the report says so plainly instead of presenting the figure as verified.
+
+DELIVERY: Report to the schedule's configured delivery target (the SUV deal scan side chat) every morning.
+FORMAT (standing user rule, 2026-09-24): every report has two parts.
+(1) STATIC DATA collapsible panel on top — the chat markdown renderer does NOT collapse <details> blocks (verified 2026-09-24), so build this panel as an `html` widget via widget.create (kind "html", fallback_text "SUV scan static data") and embed the returned token at the very top of the report message, above the deals section. The widget is a theme-aware <details>/<summary> block titled "Static data" (collapsed by default) containing a two-column Setting|Value table. Follow the HTML widget authoring rules (theme variables --hatch-widget-*, no overflow, box-sizing border-box). Template — update the Offer period row each run:
+<div style="box-sizing:border-box;max-width:100%;color:var(--hatch-widget-text);font-size:13px;line-height:1.45;">
+<details style="border:1px solid var(--hatch-widget-border);border-radius:10px;background:var(--hatch-widget-surface);">
+<summary style="cursor:pointer;padding:10px 12px;font-weight:600;">Static data</summary>
+<div style="padding:0 12px 12px;">
+<table style="width:100%;border-collapse:collapse;font-size:12px;"><tbody>
+(one <tr> per row below; Setting cell: style="padding:4px 8px 4px 0;color:var(--hatch-widget-muted);white-space:nowrap;vertical-align:top;"; Value cell: style="padding:4px 0;vertical-align:top;")
+</tbody></table>
+</div>
+</details>
+</div>
+Panel rows: Region=Ontario; Down payment=$5,000; Payment frequency=Bi-weekly, taxes included; Lease config=48 months · 20,000 km/yr; Finance configs=72 months · 84 months; Qualifying rate=<3% APR; Qualifying payment=$150–$200 bi-weekly; Net price target=≈$45k after mfr rebates; Trim=Above base; EVAP=$5,000 (BEV SUVs ≤$55k), folded into payments; Loyalty rate=Kia only; Offer period=<current programs and end date>.
+(2) DEALS section in markdown — SHARED deal attributes (Model/Trim, MSRP, Mfr rebate, Net price pre-EVAP → post-EVAP) are listed ONCE as a GROUP ROW per deal: a bold header line, e.g. **Deal:** 2026 Kia Niro EV Wind+ (NE152T, above base) · MSRP $48,595 · Rebate −$4,000 (Kia Bonus) · Net $44,595 → $39,595. Under each deal header, a per-option table with ONE ROW PER CONFIGURATION (lease and finance options on separate rows, never columns). The table has exactly TWO columns: Option | Rate → bi-weekly payment. The Option cell is itself a short labeled link to that configuration's pre-configured page, per the LINKS rule (e.g. [Lease 48 mo / 20k km](url)) — there is NO separate Status column and NO separate Link column. Bold the qualifying payment: that bolding alone marks qualification (no ✅/✗ status column). State the Kia loyalty reduction explicitly in the Rate cell when applied (e.g. 2.49% = 3.49% base − 1-pt loyalty). A deal qualifies when ANY of its configurations meets all four criteria — put the deal-level verdict in a line above the DEALS section.
+- If ≥1 deal meets ALL criteria: each qualifying deal as its own group header + option rows.
+- If NO deal meets all criteria: say so plainly, then the same group-row format (max 3 deals) for the most tempting near-misses — deals failing one criterion but unusually good (e.g. slightly over 3% with a great payment), bi-weekly payment up to a $260 MAX on any configuration, drawn from ALL EV manufacturers checked (not just the closest one).
+Keep it concise. Log the run outcome to the goal timeline via user_goal.create_entry on goal_e8a8f8022330.
+
+PORTAL UPDATE (EV deals portal, standing rule 2026-09-27): after posting the report to the chat, also add today's entry to the EV deals portal (https://portal.technology-consults.workers.dev/p/ev-deals/) so the running list stays current.
+1. Open ~/workspace/portal/public/ev-deals/index.html and prepend a new <article class="day" id="dYYYY-MM-DD"> entry DIRECTLY BELOW the <!-- NEWEST ENTRY GOES DIRECTLY BELOW THIS LINE --> marker (newest first). Mirror today's chat report in HTML: an <h2> with the full date (e.g. Monday, September 28, 2026), a verdict line (how many deals met all four criteria, or "no deal met all criteria"), a <details class="static"> block with the static-data table, then one .deal block per deal — group header line (<div class="deal-head"><strong>Deal:</strong> model/trim · MSRP · rebate · net</div>) followed by a <table class="opts"> per-option table (Option | Rate → bi-weekly payment), qualifying payment wrapped in <span class="qual">. Copy the existing 2026-09-27 entry's markup exactly as the template. NOTE (fixed 2026-09-28): the push script must write to KV key "p:ev-deals/index.html" (the worker serves trailing-slash paths by appending "index.html") — verify the corrected KV_KEY in scripts/push_ev_deals.py before running.
+2. Run `python3 ~/workspace/portal/scripts/push_ev_deals.py` — it commits the page to the bandhu-portal repo and pushes it to the portal. Then open the live page and confirm the new entry is on top before finishing.
