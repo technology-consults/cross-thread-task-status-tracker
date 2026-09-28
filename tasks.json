@@ -713,7 +713,7 @@
    "id": "sv.youtube-publish-build.2026-09-27",
    "thread": "sv",
    "title": "Build YouTube Shorts publisher code + test design",
-   "status": "todo",
+   "status": "in_progress",
    "created": "2026-09-28",
    "updated": "2026-09-28",
    "due": null,
@@ -725,7 +725,7 @@
    "id": "sv.tiktok-publish-build.2026-09-27",
    "thread": "sv",
    "title": "Map TikTok publishing mechanism, then build code + test design",
-   "status": "todo",
+   "status": "in_progress",
    "created": "2026-09-28",
    "updated": "2026-09-28",
    "due": null,
@@ -737,12 +737,24 @@
    "id": "sv.x-publish-build.2026-09-27",
    "thread": "sv",
    "title": "Map X publishing mechanism, then build code + test design",
-   "status": "todo",
+   "status": "in_progress",
    "created": "2026-09-28",
    "updated": "2026-09-28",
    "due": null,
    "blockedBy": [],
    "detail": "Mechanism map FIRST (standing rule), then build. Credentials only at validation.\n• Known: X API app tokens needed; developer account required.\n• Map: exact endpoints (video upload + tweet), auth, then build the publisher CLI + test design.",
+   "where": "Short Video thread · 2026-09-27"
+  },
+  {
+   "id": "sv.publish-build-batch.2026-09-27",
+   "thread": "sv",
+   "title": "Overnight build: all platform publishing code + test designs, 8 AM summary",
+   "status": "in_progress",
+   "created": "2026-09-28",
+   "updated": "2026-09-28",
+   "due": null,
+   "blockedBy": [],
+   "detail": "Build ALL publishing code + test designs locally overnight; credentials only at validation.\n• Meta (IG+FB): skill built by Bandhu — done, compiles.\n• YouTube: subagent building uploader + OAuth (token store abstracted).\n• TikTok: subagent mapping mechanism, then building.\n• X: subagent mapping mechanism, then building.\n• 8 AM summary via cron publish-build-summary-8am in the build side chat; BalRam reviews, then SHIP pushes to the short-video repo.\n• No git until SHIP. Status update to the Short Video tracker thread once done.",
    "where": "Short Video thread · 2026-09-27"
   }
  ]
