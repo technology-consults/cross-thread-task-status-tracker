@@ -944,6 +944,30 @@
       "due": null,
       "detail": "BalRam's review step: trading-portal and bandhu-portal tagged v1.0.0 with versioned builds deployed and verified live; Pages disabled on trading. He marks agreed when satisfied.",
       "where": "Trading thread · 2026-09-28"
+    },
+    {
+      "id": "sv.workspace-git-clone.2026-09-28",
+      "thread": "sv",
+      "title": "One-time clone of all repos; archive workspace git-source folders",
+      "status": "agreed",
+      "created": "2026-09-28",
+      "updated": "2026-09-28",
+      "due": null,
+      "where": "Short AI videos project side chat · 2026-09-28",
+      "blockedBy": [],
+      "detail": "Assistant task — one-time git clone of all project repos + archive existing workspace folders that are git code sources.\n• Inventory repos and map each workspace source folder to its repo; confirm mapping with BalRam BEFORE moving anything.\n• Clone to ~/workspace/repos/<name>; move workspace source folders to ~/workspace/archive/<name>-<date>/ (recoverable).\n• Verify each clone: git log matches remote HEAD.\n• Standing rule going forward: every code-change task gets a pre-work pull/sync task; conflicts resolved via CLI, unresolvable -> task for BalRam.\nDONE 2026-09-28: 6 repos cloned to ~/workspace/repos/<name>, HEAD verified vs remote. Old workspace source folders archived to ~/workspace/archive/*-2026-09-28/. 10 cron bodies repointed via cron.update. Unpushed finds carried into clones: portal push_ev_deals.py KV-key fix (M), trading 4 uncommitted scripts (untracked), board live tasks.json (M)."
+    },
+    {
+      "id": "sv.review-workspace-git-clone.2026-09-28",
+      "thread": "sv",
+      "title": "Review: repos cloned, workspace sources archived, crons repointed",
+      "status": "in_progress",
+      "created": "2026-09-28",
+      "updated": "2026-09-28",
+      "due": null,
+      "where": "Short AI videos project side chat · 2026-09-28",
+      "blockedBy": [],
+      "detail": "BalRam's review step: all 6 repos cloned to ~/workspace/repos/<name> with HEAD verified; old workspace source folders moved to ~/workspace/archive/*-2026-09-28/; 10 cron bodies repointed (cron.update). He marks agreed when satisfied. Note: portal push_ev_deals.py carried an unpushed KV-key fix into the clone (shows as modified) — needs a future SHIP to commit."
     }
   ]
 }
