@@ -773,13 +773,13 @@
       "id": "sv.x-dormant-docs-update.2026-09-28",
       "thread": "sv",
       "title": "X publish dormant + docs: folder structure + X status, push to git",
-      "status": "in_progress",
+      "status": "agreed",
       "created": "2026-09-28",
       "updated": "2026-09-28",
       "due": null,
       "where": "Short AI videos project side chat · 2026-09-28",
       "blockedBy": [],
-      "detail": "X was always defensive-handle-only (no publishing) — the X publisher was built under \"all platforms\" without flagging the conflict.\n• Workspace: add DORMANT.md + runtime guard in x-publish skill so it cannot run unless explicitly enabled.\n• Docs: add \"codebase folder structure\" section to readme + all 4 platform tech docs; mark X DORMANT in tech docs + overviews.\n• Regenerate affected PDFs (5 technical + overview + x-overview) and push to short-video repo via API.\n• Record: X stays dormant and is skipped by the future scheduler until he reactivates it."
+      "detail": "X was always defensive-handle-only (no publishing) — the X publisher was built under \"all platforms\" without flagging the conflict.\n• Workspace: add DORMANT.md + runtime guard in x-publish skill so it cannot run unless explicitly enabled.\n• Docs: add \"codebase folder structure\" section to readme + all 4 platform tech docs; mark X DORMANT in tech docs + overviews.\n• Regenerate affected PDFs (5 technical + overview + x-overview) and push to short-video repo via API.\n• Record: X stays dormant and is skipped by the future scheduler until he reactivates it.\n• DONE 2026-09-28: guard + DORMANT.md in workspace skill (verified: exits 3, no network); folder-structure sections added to readme + 4 platform tech docs; X marked dormant in tech docs + overviews; 7 PDFs regenerated; pushed to technology-consults/short-video (commit 96aa5ee0)."
     }
   ]
 }
