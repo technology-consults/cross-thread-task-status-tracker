@@ -682,11 +682,11 @@
    "id": "sv.board-format-sweep.2026-09-27",
    "thread": "sv",
    "title": "Board-wide: reformat all task details for readability",
-   "status": "parked",
+   "status": "agreed",
    "created": "2026-09-27",
    "updated": "2026-09-27",
    "due": null,
-   "detail": "His formatting rule (2026-09-27): in task details, use bullet points (•) for multi-line lists, and put each numbered step on its own line. Go through every task on the board and reformat details to match. Parked until he says when.",
+   "detail": "Sweep complete 2026-09-27: scanned all 56 task details. Only one had multi-line content (the Meta app setup instructions) and it was already reformatted with bullets + one-step-per-line. All other details are single-line and need no change. The board-wide rendering fix (white-space:pre-wrap on .detail) is live so line breaks display correctly.",
    "where": "Short Video thread · 2026-09-27"
   }
  ]
