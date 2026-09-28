@@ -973,13 +973,25 @@
       "id": "sv.pull-sync-push-batch.2026-09-28",
       "thread": "sv",
       "title": "Pull/sync 3 repos before pushing local changes",
+      "status": "agreed",
+      "created": "2026-09-28",
+      "updated": "2026-09-28",
+      "due": null,
+      "where": "Short AI videos project side chat · 2026-09-28",
+      "blockedBy": [],
+      "detail": "Pull bandhu-portal, trading, cross-thread-task-status-tracker; then commit+push local changes (BalRam: \"push all local repo changes to git now\").\nDONE 2026-09-28: pulled 3 repos; pushed bandhu-portal (KV-key fix), trading (cron tooling + widget path), cross-thread (board data + build tooling). One real merge resolved: remote had moved (b3c00e0), merged locally, no conflicts."
+    },
+    {
+      "id": "sv.review-push-batch.2026-09-28",
+      "thread": "sv",
+      "title": "Review: pushed local repo changes (3 commits)",
       "status": "in_progress",
       "created": "2026-09-28",
       "updated": "2026-09-28",
       "due": null,
       "where": "Short AI videos project side chat · 2026-09-28",
       "blockedBy": [],
-      "detail": "Pull bandhu-portal, trading, cross-thread-task-status-tracker; then commit+push local changes (BalRam: \"push all local repo changes to git now\")."
+      "detail": "BalRam's review step for the 2026-09-28 push batch (he said: push all local repo changes to git now). He marks agreed when satisfied — versioning (tags) and any redeploys trigger only AFTER this review completes.\nCommits:\n• bandhu-portal — Fix EV deals KV key to p:ev-deals/index.html:\n  https://github.com/technology-consults/bandhu-portal/commit/e5bddc3882b408e759a43ee7bdd1348f4267c63f\n• trading — Commit ETF cron tooling (email/live-bundle/scorecard/engine-review); widget econ events repointed to repo:\n  https://github.com/technology-consults/trading/commit/2bc3a476df5fff481c41e0257aacba57ce69d94c\n• cross-thread-task-status-tracker — Board data update; add build tooling (push_board.py + unblock_watch.py):\n  https://github.com/technology-consults/cross-thread-task-status-tracker/commit/e9737e64af235ce237f185b9ebf4af9d6a040a1b\nNotes: one real merge resolved on cross-thread (remote had moved to b3c00e0; merged locally, no conflicts). All three pushes went through the GitHub API (API-only rule); plain git push has no credential on this machine."
     }
   ]
 }
