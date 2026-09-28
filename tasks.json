@@ -388,12 +388,12 @@
    "id": "sv.profile-bios.2026-09-27",
    "thread": "sv",
    "title": "2. Profile bios / about text",
-   "status": "pending_review",
+   "status": "agreed",
    "created": null,
    "updated": "2026-09-27",
    "due": null,
    "detail": "Drafted once the tagline is locked.",
-   "where": "Drafts delivered to BalRam 2026-09-27 (YouTube/IG/TikTok/FB/X bios in profile-bios.md); awaiting his adjust/done.",
+   "where": "Approved by BalRam 2026-09-27 (\"No need to still review\") — drafts locked as final in profile-bios.md.",
    "blockedBy": [
     {
      "kind": "task",
@@ -405,12 +405,12 @@
    "id": "sv.caption-style.2026-09-27",
    "thread": "sv",
    "title": "3. Caption style + hashtags",
-   "status": "blocked",
+   "status": "in_progress",
    "created": null,
-   "updated": null,
+   "updated": "2026-09-27",
    "due": null,
    "detail": "After bios.",
-   "where": "Short Video thread · date unrecorded",
+   "where": "Unblocked 2026-09-27 (profile bios agreed); drafting caption/hashtag style for BalRam review.",
    "blockedBy": [
     {
      "kind": "task",
