@@ -1069,6 +1069,18 @@
    "due": null,
    "detail": "BalRam: board still broken on phone after the 2-column fix — long non-breakable lines (task IDs, full URLs in details) force the narrow cards wider than their column and blow out the grid.\n• CSS: .card gets min-width:0 and overflow-wrap:anywhere so long strings wrap instead of overflowing.\n• Weblinks in details: render as real links with shortened display text (host + truncated path) instead of the full URL string.\nAlso fixed: the collapsed Blocked section's cards rendered in a single vertical column (its inner grid had no column template). It now matches the main board: 2 columns everywhere, 3 on wide screens.",
    "where": "Main chat · 2026-09-28"
+  },
+  {
+   "id": "sv.board-redesign-pull.2026-09-28",
+   "thread": "sv",
+   "title": "Board redesign: pull/sync repo before implementation",
+   "status": "todo",
+   "created": "2026-09-28",
+   "updated": "2026-09-28",
+   "due": null,
+   "where": "Main chat · 2026-09-28",
+   "blockedBy": [],
+   "detail": "Assistant task — sync the local clone of cross-thread-task-status-tracker with the remote before any redesign code is written.\n• Fetch origin/main and bring the working tree up to date.\n• Do NOT discard the local digest work: scripts/pending_digest.py is untracked — preserve it (it will be intentionally replaced during implementation).\n• Confirm the tree is clean before the implementation task starts."
   }
  ]
 }
