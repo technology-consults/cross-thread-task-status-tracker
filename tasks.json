@@ -405,12 +405,12 @@
    "id": "sv.caption-style.2026-09-27",
    "thread": "sv",
    "title": "3. Caption style + hashtags",
-   "status": "in_progress",
+   "status": "pending_review",
    "created": null,
    "updated": "2026-09-27",
    "due": null,
    "detail": "After bios.",
-   "where": "Unblocked 2026-09-27 (profile bios agreed); drafting caption/hashtag style for BalRam review.",
+   "where": "Draft delivered to BalRam 2026-09-27 (caption-style.md); awaiting his adjust/done.",
    "blockedBy": [
     {
      "kind": "task",
