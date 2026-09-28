@@ -761,13 +761,13 @@
       "id": "sv.publish-docs.2026-09-28",
       "thread": "sv",
       "title": "Publish docs: technical + non-technical architecture docs (md + pdf)",
-      "status": "in_progress",
+      "status": "agreed",
       "created": "2026-09-28",
       "updated": "2026-09-28",
       "due": null,
       "where": "Short AI videos project side chat · 2026-09-28",
       "blockedBy": [],
-      "detail": "Write architecture docs for the publishing pipeline, destined for the short-video repo.\n• Technical (readme.md + /docs md+pdf): common doc covering all platforms + one per platform (Meta, YouTube, TikTok, X) — with flow/use-case/component diagrams.\n• Content: third-party libs (currently stdlib-only by design), common scripts + how they work, lib update/vulnerability policy, components + interconnectivity, DB (none — stateless CLIs).\n• Non-technical (/docs pdf only): common overview + one per platform — plain-language architecture, use case, scope, features, limitations, challenges + mitigations.\n• Open: push docs to repo now vs stage for SHIP batch — awaiting his call."
+      "detail": "Write architecture docs for the publishing pipeline, destined for the short-video repo.\n• Technical (readme.md + /docs md+pdf): common doc covering all platforms + one per platform (Meta, YouTube, TikTok, X) — with flow/use-case/component diagrams.\n• Content: third-party libs (currently stdlib-only by design), common scripts + how they work, lib update/vulnerability policy, components + interconnectivity, DB (none — stateless CLIs).\n• Non-technical (/docs pdf only): common overview + one per platform — plain-language architecture, use case, scope, features, limitations, challenges + mitigations.\n• Open: push docs to repo now vs stage for SHIP batch — awaiting his call.\n• DONE 2026-09-28: all 15 files pushed to technology-consults/short-video (commit ad310c31) — README.md (common tech architecture, replaced placeholder), docs/: 4 platform tech .md + 10 PDFs (5 technical + 5 non-technical) + 15 diagram PNGs."
     }
   ]
 }
