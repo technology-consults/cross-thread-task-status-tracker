@@ -632,6 +632,51 @@
    "due": null,
    "detail": "Proposal to replace standing rules with payment-only logic was not approved; standing rules stay.",
    "where": "Vehicle thread · date unrecorded"
+  },
+  {
+   "id": "sv.meta-app-setup.2026-09-27",
+   "thread": "sv",
+   "title": "5. Meta app setup (yours)",
+   "status": "in_progress",
+   "created": "2026-09-27",
+   "updated": "2026-09-27",
+   "due": null,
+   "detail": "Create the Meta app under his existing personal Facebook account (administers the Page/business portfolio); link the Facebook Page + Instagram professional account; configure products and grant publishing permissions. His step — in progress since 2026-09-27.",
+   "where": "Short Video thread · 2026-09-27"
+  },
+  {
+   "id": "sv.fb-publish-test.2026-09-27",
+   "thread": "sv",
+   "title": "6. Facebook production publish test",
+   "status": "blocked",
+   "created": "2026-09-27",
+   "updated": "2026-09-27",
+   "due": null,
+   "detail": "Publish a test video to the Facebook Page through the Graph API production path — the same mechanism intended for live publishing, not a stand-in. Needs the Meta app + Page token from the app setup.",
+   "where": "Short Video thread · 2026-09-27",
+   "blockedBy": [
+    {
+     "kind": "task",
+     "id": "sv.meta-app-setup.2026-09-27"
+    }
+   ]
+  },
+  {
+   "id": "sv.ig-publish-test.2026-09-27",
+   "thread": "sv",
+   "title": "7. Instagram production publish test",
+   "status": "blocked",
+   "created": "2026-09-27",
+   "updated": "2026-09-27",
+   "due": null,
+   "detail": "Publish a test reel to @the_intelligently_artificial through the Instagram Graph API production path (media container → publish). Needs the Meta app + IG permissions from the app setup.",
+   "where": "Short Video thread · 2026-09-27",
+   "blockedBy": [
+    {
+     "kind": "task",
+     "id": "sv.meta-app-setup.2026-09-27"
+    }
+   ]
   }
  ]
 }
