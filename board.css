@@ -26,13 +26,12 @@ label.toggle{display:inline-flex;align-items:center;gap:6px;font-size:13px;color
 .duesoon a{margin-right:10px;color:#b45309;text-decoration:none;border-bottom:1px dotted #b45309}
 .duesoon a:hover{border-bottom-style:solid}
 #board{display:grid;grid-template-columns:1fr;gap:10px}
-@media(min-width:760px){#board.flat{grid-template-columns:1fr 1fr}}
+#board.flat{grid-template-columns:1fr 1fr}
 @media(min-width:1120px){#board.flat{grid-template-columns:1fr 1fr 1fr}}
 .thread-group{grid-column:1/-1}
 .thread-group>h2{font-size:16px;margin:14px 2px 8px;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
 .thread-group>h2 .tracker{font-size:12px;color:var(--muted);font-weight:400}
-.thread-group .cards{display:grid;grid-template-columns:1fr;gap:10px}
-@media(min-width:760px){.thread-group .cards{grid-template-columns:1fr 1fr}}
+.thread-group .cards{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 @media(min-width:1120px){.thread-group .cards{grid-template-columns:1fr 1fr 1fr}}
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;scroll-margin-top:12px}
 .card.flash{outline:3px solid #f59e0b;outline-offset:2px}
