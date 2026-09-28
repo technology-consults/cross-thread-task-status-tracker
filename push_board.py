@@ -93,8 +93,20 @@ def check_unblocks_after_push():
     the agent delivers each thread's report to that project's task tracker and
     acts (starts own work / pokes him), then records handled ids in
     hidden_files/unblock_watch_state.json so the hourly cron doesn't re-fire.
+
+    His standing rule (2026-09-28): board task updates (new tasks and status
+    changes) are delivered to the project's task TRACKER thread on every board
+    publish — not the project discussion threads. They print as TASK UPDATES
+    blocks below; the agent delivers each thread's block to that project's
+    task tracker thread via chat.send_message.
     """
     import subprocess
+    # Project task-tracker threads (NOT the project discussion side chats).
+    TRACKER_THREADS = {
+        "sv": "d82796e3-56f1-4d34-bf51-665165a38e92",  # Short Video task tracker
+        "tr": "1ff0cb94-8438-4900-8c47-a39846cbf1a3",  # Trading task tracker
+        "vh": "547fb3d1-6b69-4410-b9d0-084cd478e7ff",  # Vehicle task tracker
+    }
     snap_path = f"{BUILD}/hidden_files/task_status_snapshot.json"
     try:
         prev = json.load(open(snap_path))
@@ -104,15 +116,29 @@ def check_unblocks_after_push():
     tasks = data["tasks"] if isinstance(data, dict) else data
     cur = {}
     changed_threads = set()
+    updates = {}
     for t in tasks:
         tid = t.get("id")
         if not tid:
             continue
         st = t.get("status")
         cur[tid] = st
-        if prev.get(tid) != st and t.get("thread"):
+        old = prev.get(tid)  # None => newly added task
+        if old != st and t.get("thread"):
             changed_threads.add(t["thread"])
+            updates.setdefault(t["thread"], []).append({
+                "id": tid,
+                "title": t.get("title"),
+                "old": old,
+                "new": st,
+            })
     json.dump(cur, open(snap_path, "w"), indent=1)
+    if updates:
+        for th in sorted(updates):
+            items = updates[th]
+            print(f"===== TASK UPDATES thread={th} tracker={TRACKER_THREADS.get(th, '')} ({len(items)} changed) =====")
+            print(json.dumps(items, indent=1, ensure_ascii=False))
+            print(f"===== END TASK UPDATES thread={th} =====")
     if not changed_threads:
         print("unblock check: no task status changes since last push, skipping")
         return
