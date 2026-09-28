@@ -3,7 +3,7 @@
     "boardTitle": "All Threads Status Board",
     "lastUpdated": "2026-09-27",
     "note": "Entries describe where each discussion lives; the board cannot deep-link into individual chat messages.",
-    "asOf": "2026-09-28"
+    "asOf": "2026-09-27"
   },
   "threads": {
     "sv": {
@@ -756,6 +756,18 @@
       "blockedBy": [],
       "detail": "Build ALL publishing code + test designs locally overnight; credentials only at validation.\n• Meta (IG+FB): skill built by Bandhu — done, compiles.\n• YouTube: subagent building uploader + OAuth (token store abstracted).\n• TikTok: subagent mapping mechanism, then building.\n• X: subagent mapping mechanism, then building.\n• 8 AM summary via cron publish-build-summary-8am in the build side chat; BalRam reviews, then SHIP pushes to the short-video repo.\n• No git until SHIP. Status update to the Short Video tracker thread once done.",
       "where": "Short Video thread · 2026-09-27"
+    },
+    {
+      "id": "sv.publish-docs.2026-09-28",
+      "thread": "sv",
+      "title": "Publish docs: technical + non-technical architecture docs (md + pdf)",
+      "status": "in_progress",
+      "created": "2026-09-28",
+      "updated": "2026-09-28",
+      "due": null,
+      "where": "Short AI videos project side chat · 2026-09-28",
+      "blockedBy": [],
+      "detail": "Write architecture docs for the publishing pipeline, destined for the short-video repo.\n• Technical (readme.md + /docs md+pdf): common doc covering all platforms + one per platform (Meta, YouTube, TikTok, X) — with flow/use-case/component diagrams.\n• Content: third-party libs (currently stdlib-only by design), common scripts + how they work, lib update/vulnerability policy, components + interconnectivity, DB (none — stateless CLIs).\n• Non-technical (/docs pdf only): common overview + one per platform — plain-language architecture, use case, scope, features, limitations, challenges + mitigations.\n• Open: push docs to repo now vs stage for SHIP batch — awaiting his call."
     }
   ]
 }
