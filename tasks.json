@@ -1032,11 +1032,22 @@
    "id": "sv.board-card-grid-mobile.2026-09-28",
    "thread": "sv",
    "title": "Fix: board card grid on phones (restore multi-column layout)",
+   "status": "agreed",
+   "created": "2026-09-28",
+   "updated": "2026-09-28",
+   "due": null,
+   "detail": "BalRam: board shows everything stacked vertically on his phone; earlier it rendered as a card grid.\n• Cause: the board's responsive CSS collapses the card grid to a single column below 760px viewport width, so phones always get the vertical stack.\n• Fix: make 2 columns the base layout (both Flat view and By-thread view), keeping 3 columns on wide screens (1120px+). Cards will be narrower on phones (~190px each) — the trade-off for the card-grid look.\n• Deploy: commit board.css via GitHub API and sync portal KV (p:assets/board.css), then verify live.\n• Done 2026-09-28: board.css committed (423645b5) and portal KV synced; live CSS verified with the 2-column base rules.",
+   "where": "Main chat · 2026-09-28"
+  },
+  {
+   "id": "sv.review-board-card-grid-mobile.2026-09-28",
+   "thread": "sv",
+   "title": "Review: board card grid on phones (yours)",
    "status": "in_progress",
    "created": "2026-09-28",
    "updated": "2026-09-28",
    "due": null,
-   "detail": "BalRam: board shows everything stacked vertically on his phone; earlier it rendered as a card grid.\n• Cause: the board's responsive CSS collapses the card grid to a single column below 760px viewport width, so phones always get the vertical stack.\n• Fix: make 2 columns the base layout (both Flat view and By-thread view), keeping 3 columns on wide screens (1120px+). Cards will be narrower on phones (~190px each) — the trade-off for the card-grid look.\n• Deploy: commit board.css via GitHub API and sync portal KV (p:assets/board.css), then verify live.",
+   "detail": "Your step: open the Status Board on your phone and confirm the cards render in a 2-column grid again (Flat and By-thread views).\n• What changed: the card grid collapsed to one column below 760px viewport width; 2 columns is now the base layout everywhere, 3 columns on wide screens (1120px+).\n• Commit: https://github.com/technology-consults/cross-thread-task-status-tracker/commit/423645b5\n• Trade-off to note: cards are narrower on phones (~190px each), so text wraps more — that's the price of the grid look. Say the word if you'd rather have wider cards with a different arrangement.\nMark agreed when you're satisfied.",
    "where": "Main chat · 2026-09-28"
   }
  ]
