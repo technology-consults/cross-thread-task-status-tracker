@@ -1502,6 +1502,18 @@
    "detail": "The 2026-09-29 outage proved the gap: portal-links-watch runs daily at 07:42 ET and passed all URLs at 07:43, but the 15:12 binding-less worker deploy broke 4 of 6 links hours later - undetected until BalRam reported it. Deploy-time verification now exists (bandhu-portal scripts/deploy_worker.py checks all registry URLs live after every worker deploy), but non-deploy breakages (KV content pushes, Cloudflare-side changes) still have a up-to-24h detection blind spot. Options: (a) run the watcher more often - needs BalRam's explicit written authorization naming portal-links-watch (scheduler-write gate); (b) add a lightweight post-push check to the KV content push scripts (push_portal.py, push_board.py). Decision needed from BalRam on (a) before any schedule change.",
    "where": "Portal links · 2026-09-29",
    "assigned_to": "Bandhu"
+  },
+  {
+   "id": "tr.holiday-data-docs.2026-09-29",
+   "thread": "tr",
+   "title": "Docs: holiday data source of truth, refresh logic, and portal usage",
+   "status": "todo",
+   "created": "2026-09-29",
+   "updated": "2026-09-29",
+   "due": null,
+   "detail": "BalRam asked 2026-09-29 (\"later\"): update repo docs so the holiday data pipeline is documented in one place. Must cover:\n• Source of truth: local workspace JSON is authoritative for local work; one-way git mirror at technology-consults/cross-thread-task-status-tracker holidays/nyse_holidays.json via scripts/sync_holiday_copies.py. Never rebuild the list from web search.\n• Refresh logic: holiday-list-update cron runs quarterly on the 1st of Jan/Apr/Jul/Oct, keeps a rolling next-four-calendar-months list only; it is the ONLY writer of the list.\n• Deploy gate: deploy scripts assemble the holiday JSON from the git copy (never the workspace) and validate freshness (updated ≤120 days) — a stale mirror aborts the deploy instead of shipping wrong session labels.\n• Usage by portals: trading-portal scripts/deploy_portal.py assembles nyse-holidays.json into gh-pages; etf-live.html loads it same-origin at runtime; bandhu-portal worker /api/quotes session labels (confirm exact consumption path while writing).\n• Docs to touch: cross-thread repo holiday docs, trading-portal README, bandhu-portal architecture docs — .md updated AND PDFs regenerated, pushed to git per the deploy docs rule.",
+   "where": "Main chat · 2026-09-29",
+   "assigned_to": "Bandhu"
   }
  ]
 }
