@@ -864,31 +864,26 @@
    "id": "sv.docs-review.2026-09-28",
    "thread": "sv",
    "title": "Review publishing pipeline docs in the repo (yours)",
-   "status": "pending_review",
+   "status": "done",
    "created": "2026-09-28",
    "updated": "2026-09-28",
    "due": null,
    "where": "Short AI videos project side chat · 2026-09-28",
    "blockedBy": [],
-   "detail": "His step: review the technical + non-technical docs pushed to technology-consults/short-video (readme + docs/). On his done, the publishing code becomes eligible for SHIP.",
+   "detail": "His step: review the technical + non-technical docs pushed to technology-consults/short-video (readme + docs/). On his done, the publishing code becomes eligible for SHIP.\n\nVerdict: approved\nApproved by BalRam in the Short Video tracker (Muse thread) at 2026-09-28 23:14 EDT: \"publisher codes can go to git now.\" SHIP authorized.",
    "assigned_to": "BalRam"
   },
   {
    "id": "sv.publish-code-ship.2026-09-28",
    "thread": "sv",
    "title": "SHIP: publisher code + staging flow to the short-video-publisher repo",
-   "status": "blocked",
+   "status": "done",
    "created": "2026-09-28",
    "updated": "2026-09-28",
    "due": null,
    "where": "Short AI videos project side chat · 2026-09-28",
-   "blockedBy": [
-    {
-     "kind": "task",
-     "id": "sv.docs-review.2026-09-28"
-    }
-   ],
-   "detail": "BalRam 2026-09-28: the FIRST real publish (intro) goes through the EXACT prod mechanism — no workspace shortcuts. Scope: (1) push all publisher scripts (meta/IG/FB, YouTube, TikTok, X — native APIs only) to technology-consults/short-video-publisher; (2) close thumbnail gaps — YouTube thumbnails.set + Instagram reel cover; (3) staging contract — ~/workspace/short-video/staging/<video-id>/ holding video.mp4 + caption + thumbnail + manifest.json; (4) thin driver: syncs the video to the portal for its public URL, then calls each publisher. Still blocked on his docs review + standalone SHIP.",
+   "blockedBy": [],
+   "detail": "BalRam 2026-09-28: the FIRST real publish (intro) goes through the EXACT prod mechanism — no workspace shortcuts. Scope: (1) push all publisher scripts (meta/IG/FB, YouTube, TikTok, X — native APIs only) to technology-consults/short-video-publisher; (2) close thumbnail gaps — YouTube thumbnails.set + Instagram reel cover; (3) staging contract — ~/workspace/short-video/staging/<video-id>/ holding video.mp4 + caption + thumbnail + manifest.json; (4) thin driver: syncs the video to the portal for its public URL, then calls each publisher. Still blocked on his docs review + standalone SHIP.\n\nSHIPPED 2026-09-28 23:15 EDT. Repo: technology-consults/short-video-publisher, tag v1.0.0 (commit bd82423a on main; tag object c48e9a17). 21 files: README.md, src/{meta,youtube,tiktok,x}_publish/ (10 scripts), docs/<publisher>/ (10 docs). Verified live: tag tree holds 21 files; --container-only, --unpublished, and the X DORMANT notice all present in the shipped content; no stray files. Approval: sv.docs-review.2026-09-28 done, Verdict: approved, 2026-09-28 23:14 EDT.",
    "assigned_to": "Bandhu"
   },
   {
