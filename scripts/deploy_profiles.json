@@ -1,0 +1,52 @@
+{
+ "_note": "Deploy profiles for the completed automation (scripts/completed.py). A profile is listed ONLY when its mechanism proved out on a real call (mechanism-map rule, 2026-09-27). 'verified' means the push/deploy/verify path itself is proven; the regression 'gate' is enforced separately at runtime — no gate, no auto-deploy, ever.",
+ "_unmapped": {
+  "note": "Deliberately no profile for: bandhu-portal WORKER code (src/worker.mjs) — no verified deploy path exists (wrangler.toml has FILL_IN placeholders, wrangler not installed here; mechanism-map rule). Worker-code tasks stay MANUAL until a deploy mechanism is proven on a real call and a regression suite exists."
+ },
+ "board-push": {
+  "description": "Board file changes (index.html, tasks.json, board.css, tests/synthetic_matrix.js): publish via push_board.py --publish, which enforces the regression suite in code and syncs repo + portal KV.",
+  "gate": [
+   "python3",
+   "tests/regression.py"
+  ],
+  "kind": "board",
+  "repo": "technology-consults/cross-thread-task-status-tracker",
+  "verified": "2026-09-28 — push_board.py --publish runs the regression suite and aborts on failure; used for every board publish."
+ },
+ "github-repo-push-tag": {
+  "description": "Script/tool repos with no live web deploy (trading, short-video, vehicle, cross-thread scripts): commit+push via GitHub Contents API, release tag on the commit. The tag marks exactly which commit the release came from. Verification reads the tagged blob back through the API (content check).",
+  "gate": "py_compile_changed",
+  "kind": "repo",
+  "verified": "2026-09-28 — Contents API PUT + plural /git/refs tag creation used for the trading-repo docs commits and release tags (v1.0.0 trading-portal / bandhu-portal)."
+ },
+ "portal-kv-content": {
+  "deploy_cmd": [
+   "python3",
+   "scripts/push_portal.py"
+  ],
+  "description": "Portal content (hub, assets, artifact index, ev-deals): pushed to Cloudflare KV by the project's push scripts (scripts/push_portal.py, scripts/push_ev_deals.py). Verification GETs the portal URL and requires a content match.",
+  "gate": [
+   "python3",
+   "tests/test_portals.py"
+  ],
+  "gate_status": "ENFORCED — both push scripts run tests/test_portals.py in code and abort on failure (verified 2026-09-29).",
+  "kind": "kv-content",
+  "repo": "technology-consults/bandhu-portal",
+  "verified": "2026-09-29 — KV push scripts used for the portal content deploy; portal serves the keys live, content match verified."
+ },
+ "trading-portal-pages": {
+  "description": "GitHub Pages site: commit+push via GitHub Contents API to main, then scripts/deploy_portal.py --live assembles the gh-pages branch (main + canonical holiday JSON); Pages serves gh-pages, main is source-only. Verification GETs the live URL and requires a content match (Pages builds take ~1-2 min; the check retries).",
+  "gate": [
+   "python3",
+   "tests/test_portal_holiday_regression.py"
+  ],
+  "gate_status": "ENFORCED — deploy_portal.py runs the 12-check regression suite in code and aborts on failure (verified 2026-09-29).",
+  "kind": "pages",
+  "repo": "technology-consults/trading-portal",
+  "verified": "2026-09-29 — deploy_portal.py --live assembles gh-pages from main + canonical holiday JSON; v1.1.0 tagged on main, gh-pages serving, live URL + holiday JSON both HTTP 200 with content match.",
+  "verify_example": {
+   "match": "/*__BUNDLE_START__*/",
+   "url": "https://technology-consults.github.io/trading-portal/etf-live.html"
+  }
+ }
+}
