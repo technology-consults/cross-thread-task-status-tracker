@@ -705,7 +705,7 @@
       "created": "2026-09-27",
       "updated": "2026-09-28",
       "due": null,
-      "detail": "EXECUTION ONLY — the code is built in sv.meta-publish-skill.2026-09-27.\n• Run the pre-built Facebook Page video publish CLI through the custom.meta connector skill.\n• Verify: video visible on the Facebook Page.\n• Cleanup: delete the test video after verification.\n• Blocked only on the token being stored in the connector — nothing else.",
+      "detail": "EXECUTION ONLY — runs the REPO version (technology-consults/short-video-publisher) through the full prod staging flow: stage folder -> portal public URL -> publisher via the custom.meta connector. Disposable clip, deleted after verification. BalRam 2026-09-28: the exact mechanism the later prod videos use, no stand-ins.",
       "where": "Short Video thread · 2026-09-27",
       "blockedBy": [
         {
@@ -715,6 +715,10 @@
         {
           "kind": "task",
           "id": "sv.meta-publish-skill.2026-09-27"
+        },
+        {
+          "kind": "task",
+          "id": "sv.publish-code-ship.2026-09-28"
         }
       ],
       "assigned_to": "Bandhu"
@@ -727,7 +731,7 @@
       "created": "2026-09-27",
       "updated": "2026-09-28",
       "due": null,
-      "detail": "EXECUTION ONLY — the code is built in sv.meta-publish-skill.2026-09-27.\n• Run the pre-built Instagram reel publish CLI through the custom.meta connector skill.\n• Verify: container status -> published; reel visible on @the_intelligently_artificial.\n• Cleanup: delete the test reel after verification.\n• Blocked only on the token being stored in the connector — nothing else.",
+      "detail": "EXECUTION ONLY — runs the REPO version (technology-consults/short-video-publisher) through the full prod staging flow: stage folder -> portal public URL -> publisher via the custom.meta connector. Disposable clip, deleted after verification. BalRam 2026-09-28: the exact mechanism the later prod videos use, no stand-ins.",
       "where": "Short Video thread · 2026-09-27",
       "blockedBy": [
         {
@@ -737,6 +741,10 @@
         {
           "kind": "task",
           "id": "sv.meta-publish-skill.2026-09-27"
+        },
+        {
+          "kind": "task",
+          "id": "sv.publish-code-ship.2026-09-28"
         }
       ],
       "assigned_to": "Bandhu"
@@ -860,7 +868,7 @@
     {
       "id": "sv.publish-code-ship.2026-09-28",
       "thread": "sv",
-      "title": "SHIP: push publisher code to the short-video-publisher repo",
+      "title": "SHIP: publisher code + staging flow to the short-video-publisher repo",
       "status": "blocked",
       "created": "2026-09-28",
       "updated": "2026-09-28",
@@ -872,7 +880,7 @@
           "id": "sv.docs-review.2026-09-28"
         }
       ],
-      "detail": "BalRam 2026-09-28: all publisher code (meta/IG/FB, YouTube, TikTok, X — native APIs only) ships to the NEW dedicated repo technology-consults/short-video-publisher (created 2026-09-28, public, empty), NOT the short-video repo. Still blocked on his docs review + standalone SHIP. Then: clarify -> list asks -> change plan -> written confirmation -> push code.",
+      "detail": "BalRam 2026-09-28: the FIRST real publish (intro) goes through the EXACT prod mechanism — no workspace shortcuts. Scope: (1) push all publisher scripts (meta/IG/FB, YouTube, TikTok, X — native APIs only) to technology-consults/short-video-publisher; (2) close thumbnail gaps — YouTube thumbnails.set + Instagram reel cover; (3) staging contract — ~/workspace/short-video/staging/<video-id>/ holding video.mp4 + caption + thumbnail + manifest.json; (4) thin driver: syncs the video to the portal for its public URL, then calls each publisher. Still blocked on his docs review + standalone SHIP.",
       "assigned_to": "Bandhu"
     },
     {
@@ -1293,7 +1301,7 @@
       "id": "sv.intro-publish-real.2026-09-28",
       "thread": "sv",
       "title": "Publish approved intro video to Instagram + Facebook (real — stays up)",
-      "detail": "REAL publish of the approved channel intro (~/workspace/short-video/intro/intro-final.mp4 or the approved final). Not a test — it stays on the channel/Page after posting. Runs only after: (1) his written video approval, (2) caption/hashtag style approval, (3) both production publish tests pass (disposable clip, deleted after verification).",
+      "detail": "BalRam 2026-09-28: the FIRST video publish goes through the EXACT prod mechanism — repo code (short-video-publisher), staging folder -> portal public URL, driver, production connector credentials. No workspace shortcuts. REAL publish of the approved channel intro — stays on the channel/Page after posting.",
       "status": "blocked",
       "blockedBy": [
         {
@@ -1306,11 +1314,42 @@
         },
         {
           "kind": "task",
+          "id": "sv.publish-code-ship.2026-09-28"
+        },
+        {
+          "kind": "task",
+          "id": "sv.portal-mp4-content-type.2026-09-28"
+        },
+        {
+          "kind": "task",
           "id": "sv.fb-publish-test.2026-09-27"
         },
         {
           "kind": "task",
           "id": "sv.ig-publish-test.2026-09-27"
+        }
+      ],
+      "updated": "2026-09-28"
+    },
+    {
+      "id": "sv.portal-mp4-pull.2026-09-28",
+      "thread": "sv",
+      "title": "Pull/sync bandhu-portal before the mp4 content-type change",
+      "detail": "Pre-work sync of the local bandhu-portal clone (standing rule: pull before any code change).",
+      "status": "todo",
+      "blockedBy": [],
+      "updated": "2026-09-28"
+    },
+    {
+      "id": "sv.portal-mp4-content-type.2026-09-28",
+      "thread": "sv",
+      "title": "Portal: serve .mp4 as video/mp4",
+      "detail": "bandhu-portal ctype() in src/worker.mjs currently serves .mp4 as application/octet-stream. Instagram fetches the public video URL itself — correct video/mp4 content type is the safe prod behavior. After code: his review, then tag + deploy (portal deploy gate). The intro publish needs the deployed fix.",
+      "status": "blocked",
+      "blockedBy": [
+        {
+          "kind": "task",
+          "id": "sv.portal-mp4-pull.2026-09-28"
         }
       ],
       "updated": "2026-09-28"
