@@ -160,8 +160,8 @@ def build_pdf(rows, project, title_name, digest_no, digest_name, created):
         ParagraphStyle("s", fontName="Helvetica", fontSize=9.5, leading=13,
                        textColor=GREY, spaceAfter=10)))
     if rows:
-        hdr = [P("<b>Task</b>"), P("<b>Summary</b>"), P("<b>Status</b>"),
-               P("<b>Assigned</b>"), P("<b>Created</b>"), P("<b>Due</b>")]
+        hdr = [P("<b>Task</b>", textColor=colors.white), P("<b>Summary</b>", textColor=colors.white), P("<b>Status</b>", textColor=colors.white),
+               P("<b>Assigned</b>", textColor=colors.white), P("<b>Created</b>", textColor=colors.white), P("<b>Due</b>", textColor=colors.white)]
         body = [[P(html.escape(r["title"])), P(html.escape(r["summary"])),
                  P(html.escape(r["status"])), P(html.escape(r["owner"])),
                  P(html.escape(r["created"])), P(html.escape(r["due"]))]
