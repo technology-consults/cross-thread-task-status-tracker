@@ -1,6 +1,6 @@
 # Workspace Directory Guide
 
-**Created:** 2026-09-28 11:53 EDT · **Last modified:** 2026-09-28 11:54 EDT
+**Created:** 2026-09-28 11:53 EDT · **Last modified:** 2026-09-29 09:05 EDT
 
 A plain-words map of everything in the workspace: what each directory is for, and what each file underneath it does. Machine-generated bulk (caches, logs, snapshots) is grouped by pattern with counts instead of one row per file — those rows would add noise, not information.
 
@@ -13,7 +13,7 @@ A plain-words map of everything in the workspace: what each directory is for, an
 | `agents/` | Saved records of past agent tool calls (debugging cache) | ~237, grouped |
 | `archive/` | Retired source folders, date-stamped snapshots (read-only history) | 5 folders, ~248 files |
 | `artifact-index-build/` | Staging copies used to build the Artifact Index page | ~51 |
-| `cron.d/` | Definitions for every recurring background job | 17 |
+| `cron.d/` | Definitions for every recurring background job (7 live + retired archive) | 7 live |
 | `etf-charts/` | One leftover ETF chart sample | 1 |
 | `feature-request/` | Feedback/failure reports filed to the Muse product team | 4 |
 | `feed/` | Working data for your personal Feed (newspaper) | ~202, grouped |
@@ -27,7 +27,7 @@ A plain-words map of everything in the workspace: what each directory is for, an
 | `repos/` | Local git clones of the six project repos — the live sources of truth | ~142 |
 | `scheduler/` | Empty placeholder | 0 |
 | `self_improvement/` | The agent's background self-improvement loop (state + staging) | ~458, grouped |
-| `shared/` | Shared context library (global + per-category layers, templates) | 7 |
+| `shared/` | Shared context library (global + per-category layers, templates, holidays) | 8 |
 | `short-video/` | Short-video working files: intro-video assets, doc-build scratch, publish notes | ~36 |
 | `skills/` | Reusable playbooks: one guide + helper scripts per service | ~38 |
 | `space_data/` | Auto-generated preview/thumbnail images for web spaces | ~32, grouped |
@@ -105,6 +105,8 @@ The schedule definitions for every recurring background job (one markdown file p
 | `cron.d/hourly/board-unblock-watch-sv__interval@1h.md` | Hourly unblock check for the Short Video board |
 | `cron.d/hourly/board-unblock-watch-tr__interval@1h.md` | Hourly unblock check for the Trading board |
 | `cron.d/hourly/board-unblock-watch-vh__interval@1h.md` | Hourly unblock check for the Vehicle board |
+| `cron.d/daily/portal-links-watch__daily@07:42:00_user_current.md` | Daily portal-URL live re-verification |
+| `cron.d/daily/regression-watchdog__daily@07:42:00_user_current.md` | Daily regression watchdog |
 | `cron.d/minutely/heartbeat__interval@30m.md` | 30-minute heartbeat check |
 | `cron.d/weekly/failure-log-weekly__weekly@Sat-09:42:00.md` | Weekly failure-log review, Saturdays |
 | `cron.d/_archive/agentic-feature-tour__daily@09:46:00.md` | Retired feature-tour schedule |
@@ -113,6 +115,8 @@ The schedule definitions for every recurring background job (one markdown file p
 | `cron.d/_archive/board-unblock-watch__interval@1h.md` | Retired older 1-hourly board watch |
 | `cron.d/_archive/etf-price-preclose__daily@15:30:00.md` | Retired older pre-close schedule |
 | `cron.d/_archive/etf-price-updates__interval@2h.md` | Retired older price-updates schedule |
+| `cron.d/_archive/etf-signal-intraday__interval@2h.md` | Decommissioned intraday watch (replaced by market-hours + off-hours jobs, 2026-09-29) |
+| `cron.d/_archive/holiday-list-update__weekly@Sun-20:00:00.md` | Retired weekly holiday schedule (replaced by quarterly, 2026-09-29) |
 | `cron.d/_archive/job-watchdog__interval@1h.md` | Retired older watchdog schedule |
 | `cron.d/_archive/precon-digest__daily@08:42:00.md` | Retired (disabled) digest schedule |
 | `cron.d/_archive/strategy-research-updates__interval@2h.md` | Retired strategy-research schedule (+1 timestamped duplicate) |
@@ -179,12 +183,15 @@ The ETF price-alert goal: QQQ/SPY/GLD cards with charts, trading signals, and th
 | File | What it is |
 |---|---|
 | `GOAL.md` | Notes on the ETF price-alert goal |
-| `crons/daily/etf-price-preclose__daily@15:00:00.md` | Pre-close alert schedule |
+| `crons/daily/etf-price-preclose__daily@15:15:00.md` | Pre-close alert schedule |
 | `crons/daily/etf-trading-signals__daily@07:30:00.md` | Morning signal-report schedule |
 | `crons/daily/signal-scorecard__daily@08:42:00.md` | Signal scorecard schedule |
 | `crons/hourly/etf-price-updates__interval@2h.md` | 2-hourly price-alert schedule |
-| `crons/hourly/etf-signal-intraday__interval@2h.md` | 2-hourly intraday signal-watch schedule |
+| `crons/hourly/etf-signal-intraday-market__interval@1h.md` | Hourly market-hours signal-watch schedule |
+| `crons/hourly/etf-signal-intraday-offhours__interval@6h.md` | 6-hourly off-hours signal-watch schedule |
 | `crons/minutely/etf-live-bundle__interval@5m.md` | 5-minute live-bundle rebake schedule |
+| `crons/monthly/holiday-list-update__monthly@1-20:00:00.md` | Quarterly NYSE holiday-list refresh schedule |
+| `crons/weekly/etf-cron-timing-tuner__weekly@Mon-07:42:00.md` | Weekly cron-timing tuner schedule |
 | `crons/weekly/etf-signal-engine-review__weekly@Fri-17:42:00_user_current.md` | Weekly engine-health review schedule |
 | `files/etf-live.html` | The live ETF web app page (working copy) |
 | `files/etf-live-bundle.json` | The live app's baked market-data bundle (working copy) |
@@ -320,20 +327,28 @@ Local git clones of the six project repos (cloned 2026-09-28) — the live sourc
 | `tests/test_public_mode.mjs` | Public-mode behavior tests |
 | `wrangler.toml` | Cloudflare deployment config |
 
-### `repos/cross-thread-task-status-tracker/` — the status board
+### `repos/cross-thread-task-status-tracker/` — the status board + cross-cutting automation
 | File | What it is |
 |---|---|
 | `README.md` | Repo readme |
 | `index.html` | The hosted status board page |
 | `board.css` | Board stylesheet |
 | `tasks.json` | The board's task data |
-| `push_board.py` | Publishes board updates (root copy) |
 | `scripts/push_board.py` | Publishes board updates (scripts copy) |
-| `unblock_watch.py` | Unblock-watcher script |
-| `hidden_files/task_status_snapshot.json` | Last-known task statuses |
-| `hidden_files/unblock_watch_state.json` | Watcher state |
+| `scripts/unblock_watch.py` | Unblock-watcher script |
+| `scripts/pending_digest.py` | Per-thread task-digest builder |
+| `scripts/sync_crons_to_git.py` | Mirrors cron definitions into `crons/` |
+| `scripts/pull_all_repos.sh` | Pulls all project repos to latest |
+| `scripts/sync_holiday_copies.py` | Validates + mirrors the NYSE holiday JSON |
+| `crons/` | Versioned mirror of every saved cron definition |
+| `holidays/nyse_holidays.json` | The shared NYSE holiday list |
+| `docs/scheduled-jobs.md` | Current list of every scheduled job |
+| `docs/workspace-directory-guide.md` | This guide |
+| `docs/redesign-spec.md` | Board redesign specification |
 | `artifacts/index.html` | The Artifact Index page |
 | `tests/synthetic_matrix.js` | Board test matrix |
+| `hidden_files/task_status_snapshot.json` | Last-known task statuses |
+| `hidden_files/unblock_watch_state.json` | Watcher state |
 
 ### `repos/short-video/` — short-video docs, plans, and media
 | File | What it is |
@@ -373,10 +388,13 @@ Local git clones of the six project repos (cloned 2026-09-28) — the live sourc
 ### `repos/trading-portal/` — the live ETF web app
 | File | What it is |
 |---|---|
-| `README.md` | Repo readme |
+| `README.md` | Repo readme (branches, holiday flow, deploy process) |
 | `etf-live.html` | The live ETF web app page |
 | `etf-live.css` | Its stylesheet |
 | `etf-live-bundle.json` | Its baked market-data bundle |
+| `nyse-holidays.json` | The assembled NYSE holiday file the page loads (deploy-time only) |
+| `scripts/deploy_portal.py` | Assembles + deploys the `gh-pages` branch (validates the holiday JSON) |
+| `tests/` | Portal regression suite |
 
 ### `repos/vehicle/` — vehicle project
 | File | What it is |
@@ -414,6 +432,7 @@ The shared context library in three layers — global (all chats), per-category 
 | `shared/health/README.md` | Scope note for the health layer |
 | `shared/trading/README.md` | Scope note for the trading layer |
 | `shared/vehicle/README.md` | Scope note for the vehicle layer |
+| `shared/holidays/nyse_holidays.json` | The canonical NYSE holiday list (workspace copy; mirrored to the cross-thread repo) |
 
 ## `short-video/`
 Short-video pipeline working files: intro-video build assets, doc-build scratch scripts, and publish-pipeline build notes.
