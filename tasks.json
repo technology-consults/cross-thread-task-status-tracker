@@ -890,9 +890,9 @@
    "id": "sv.caption-style.2026-09-28",
    "thread": "sv",
    "title": "Caption / hashtag style approval (yours)",
-   "status": "pending_review",
+   "status": "pending_review_post_discussion",
    "created": "2026-09-28",
-   "updated": "2026-09-28",
+   "updated": "2026-09-29",
    "due": null,
    "where": "Short AI videos project side chat · 2026-09-28",
    "blockedBy": [],
@@ -1513,6 +1513,19 @@
    "due": null,
    "detail": "BalRam asked 2026-09-29 (\"later\"): update repo docs so the holiday data pipeline is documented in one place. Must cover:\n• Source of truth: local workspace JSON is authoritative for local work; one-way git mirror at technology-consults/cross-thread-task-status-tracker holidays/nyse_holidays.json via scripts/sync_holiday_copies.py. Never rebuild the list from web search.\n• Refresh logic: holiday-list-update cron runs quarterly on the 1st of Jan/Apr/Jul/Oct, keeps a rolling next-four-calendar-months list only; it is the ONLY writer of the list.\n• Deploy gate: deploy scripts assemble the holiday JSON from the git copy (never the workspace) and validate freshness (updated ≤120 days) — a stale mirror aborts the deploy instead of shipping wrong session labels.\n• Usage by portals: trading-portal scripts/deploy_portal.py assembles nyse-holidays.json into gh-pages; etf-live.html loads it same-origin at runtime; bandhu-portal worker /api/quotes session labels (confirm exact consumption path while writing).\n• Docs to touch: cross-thread repo holiday docs, trading-portal README, bandhu-portal architecture docs — .md updated AND PDFs regenerated, pushed to git per the deploy docs rule.",
    "where": "Main chat · 2026-09-29",
+   "assigned_to": "Bandhu"
+  },
+  {
+   "id": "sv.board-review-verdict-options.2026-09-29",
+   "thread": "sv",
+   "title": "Review verdict options on the task card in every review state",
+   "status": "in_progress",
+   "created": "2026-09-29",
+   "updated": "2026-09-29",
+   "due": null,
+   "where": "Side chat · 2026-09-29",
+   "blockedBy": [],
+   "detail": "BalRam 2026-09-29: review tasks must always carry their decision options on the task card itself. Gap: pending_review shows Approve/Reject/Ask-for-clarification, but pending_review_post_discussion shows only ‘Send clarification’ — no way to approve/reject from the card while clarifying. Fix: add Approve (→done/approved) and Reject (→done/rejected) to pending_review_post_discussion in index.html TRANSITIONS. Standing rule going forward: every review state keeps its verdict options.",
    "assigned_to": "Bandhu"
   }
  ]
