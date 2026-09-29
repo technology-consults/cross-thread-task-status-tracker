@@ -730,12 +730,12 @@
   {
    "id": "sv.ig-publish-test.2026-09-27",
    "thread": "sv",
-   "title": "7. Instagram production publish test",
+   "title": "7. Instagram container verification (no publish)",
    "status": "blocked",
    "created": "2026-09-27",
    "updated": "2026-09-28",
    "due": null,
-   "detail": "EXECUTION ONLY — runs the REPO version (technology-consults/short-video-publisher) through the full prod staging flow: stage folder -> portal public URL -> publisher via the custom.meta connector. Disposable clip, deleted after verification. BalRam 2026-09-28: the exact mechanism the later prod videos use, no stand-ins.",
+   "detail": "CONTAINER-ONLY (BalRam 2026-09-28, LOCKED) — create the reel container with the REAL intro video + caption + cover via the REPO publisher (technology-consults/short-video-publisher) through the full prod staging flow: stage folder -> portal public URL -> publisher via the custom.meta connector. Poll until status FINISHED — proves Meta fetched the portal URL, accepted the specs/caption/cover, and transcoded cleanly. NEVER call media_publish on the check: nothing goes public. On his written go-ahead, publish THAT SAME container (no re-creation). Container expires ~24h — publish promptly after verification. No disposable clip, no deletion.",
    "where": "Short Video thread · 2026-09-27",
    "blockedBy": [
     {
@@ -749,6 +749,10 @@
     {
      "kind": "task",
      "id": "sv.publish-code-ship.2026-09-28"
+    },
+    {
+     "kind": "task",
+     "id": "sv.intro-video-review.2026-09-28"
     }
    ],
    "assigned_to": "Bandhu"
