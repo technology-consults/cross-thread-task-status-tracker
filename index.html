@@ -100,6 +100,8 @@ const TRANSITIONS = {
     {label:"Ask for clarification", to:"pending_review_post_discussion"}
   ],
   pending_review_post_discussion:[
+    {label:"Approve", to:"done", review:"approved"},
+    {label:"Reject", to:"done", review:"rejected"},
     {label:"Send clarification", to:"pending_review"}
   ],
   not_approved:[
