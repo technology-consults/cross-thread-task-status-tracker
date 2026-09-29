@@ -1490,6 +1490,18 @@
    "detail": "Agreed 2026-09-29, refined same day. (1) Price ledger per product: vendor, plan, last verified price, BILLING TERM of the shown price (monthly or annual), whether an annual option exists at all, currency, source URL, date checked. (2) Weekly re-check of each official pricing page; diff vs ledger; any change is covered as a SEGMENT inside one of the same week's videos - never a standalone video about a price change alone. (3) Topic-selection rule: skip products covered in the last 1-2 weeks; for anything older, re-verify the price before scripting - if it changed, the change is folded into that video. (4) Per-video citation: description carries 'Prices checked: <vendor> official pricing page (<link>) as of <date>, <plan> at <price>/<term>'; on-screen bottom line while prices are discussed shows '<Vendor> website, <price>/<term>, checked <date>' (company name + price with billing term + date, no URL). (5) Vendor news/blog monitoring is a secondary signal only; the official pricing page is ground truth. Official sources only, check date recorded every time. Review-gate applies.",
    "where": "Short Video thread · 2026-09-29",
    "assigned_to": "Bandhu"
+  },
+  {
+   "id": "sv.portal-watcher-gap.2026-09-29",
+   "thread": "sv",
+   "title": "Portal links watcher: close the same-day detection gap",
+   "status": "todo",
+   "created": "2026-09-29",
+   "updated": "2026-09-29",
+   "due": null,
+   "detail": "The 2026-09-29 outage proved the gap: portal-links-watch runs daily at 07:42 ET and passed all URLs at 07:43, but the 15:12 binding-less worker deploy broke 4 of 6 links hours later - undetected until BalRam reported it. Deploy-time verification now exists (bandhu-portal scripts/deploy_worker.py checks all registry URLs live after every worker deploy), but non-deploy breakages (KV content pushes, Cloudflare-side changes) still have a up-to-24h detection blind spot. Options: (a) run the watcher more often - needs BalRam's explicit written authorization naming portal-links-watch (scheduler-write gate); (b) add a lightweight post-push check to the KV content push scripts (push_portal.py, push_board.py). Decision needed from BalRam on (a) before any schedule change.",
+   "where": "Portal links · 2026-09-29",
+   "assigned_to": "Bandhu"
   }
  ]
 }
