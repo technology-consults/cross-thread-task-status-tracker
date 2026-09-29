@@ -1478,6 +1478,18 @@
    "detail": "Fix approved by BalRam 2026-09-29: unblock_watch.py surfaced brand-new todo tasks with zero blockers as unblock events (its actionable check is todo + nothing-blocking + never-seen; a never-gated task passes trivially). Change: the unblock check and the sweep idle reason only surface tasks that actually had blockers or a start gate, so an unblock notice is always truthful and never-gated todos stay the board publish flow's job to announce. Shared script, applies to all three threads. DONE 2026-09-29: unblock_watch.py now only surfaces tasks that had blockers or a start gate (was_gated); verified via unit checks + old-vs-new simulation on live data (never-gated todo surfaced pre-fix, silent post-fix, genuine unblocks unaffected). Committed via API (b61be3a), tagged v1.0.1, clone re-synced.",
    "where": "Trading tracker · 2026-09-29",
    "assigned_to": "Bandhu"
+  },
+  {
+   "id": "sv.price-watch.2026-09-29",
+   "thread": "sv",
+   "title": "Price monitoring: ledger + weekly official-page checks + per-video price citation",
+   "status": "todo",
+   "created": "2026-09-29",
+   "updated": "2026-09-29",
+   "due": null,
+   "detail": "Agreed 2026-09-29. (1) Price ledger per product: vendor, plan, last verified price, currency, source URL, date checked. (2) Weekly re-check of each official pricing page; diff vs ledger; any change becomes a topic candidate for the daily topic pipeline, aiming for a video the same week (not same day). (3) Topic-selection rule: skip products covered in the last 1-2 weeks; for anything older, re-verify the price before scripting - if it changed, the change itself is the topic. (4) Per-video citation: description carries 'Prices checked: <vendor> official pricing page (<link>) as of <date>'; on-screen bottom line while prices are discussed shows '<Vendor> website, checked <date>' (company name + date, no URL). (5) Vendor news/blog monitoring is a secondary signal only; the official pricing page is ground truth. Official sources only, check date recorded every time. Review-gate applies.",
+   "where": "Short Video thread · 2026-09-29",
+   "assigned_to": "Bandhu"
   }
  ]
 }
