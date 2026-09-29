@@ -1128,13 +1128,14 @@
    "id": "sv.review-board-card-grid-mobile.2026-09-28",
    "thread": "sv",
    "title": "Review: board card grid on phones (yours)",
-   "status": "pending_review",
+   "status": "done",
    "created": "2026-09-28",
    "updated": "2026-09-28",
    "due": null,
    "detail": "Your step: open the Status Board on your phone and confirm the cards render in a 2-column grid again (Flat and By-thread views).\n• What changed: the card grid collapsed to one column below 760px viewport width; 2 columns is now the base layout everywhere, 3 columns on wide screens (1120px+).\n• Commit: https://github.com/technology-consults/cross-thread-task-status-tracker/commit/423645b5\n• Trade-off to note: cards are narrower on phones (~190px each), so text wraps more — that's the price of the grid look. Say the word if you'd rather have wider cards with a different arrangement.\nMark agreed when you're satisfied.",
    "where": "Main chat · 2026-09-28",
-   "assigned_to": "BalRam"
+   "assigned_to": "BalRam",
+   "verdict": "approved"
   },
   {
    "id": "sv.board-approval-workflow.2026-09-28",
