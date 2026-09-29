@@ -860,7 +860,7 @@
     {
       "id": "sv.publish-code-ship.2026-09-28",
       "thread": "sv",
-      "title": "SHIP: push publishing code to the short-video repo",
+      "title": "SHIP: push publisher code to the short-video-publisher repo",
       "status": "blocked",
       "created": "2026-09-28",
       "updated": "2026-09-28",
@@ -872,7 +872,7 @@
           "id": "sv.docs-review.2026-09-28"
         }
       ],
-      "detail": "Blocked on his docs review + standalone SHIP. Then: clarify -> list asks -> change plan -> written confirmation -> push code (X ships dormant) to technology-consults/short-video via API.",
+      "detail": "BalRam 2026-09-28: all publisher code (meta/IG/FB, YouTube, TikTok, X — native APIs only) ships to the NEW dedicated repo technology-consults/short-video-publisher (created 2026-09-28, public, empty), NOT the short-video repo. Still blocked on his docs review + standalone SHIP. Then: clarify -> list asks -> change plan -> written confirmation -> push code.",
       "assigned_to": "Bandhu"
     },
     {
