@@ -1205,7 +1205,7 @@
    "id": "sv.completed-automation.2026-09-28",
    "thread": "sv",
    "title": "Board: build completed automation (blocked_completed → completed → push/tag/deploy → done)",
-   "status": "blocked",
+   "status": "done",
    "created": "2026-09-28",
    "updated": "2026-09-28",
    "due": null,
@@ -1217,7 +1217,37 @@
      "id": "sv.review-board-redesign.2026-09-28"
     }
    ],
-   "detail": "Assistant task — build the post-approval automation so blocked_completed → completed → push/tag/deploy/verify → done runs without manual thread moves.\n• Trigger: review task approved (verdict approved) with a blocked_completed work task in its blockedBy.\n• Steps: move work task to completed; code tasks → commit/push, release tag, deploy, verify live; non-code → artifacts/messages; record commit link; move to done.\n• Safety: never run on already-deployed work; rejection path moves work to not_approved instead.\n• Interim (locked 2026-09-28): manual thread moves until this automation ships — nothing moves without his written approval."
+   "detail": "Assistant task — build the post-approval automation so blocked_completed → completed → push/tag/deploy/verify → done runs without manual thread moves.\n• Trigger: review task approved (verdict approved) with a blocked_completed work task in its blockedBy.\n• Steps: move work task to completed; code tasks → commit/push, release tag, deploy, verify live; non-code → artifacts/messages; record commit link; move to done.\n• Safety: never run on already-deployed work; rejection path moves work to not_approved instead.\n• Interim (locked 2026-09-28): manual thread moves until this automation ships — nothing moves without his written approval.",
+   "post": {
+    "kind": "code",
+    "repo": "technology-consults/cross-thread-task-status-tracker",
+    "files": [
+     "scripts/completed.py",
+     "scripts/deploy_profiles.json",
+     "docs/completed-automation.md",
+     "tests/regression.py"
+    ],
+    "profile": "github-repo-push-tag",
+    "tag": "v1.1.0",
+    "verify_blobs": [
+     {
+      "path": "scripts/completed.py",
+      "match": "Phase 2 - post-actions"
+     },
+     {
+      "path": "scripts/deploy_profiles.json",
+      "match": "trading-portal-pages"
+     },
+     {
+      "path": "docs/completed-automation.md",
+      "match": "The post plan"
+     },
+     {
+      "path": "tests/regression.py",
+      "match": "completed.py: --help exits 0"
+     }
+    ]
+   }
   },
   {
    "id": "sv.review-regression-suite.2026-09-28",
@@ -1229,6 +1259,34 @@
    "updated": "2026-09-28",
    "detail": "Review the regression suite (12 checks) pushed as fbee7224. Covers: tasks.json validity, push_board.py safety, CSS rules, HTML fallbacks, digest generation. Retroactive review — file already in repo.",
    "summary": "Retroactive review of regression suite (pushed without prior approval — process violation owned)."
+  },
+  {
+   "id": "sv.review-completed-automation.2026-09-28",
+   "thread": "sv",
+   "title": "Review: completed automation (yours)",
+   "status": "pending_review",
+   "assigned_to": "BalRam",
+   "created": "2026-09-28",
+   "updated": "2026-09-28",
+   "detail": "Completed automation — ready for your review. Built tonight after the board-redesign approval unblocked it.\n\nWhat it does:\n- Phase 1 applies your verdict: a blocked_completed task whose review task is done with 'Verdict: approved' moves to completed; 'Verdict: rejected' moves it to not_approved. A done review with no verdict line is never guessed at — reported for a human.\n- Phase 2 runs the task's post plan: code tasks go gate -> commit+push -> release tag -> deploy -> live content check -> done; message/artifact/none kinds finish directly. No plan, no proven deploy mechanism, no passing tests, or any failure -> the task stays in completed and is reported; never auto-retried blindly, never rolled back automatically.\n- Dry-run is the default; --execute is required to move anything. Second runs change nothing (idempotent).\n\nFiles (local only, NOT pushed — push/tag/deploy after your written approval):\n- scripts/completed.py — the automation (verdict application + post-actions + GitHub API push/tag + live verification)\n- scripts/deploy_profiles.json — only proven mechanisms: board-push, github-repo-push-tag, trading-portal-pages, portal-kv-content. Worker code (bandhu-portal src/worker.mjs) deliberately has NO profile — no proven deploy path exists, so those tasks stay manual.\n- docs/completed-automation.md — plain-words doc + the post-plan schema\n- tests/regression.py — 6 new checks (18/18 pass)\n\nDeliberate calls for you to confirm or change:\n1. trading-portal and portal-kv-content profiles have NO test suite, so the automation will NOT auto-deploy them — it reports 'build the suite first' instead. Your rule (no deploy without a passing regression) is enforced in code.\n2. Release tag for this automation: v1.1.0 (feature on top of the v1.0.0 redesign). Say if you want a different version.\n3. Runner cron: proposed hourly (matches the watcher), running completed.py --execute then push_board.py --publish when anything changed. Task sv.completed-automation-cron.2026-09-28 is queued behind this review.\n4. The post plan on a work task is written at review-submit time (schema in the doc). Nothing is ever guessed.\n\nTested: 18/18 regression checks pass; fixture runs prove approve/reject/no-verdict handling, dry-run changes nothing, execute moves correctly, second run is a no-op; py_compile gate rejects a broken file and passes a good one; unknown profile and missing plan both report MANUAL instead of acting.\n\nNot yet done: push/tag/deploy of these files (needs your written approval), then the runner cron.\n\nReply \"approved\" to ship, or ask for changes.",
+   "where": "Short Video task tracker · 2026-09-28"
+  },
+  {
+   "id": "sv.completed-automation-cron.2026-09-28",
+   "thread": "sv",
+   "title": "Board: create completed-automation runner cron",
+   "status": "todo",
+   "assigned_to": "Bandhu",
+   "created": "2026-09-28",
+   "updated": "2026-09-28",
+   "blockedBy": [
+    {
+     "kind": "task",
+     "id": "sv.review-completed-automation.2026-09-28"
+    }
+   ],
+   "detail": "Assistant task — after the completed-automation review is approved and the code is pushed/tagged:\n• Create the runner cron (proposed hourly): completed.py --execute, then push_board.py --publish when statuses changed; deliver COMPLETED-ACTION / MANUAL blocks to the project tracker threads.\n• The interim manual thread moves end when this cron is live.\n• Blocked on the review task: nothing is scheduled before his written approval.",
+   "where": "Short Video task tracker · 2026-09-28"
   }
  ]
 }
