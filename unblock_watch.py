@@ -8,6 +8,11 @@ A task is actionable when:
   (gate = ISO date in the note, else the task's 'due' field; no date -> still blocked), AND
 - no 'start' field dated in the future.
 
+A task that never had any blockers or start gate is never surfaced here: with
+nothing that could have blocked it there is no unblock event, and brand-new
+todos are announced by the board publish flow. (2026-09-29: a never-gated todo
+was misreported as an "unblock notice".)
+
 Prints a JSON list of newly actionable tasks, excluding ids already recorded
 in the state file. The caller (cron worker) decides per task whether the work
 is mine to do or BalRam's step, acts accordingly, then records handled ids.
@@ -77,6 +82,16 @@ def owner_hint(t):
     return "his" if HIS_STEP.search(text) else "mine"
 
 
+def was_gated(t):
+    """True when the task ever had something that could block it.
+
+    A task with no blockedBy entries and no start gate was never blocked, so
+    it can never "become" actionable -- it was always actionable. Such tasks
+    are announced by the board publish flow, never by this watcher.
+    """
+    return bool(t.get("blockedBy")) or bool(t.get("start"))
+
+
 def main():
     import argparse
     from datetime import date, timedelta
@@ -106,6 +121,8 @@ def main():
         status = t.get("status")
         if args.sweep:
             if status == "todo" and blockers_clear(t, byid, today):
+                if not was_gated(t):
+                    continue  # never gated: publish flow announces new todos
                 entry = {k: t.get(k) for k in fields}
                 entry.update(reason="idle", owner_hint=owner_hint(t))
                 out.append(entry)
@@ -131,6 +148,8 @@ def main():
             continue
         if not blockers_clear(t, byid, today):
             continue
+        if not was_gated(t):
+            continue  # never gated: nothing ever blocked it, no unblock event
         out.append({k: t.get(k) for k in fields})
     print(json.dumps(out, indent=1))
 
