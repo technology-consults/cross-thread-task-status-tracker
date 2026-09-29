@@ -107,3 +107,4 @@ footer{margin:18px 2px 8px;font-size:12px;color:var(--muted)}
   border:1px solid var(--line);border-radius:999px;padding:3px 11px;
   background:var(--card);white-space:nowrap}
 
+.digest-table thead th{background:var(--blue);color:#fff}
