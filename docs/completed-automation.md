@@ -1,6 +1,6 @@
 # Completed automation
 
-**Created:** 2026-09-28 · **Last modified:** 2026-09-28
+**Created:** 2026-09-28 · **Last modified:** 2026-09-29
 
 ## Plain words
 
@@ -75,7 +75,7 @@ exists only after its mechanism proved out on a real call:
 
 | Profile | Target | Mechanism (proven) | Gate |
 |---|---|---|---|
-| `board-push` | board files | `push_board.py --publish` (repo + portal KV) | `tests/regression.py` (enforced in code) |
+| `board-push` | board files | GitHub API commit of `tasks.json` + KV PUT to `p:tasks.json` (the `scripts/push_board.py` wrapper is retired — it expects the archived `board-build/` folder) | `tests/regression.py` (run manually before every publish) |
 | `github-repo-push-tag` | script repos (trading, short-video, vehicle) | GitHub API commit + release tag | changed `.py` files must compile |
 | `trading-portal-pages` | trading-portal site | API push → Pages auto-deploy → live URL check | **missing** — stays manual until a suite exists |
 | `portal-kv-content` | portal content pages | project's KV push scripts → live URL check | **missing** — stays manual until a suite exists |
@@ -107,11 +107,14 @@ Test against a fixture instead of the live board:
 python3 scripts/completed.py --tasks /tmp/fixture-tasks.json
 ```
 
-After it changes any statuses, publish the board so the updates go out:
-
-```
-python3 push_board.py --publish
-```
+After it changes any statuses, publish the board so the updates go out.
+The board page (`p:board`) renders from `p:tasks.json`, so publishing is:
+(1) run `python3 tests/regression.py` — must be 12/12 before anything ships;
+(2) commit `tasks.json` to the repo via the GitHub API; (3) PUT the same
+bytes to the portal KV namespace as key `p:tasks.json`; (4) fetch the live
+`https://portal.technology-consults.workers.dev/p/tasks.json` and confirm the
+change is there. The old `scripts/push_board.py --publish` path is retired —
+it reads from `board-build/`, which was archived on 2026-09-28.
 
 The scheduled runner (a cron, created after this automation is approved)
 runs `completed.py --execute` then `push_board.py --publish` when anything
