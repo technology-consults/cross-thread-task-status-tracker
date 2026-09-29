@@ -1264,7 +1264,7 @@
    "id": "sv.review-completed-automation.2026-09-28",
    "thread": "sv",
    "title": "Review: completed automation (yours)",
-   "status": "pending_review",
+   "status": "pending_review_post_discussion",
    "assigned_to": "BalRam",
    "created": "2026-09-28",
    "updated": "2026-09-28",
