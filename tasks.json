@@ -1466,6 +1466,18 @@
    "detail": "Follow-up discussion on the 2026-09-29 incident where git reset --hard wiped the trading-portal clone's uncommitted etf-live.html holiday fix + README (second occurrence; same class as the 2026-09-28 publisher SHIP reset). Fixed so far: global rule now prescribes git pull --ff-only for clone sync, reset --hard demoted to explicit-discard-only, re-sync procedure documented in the github skill. Open for discussion: shell-level wrapper enforcing the guard (offered, awaiting his word), broader git workflow review, whether pull --ff-only covers all sync cases.",
    "where": "Main chat · 2026-09-29",
    "assigned_to": "Bandhu"
+  },
+  {
+   "id": "tr.watcher-never-gated-fix.2026-09-29",
+   "thread": "tr",
+   "title": "Watcher: never-gated tasks must not trigger unblock notices (2026-09-29)",
+   "status": "completed",
+   "created": "2026-09-29",
+   "updated": "2026-09-29",
+   "due": null,
+   "detail": "Fix approved by BalRam 2026-09-29: unblock_watch.py surfaced brand-new todo tasks with zero blockers as unblock events (its actionable check is todo + nothing-blocking + never-seen; a never-gated task passes trivially). Change: the unblock check and the sweep idle reason only surface tasks that actually had blockers or a start gate, so an unblock notice is always truthful and never-gated todos stay the board publish flow's job to announce. Shared script, applies to all three threads. DONE 2026-09-29: unblock_watch.py now only surfaces tasks that had blockers or a start gate (was_gated); verified via unit checks + old-vs-new simulation on live data (never-gated todo surfaced pre-fix, silent post-fix, genuine unblocks unaffected). Committed via API (b61be3a), tagged v1.0.1, clone re-synced.",
+   "where": "Trading tracker · 2026-09-29",
+   "assigned_to": "Bandhu"
   }
  ]
 }
