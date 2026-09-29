@@ -1,7 +1,7 @@
 ---
 id: etf-signal-intraday
 title: ETF intraday signal watch
-enabled: true
+enabled: false
 owner: goal:etf-price-updates
 mode: task
 schedule:
@@ -12,7 +12,7 @@ schedule:
 delivery:
   - chat_id: 3c672068-efb2-446c-9e50-aa0a3d02adf1
 metadata:
-  originating_chat_context_json: '{"chat_id":"9c6459ad-00f6-47e3-a7ca-0754d25fc408","origin_provider":"main","chat_kind":"direct","event_kind":"message","require_mention":false,"device_id":"5cd90c63bc608a44"}'
+  originating_chat_context_json: '{"chat_id":"1ea4c688-3d31-4f06-a369-180fd5e00405","origin_provider":"main","chat_kind":"direct","event_kind":"message","require_mention":false,"device_id":"5cd90c63bc608a44"}'
   presentation_locale: en-US
 ---
 Intraday strong-signal watch for QQQ, SPY, and GLD, delivered to the Trading chat. Chat delivery only — never email. DEFAULT IS SILENCE: only send when a genuinely strong new signal fires. Signals are rule-based and informational only, not financial advice.

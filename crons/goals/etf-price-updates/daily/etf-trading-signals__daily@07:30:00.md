@@ -11,14 +11,14 @@ schedule:
 delivery:
   - chat_id: 3c672068-efb2-446c-9e50-aa0a3d02adf1
 metadata:
-  originating_chat_context_json: '{"chat_id":"9c6459ad-00f6-47e3-a7ca-0754d25fc408","origin_provider":"main","chat_kind":"direct","event_kind":"message","require_mention":false,"device_id":"5cd90c63bc608a44"}'
+  originating_chat_context_json: '{"chat_id":"1ea4c688-3d31-4f06-a369-180fd5e00405","origin_provider":"main","chat_kind":"direct","event_kind":"message","require_mention":false,"device_id":"5cd90c63bc608a44"}'
   presentation_locale: en-US
 ---
 Daily trading-signal report for QQQ, SPY, and GLD, delivered to the Trading chat alongside the 8:00 AM ETF update. Chat delivery only — never email. Signals come from the rule-based engine in ~/workspace/repos/trading/src/build_signals.py (technical trend/momentum + macro factors) and are informational only, not financial advice — the message footer says so; never present them as advice or guarantees.
 
 First, decide whether this run should report. Get the current local date and time in America/Toronto. Only proceed if ALL of these hold:
 1. Today is Monday–Friday.
-2. Today is a NYSE trading day (not a US stock market holiday — if unsure, do a quick web search for the NYSE holiday calendar for the current year).
+2. Today is a NYSE trading day — read ~/workspace/shared/holidays/nyse_holidays.json; if today's date (YYYY-MM-DD) is in the "holidays" list, today is a holiday. If the file is missing or unreadable, fetch holidays/nyse_holidays.json from the technology-consults/cross-thread-task-status-tracker repo (@ main) via the GitHub API, save it to ~/workspace/shared/holidays/nyse_holidays.json, and use that copy going forward. Never rebuild the list from a web search; if the repo copy is unreachable too, do not guess — end the run with one brief failure note.
 If any check fails, stay silent and end the run with no user-facing message.
 
 Otherwise:

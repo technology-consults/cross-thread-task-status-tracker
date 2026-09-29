@@ -11,14 +11,14 @@ schedule:
 delivery:
   - chat_id: 3c672068-efb2-446c-9e50-aa0a3d02adf1
 metadata:
-  originating_chat_context_json: '{"chat_id":"3c672068-efb2-446c-9e50-aa0a3d02adf1","origin_provider":"main","chat_kind":"direct","event_kind":"message","require_mention":false,"device_id":"5cd90c63bc608a44"}'
+  originating_chat_context_json: '{"chat_id":"1ea4c688-3d31-4f06-a369-180fd5e00405","origin_provider":"main","chat_kind":"direct","event_kind":"message","require_mention":false,"device_id":"5cd90c63bc608a44"}'
   presentation_locale: en-US
 ---
 Pre-close price update for QQQ, SPY, and GLD at 15:30 ET (30 minutes before the regular-session close), with per-symbol charts. Same standing format as the etf-price-updates alerts: three stacked theme-aware cards, one per symbol (see step 4) — keep this format for all future alerts. Chat delivery only — the email step was removed 2026-09-22 per BalRam; do not email.
 
 First, decide whether this run should report. Get the current local date and time in America/Toronto. This job fires daily at 15:15, about 15 minutes before the 15:30 pre-close slot, so data prep finishes near 15:30 (average prep time measured 2026-09-22..28 was ~10 minutes; the 15-minute lead leaves a few minutes of slack for delivery). Only report if ALL of these hold:
 1. Today is Monday–Friday.
-2. Today is a NYSE trading day (not a US stock market holiday — if unsure, do a quick web search for the NYSE holiday calendar for the current year).
+2. Today is a NYSE trading day — read ~/workspace/shared/holidays/nyse_holidays.json; if today's date (YYYY-MM-DD) is in the "holidays" list, today is a holiday. If the file is missing or unreadable, fetch holidays/nyse_holidays.json from the technology-consults/cross-thread-task-status-tracker repo (@ main) via the GitHub API, save it to ~/workspace/shared/holidays/nyse_holidays.json, and use that copy going forward. Never rebuild the list from a web search; if the repo copy is unreachable too, do not guess — end the run with one brief failure note.
 
 If any check fails, stay silent and end the run with no user-facing message.
 

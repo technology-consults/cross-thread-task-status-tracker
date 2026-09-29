@@ -22,7 +22,7 @@ First, decide whether this run should report. Get the current local date and tim
 - 15:45 and any other time → stay silent (the 15:30 pre-close belongs to the separate etf-price-preclose job).
 Only report if ALL of these hold:
 1. Today is Monday–Friday.
-2. Today is a NYSE trading day (not a US stock market holiday — if unsure, do a quick web search for the NYSE holiday calendar for the current year).
+2. Today is a NYSE trading day — read ~/workspace/shared/holidays/nyse_holidays.json; if today's date (YYYY-MM-DD) is in the "holidays" list, today is a holiday. If the file is missing or unreadable, fetch holidays/nyse_holidays.json from the technology-consults/cross-thread-task-status-tracker repo (@ main) via the GitHub API, save it to ~/workspace/shared/holidays/nyse_holidays.json, and use that copy going forward. Never rebuild the list from a web search; if the repo copy is unreachable too, do not guess — end the run with one brief failure note.
 3. The rounded fire time maps to a slot above.
 
 If any check fails, stay silent and end the run with no user-facing message.
