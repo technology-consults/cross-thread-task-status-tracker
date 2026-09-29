@@ -2,8 +2,8 @@
 """Board unblock watcher: prints tasks that newly became actionable.
 
 A task is actionable when:
-- status is 'todo' or 'blocked', AND
-- every blockedBy entry of kind 'task' points to a task with status 'agreed', AND
+- status is 'todo', 'blocked', or 'blocked_approved', AND
+- every blockedBy entry of kind 'task' points to a task with status 'done', AND
 - every blockedBy entry of kind 'external' has a verifiable gate date that has arrived
   (gate = ISO date in the note, else the task's 'due' field; no date -> still blocked), AND
 - no 'start' field dated in the future.
@@ -19,9 +19,13 @@ re-surface:
 - reason "stalled": status in_progress, last update over STALL_DAYS ago,
   not recurring/standing work. Report-only: the caller must NOT auto-act,
   only surface a brief note naming the task and its last-update date.
+- reason "completed_stalled": status completed, last update over a day ago —
+  the post-review actions (push/tag/deploy) should finish the same day, so an
+  older completed task means the automation failed or stalled. Report-only:
+  surface a brief note naming the task and its last-update date.
 
-Each sweep entry carries "reason" and an "owner_hint" ("his" when the
-title/detail marks it as BalRam's step, else "mine").
+Each sweep entry carries "reason" and an "owner_hint" ("his" when the task is
+assigned to BalRam, else "mine").
 """
 import json
 import os
@@ -50,7 +54,7 @@ def blockers_clear(t, byid, today):
         kind = b.get("kind")
         if kind == "task":
             ref = byid.get(b.get("id"))
-            if not (ref and ref.get("status") == "agreed"):
+            if not (ref and ref.get("status") == "done"):
                 return False
         elif kind == "external":
             m = ISO.search(b.get("note", "") or "")
@@ -65,6 +69,10 @@ def blockers_clear(t, byid, today):
 
 
 def owner_hint(t):
+    if t.get("assigned_to") == "BalRam":
+        return "his"
+    if t.get("assigned_to") == "Bandhu":
+        return "mine"
     text = " ".join(str(t.get(k) or "") for k in ("title", "detail"))
     return "his" if HIS_STEP.search(text) else "mine"
 
@@ -87,7 +95,7 @@ def main():
     today = date.today().isoformat()
     stall_cutoff = (date.today() - timedelta(days=STALL_DAYS)).isoformat()
 
-    fields = ("id", "thread", "title", "status", "due", "detail", "where")
+    fields = ("id", "thread", "title", "status", "due", "detail", "where", "assigned_to")
     out = []
     for t in items:
         tid = t.get("id")
@@ -111,8 +119,15 @@ def main():
                 entry = {k: t.get(k) for k in fields}
                 entry.update(reason="stalled", owner_hint=owner_hint(t))
                 out.append(entry)
+            elif status == "completed":
+                upd = t.get("updated") or ""
+                if upd and upd >= today:
+                    continue  # completed today: post-actions may still be running
+                entry = {k: t.get(k) for k in fields}
+                entry.update(reason="completed_stalled", owner_hint=owner_hint(t))
+                out.append(entry)
             continue
-        if status not in ("todo", "blocked"):
+        if status not in ("todo", "blocked", "blocked_approved"):
             continue
         if not blockers_clear(t, byid, today):
             continue
