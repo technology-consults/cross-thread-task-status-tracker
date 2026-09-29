@@ -1,11 +1,39 @@
 #!/usr/bin/env python3
-"""Push board files to the cross-thread-task-status-tracker repo via GitHub API."""
+"""Push board files to the cross-thread-task-status-tracker repo via GitHub API
+and sync the live portal board via Cloudflare KV.
+
+SAFETY: publishing requires the explicit --publish flag. Running with no
+arguments (or --help) only validates and dry-runs — it NEVER publishes.
+(This is the fix for the 2026-09-28 incident where --help triggered a
+production publish because the script had no argument parsing at all.)
+
+Usage:
+  push_board.py --publish [--message "commit msg"] [--skip-kv | --skip-repo]
+  push_board.py            # validate + dry-run only, no publishing
+"""
+import argparse
 import base64, json, sys, urllib.request, urllib.error
 sys.path.insert(0, "/opt/hatch/skills/skill-creator/bin")
 from dynamic_credentials import add_surrogate_to_request
 
 REPO = "technology-consults/cross-thread-task-status-tracker"
 BUILD = "/home/hatch/workspace/repos/cross-thread-task-status-tracker"
+
+FILES = [
+    # (repo path, local file, default commit message)
+    ("index.html", "index.html", "Board: publish index.html"),
+    ("tasks.json", "tasks.json", "Board: publish tasks.json"),
+    ("board.css", "board.css", "Board: publish board.css"),
+    ("tests/synthetic_matrix.js", "tests/synthetic_matrix.js", "Board: publish synthetic test matrix"),
+]
+
+KV_FILES = [
+    # (KV key, local file)
+    ("p:board", "index.html"),
+    ("p:tasks.json", "tasks.json"),
+    ("p:assets/board.css", "board.css"),
+]
+
 
 def api(method, path, body=None):
     data = json.dumps(body).encode() if body is not None else None
@@ -22,22 +50,41 @@ def api(method, path, body=None):
         print(f"HTTP {e.code}: {e.read().decode()}", file=sys.stderr)
         sys.exit(1)
 
-def put_file(path, local, message):
+
+def put_file(repo_path, local, message, dry_run):
+    if dry_run:
+        print(f"DRY-RUN: would PUT {repo_path} <- {local}")
+        return
     with open(local, "rb") as f:
         content = base64.b64encode(f.read()).decode()
     body = {"message": message, "content": content, "branch": "main"}
     try:
-        cur = api("GET", f"/repos/{REPO}/contents/{path}")
+        cur = api("GET", f"/repos/{REPO}/contents/{repo_path}")
         body["sha"] = cur["sha"]
     except SystemExit:
         pass
-    r = api("PUT", f"/repos/{REPO}/contents/{path}", body)
-    print(f"PUT {path}: {r.get('commit', {}).get('sha', '')[:8]} {r.get('commit', {}).get('message', '')}")
+    # retry once on transient API/network failure before reporting
+    import time
+    for attempt in (1, 2):
+        try:
+            r = api("PUT", f"/repos/{REPO}/contents/{repo_path}", body)
+            break
+        except SystemExit:
+            if attempt == 2:
+                raise
+            print(f"PUT {repo_path}: transient failure, retrying...", file=sys.stderr)
+            time.sleep(3)
+    print(f"PUT {repo_path}: {r.get('commit', {}).get('sha', '')[:8]} {r.get('commit', {}).get('message', '')}")
+
 
 CF_ACCT = "f5ab3d8595f37065d333e639f56926c2"
 CF_NS = "85718c092905432bbb8501d4a5f78520"
 
-def kv_put(key, local):
+
+def kv_put(key, local, dry_run):
+    if dry_run:
+        print(f"DRY-RUN: would KV PUT {key} <- {local}")
+        return
     with open(local, "rb") as f:
         data = f.read()
     import urllib.parse
@@ -57,30 +104,63 @@ def kv_put(key, local):
         sys.exit(1)
     print(f"KV portal sync: {key} ({len(data)}b)")
 
-def main():
-    # validate: every task status must exist in the board's STATUS map, or rendering breaks
+
+def validate():
+    """Hard validation: every task status must exist in the board's STATUS map."""
     import re
     html = open(f"{BUILD}/index.html").read()
     known = set(re.findall(r'^\s{2}(\w+):\{label:', html, re.M))
+    if not known:
+        print("FATAL: could not extract STATUS map from index.html", file=sys.stderr)
+        sys.exit(1)
     data = json.load(open(f"{BUILD}/tasks.json"))
-    bad = [(x["id"], x.get("status")) for x in data["tasks"] if x.get("status") not in known]
+    tasks = data["tasks"] if isinstance(data, dict) else data
+    bad = [(x.get("id"), x.get("status")) for x in tasks if x.get("status") not in known]
     if bad:
-        # unknown statuses now render with a fallback chip/badge instead of crashing,
-        # so this is a loud warning (add a proper label/rank/color to STATUS), not a block
-        print(f"WARNING: statuses not in the board's STATUS map (will show with fallback styling): {bad}")
-    print(f"status check ok ({len(known)} known, {len(data['tasks'])} tasks)")
-    put_file("index.html", f"{BUILD}/index.html",
-             "Board: compute anchored on meta.asOf, 'No due date' labels, artifact-index link")
-    put_file("tasks.json", f"{BUILD}/tasks.json",
-             "Board dataset: 2FA/GitHub record corrections (2026-09-27)")
-    put_file("tests/synthetic_matrix.js", f"{BUILD}/tests/synthetic_matrix.js",
-             "Board QC: synthetic date-boundary test matrix (66 cases)")
-    put_file("board.css", f"{BUILD}/board.css",
-             "Board: separate stylesheet (portal v1)")
-    # keep the private portal's tracker in sync (prevents stale board on the portal)
-    kv_put("p:board", f"{BUILD}/index.html")
-    kv_put("p:tasks.json", f"{BUILD}/tasks.json")
-    kv_put("p:assets/board.css", f"{BUILD}/board.css")
+        print(f"FATAL: {len(bad)} task(s) with statuses outside the board's STATUS map: {bad}",
+              file=sys.stderr)
+        print("Add a proper label/rank/color to STATUS in index.html first.", file=sys.stderr)
+        sys.exit(1)
+    # every pushed file must exist locally
+    for _, local, _ in FILES:
+        try:
+            open(f"{BUILD}/{local}", "rb").close()
+        except FileNotFoundError:
+            print(f"FATAL: missing local file {BUILD}/{local}", file=sys.stderr)
+            sys.exit(1)
+    print(f"validation ok: {len(known)} known statuses, {len(tasks)} tasks, all files present")
+    return tasks
+
+
+def main():
+    ap = argparse.ArgumentParser(
+        description="Publish the board (repo + portal KV). Without --publish, validates and dry-runs only.")
+    ap.add_argument("--publish", action="store_true",
+                    help="actually publish to the repo and portal KV (required)")
+    ap.add_argument("--message", default="",
+                    help="commit message prefix; per-file suffix is appended")
+    ap.add_argument("--skip-kv", action="store_true", help="push to repo only, skip portal KV sync")
+    ap.add_argument("--skip-repo", action="store_true", help="sync portal KV only, skip repo push")
+    args = ap.parse_args()
+
+    tasks = validate()
+    dry_run = not args.publish
+    if dry_run:
+        print("dry-run mode: no publishing without --publish")
+
+    msg_prefix = args.message.strip()
+    for repo_path, local, default_msg in FILES:
+        msg = f"{msg_prefix} — {default_msg}" if msg_prefix else default_msg
+        if not args.skip_repo:
+            put_file(repo_path, f"{BUILD}/{local}", msg, dry_run)
+
+    if not args.skip_kv:
+        for key, local in KV_FILES:
+            kv_put(key, f"{BUILD}/{local}", dry_run)
+
+    if dry_run:
+        print("dry-run complete: nothing was published")
+        return
     check_unblocks_after_push()
 
 
@@ -155,6 +235,7 @@ def check_unblocks_after_push():
             print(f"===== END UNBLOCK REPORT thread={th} =====")
         else:
             print(f"unblock check thread={th}: status changed but no newly actionable tasks")
+
 
 if __name__ == "__main__":
     main()
