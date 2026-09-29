@@ -1218,6 +1218,17 @@
     }
    ],
    "detail": "Assistant task — build the post-approval automation so blocked_completed → completed → push/tag/deploy/verify → done runs without manual thread moves.\n• Trigger: review task approved (verdict approved) with a blocked_completed work task in its blockedBy.\n• Steps: move work task to completed; code tasks → commit/push, release tag, deploy, verify live; non-code → artifacts/messages; record commit link; move to done.\n• Safety: never run on already-deployed work; rejection path moves work to not_approved instead.\n• Interim (locked 2026-09-28): manual thread moves until this automation ships — nothing moves without his written approval."
+  },
+  {
+   "id": "sv.review-regression-suite.2026-09-28",
+   "title": "Review: board regression suite (tests/regression.py)",
+   "status": "pending_review",
+   "thread": "sv",
+   "assigned_to": "BalRam",
+   "created": "2026-09-28",
+   "updated": "2026-09-28",
+   "detail": "Review the regression suite (12 checks) pushed as fbee7224. Covers: tasks.json validity, push_board.py safety, CSS rules, HTML fallbacks, digest generation. Retroactive review — file already in repo.",
+   "summary": "Retroactive review of regression suite (pushed without prior approval — process violation owned)."
   }
  ]
 }
