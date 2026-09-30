@@ -1590,6 +1590,46 @@
       "detail": "Approve starting the enforcement-suite rollout (scripts/enforce/ + commit.py orchestration, post-unit-test pre-commit gates) to bandhu-portal, trading-portal, trading, cross-thread-task-status-tracker, agent-tools, and vehicle. short-video is the reference; short-video-publisher is next regardless.",
       "where": "Short Video thread · 2026-09-30",
       "assigned_to": "BalRam"
+    },
+    {
+      "id": "sv.enforce-rules-review.2026-09-30",
+      "thread": "sv",
+      "title": "Review + agree: all enforced rules/gates (short-video)",
+      "status": "pending_review",
+      "created": "2026-09-30",
+      "updated": "2026-09-30",
+      "due": null,
+      "detail": "Review every enforced rule before the lock: scripts/enforce/coding_standards.py, security.py, owner_guidelines.py, scripts/enforce/gates.json (inventory), scripts/commit.py orchestration, scripts/enforce/remediation.py protocol (13 gates + remediation procedure). Your approval finalizes them; after that neither of us changes rules/gates/mechanisms alone -- only by discussion and agreement.",
+      "where": "Short Video thread · 2026-09-30",
+      "assigned_to": "BalRam"
+    },
+    {
+      "id": "sv.enforce-rules-review-publisher.2026-09-30",
+      "thread": "sv",
+      "title": "Review + agree: all enforced rules/gates (short-video-publisher)",
+      "status": "pending_review",
+      "created": "2026-09-30",
+      "updated": "2026-09-30",
+      "due": null,
+      "detail": "Same review for the publisher repo (flagged highly critical): scripts/enforce/ trio, gates.json, commit.py orchestration, remediation.py protocol. Your approval finalizes them under the same bilateral lock -- no unilateral changes after.",
+      "where": "Short Video thread · 2026-09-30",
+      "assigned_to": "BalRam"
+    },
+    {
+      "id": "sv.enforce-rules-finalize.2026-09-30",
+      "thread": "sv",
+      "title": "Finalize + lock enforced rules after agreement",
+      "status": "blocked",
+      "created": "2026-09-30",
+      "updated": "2026-09-30",
+      "due": null,
+      "detail": "After both reviews are approved: re-verify repo blobs match the reviewed state (no drift), confirm remediation.py states the bilateral lock, mark done. From then on, rule/gate changes need discussion + agreement via the rule_change_templates task pair.",
+      "where": "Short Video thread · 2026-09-30",
+      "assigned_to": "Bandhu",
+      "blockedBy": [
+        "sv.enforce-rules-review.2026-09-30",
+        "sv.enforce-rules-review-publisher.2026-09-30"
+      ]
     }
   ]
 }
