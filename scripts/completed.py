@@ -20,7 +20,7 @@ Phase 1 - verdict application (blocked_completed tasks):
 
 Phase 2 - post-actions (completed tasks):
   A task needs an explicit post plan in a 'post' object, written at
-  review-submit time (see docs/completed-automation.md). No plan -> MANUAL.
+  review-submit time (see docs/technical/completed-automation.md). No plan -> MANUAL.
   Idempotency ('never run on already-deployed work'): a completed task that
   already carries 'post_done' is skipped silently.
 
