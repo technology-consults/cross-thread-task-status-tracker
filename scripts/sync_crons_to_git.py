@@ -20,6 +20,8 @@ from zoneinfo import ZoneInfo
 
 sys.path.insert(0, "/opt/hatch/skills/skill-creator/bin")
 from dynamic_credentials import add_surrogate_to_request
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from build_crons_page import build_page
 
 REPO = "technology-consults/cross-thread-task-status-tracker"
 BRANCH = "main"
@@ -90,6 +92,11 @@ def collect():
                 with open(full, "rb") as f:
                     files[f"{DEST}/{bucket}/{rel}"] = f.read()
     files[f"{DEST}/README.md"] = README.encode()
+    # The review page is rebuilt from the same definitions on every sync, so
+    # it is always current with the scheduler. Served by GitHub Pages.
+    defs_text = {p: d.decode("utf-8", "replace") for p, d in files.items()
+                 if p.endswith(".md")}
+    files[f"{DEST}/index.html"] = build_page(defs_text)
     return files
 
 
