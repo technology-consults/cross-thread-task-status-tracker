@@ -3,7 +3,7 @@
     "boardTitle": "All Threads Status Board",
     "lastUpdated": "2026-09-30",
     "note": "Entries describe where each discussion lives; the board cannot deep-link into individual chat messages.",
-    "asOf": "2026-09-30"
+    "asOf": "2026-09-29"
   },
   "threads": {
     "sv": {
@@ -1599,7 +1599,7 @@
       "created": "2026-09-30",
       "updated": "2026-09-30",
       "due": null,
-      "detail": "Review every enforced rule before the lock: scripts/enforce/coding_standards.py, security.py, owner_guidelines.py, scripts/enforce/gates.json (inventory), scripts/commit.py orchestration, scripts/enforce/remediation.py protocol (13 gates + remediation procedure). Your approval finalizes them; after that neither of us changes rules/gates/mechanisms alone -- only by discussion and agreement.",
+      "detail": "Review every enforced rule before the lock: scripts/enforce/coding_standards.py, security.py, owner_guidelines.py, scripts/enforce/gates.json (inventory), scripts/commit.py orchestration, scripts/enforce/remediation.py protocol (13 gates + remediation procedure). Your approval finalizes them; after that neither of us changes rules/gates/mechanisms alone -- only by discussion and agreement. Update 2026-09-30: remediation.py branch (3) now differentiates critical vs non-critical exceptions per owner's definition -- hourly poke only when video publishing is affected (blocked landings/builds/deploys/publishing/code-fetch failures); non-critical approvals ride the normal board review stream.",
       "where": "Short Video thread · 2026-09-30",
       "assigned_to": "BalRam"
     },
@@ -1611,7 +1611,7 @@
       "created": "2026-09-30",
       "updated": "2026-09-30",
       "due": null,
-      "detail": "Same review for the publisher repo (flagged highly critical): scripts/enforce/ trio, gates.json, commit.py orchestration, remediation.py protocol. Your approval finalizes them under the same bilateral lock -- no unilateral changes after.",
+      "detail": "Same review for the publisher repo (flagged highly critical): scripts/enforce/ trio, gates.json, commit.py orchestration, remediation.py protocol. Your approval finalizes them under the same bilateral lock -- no unilateral changes after. Update 2026-09-30: remediation.py branch (3) now differentiates critical vs non-critical exceptions per owner's definition -- hourly poke only when video publishing is affected (blocked landings/builds/deploys/publishing/code-fetch failures); non-critical approvals ride the normal board review stream.",
       "where": "Short Video thread · 2026-09-30",
       "assigned_to": "BalRam"
     },
