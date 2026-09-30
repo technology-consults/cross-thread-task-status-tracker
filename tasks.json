@@ -1639,7 +1639,7 @@
       "created": "2026-09-30",
       "updated": "2026-09-30",
       "due": null,
-      "detail": "The two EV-deals cron bodies disagree on the EVAP cap: rate scan (phev-ev-suv-deal-watch 8:00 ET) uses <=$50,000 with no cap for Canadian-made EVs; payment watch (phev-ev-suv-payment-watch 8:42 ET) uses <=$55,000 for SUVs. Found while writing vehicle docs/technical/ev-deals-flow.md (commit ec670b0). Pick one cap and align both cron bodies.",
+      "detail": "RESOLUTION KNOWN (2026-09-30 memory flush): a fresh 2026 source check confirms the current EVAP rule is a $50,000 final transaction-value cap for non-Canadian-made vehicles, no cap for Canadian-made EVs; $55,000 belonged to the former iZEV program. The payment-watch cron text (phev-ev-suv-payment-watch, 8:42 ET) still carries the stale $55,000 rule -> correct it to $50,000; the rate-scan cron (phev-ev-suv-deal-watch, 8:00 ET) already uses $50,000. Cron job-text change needs BalRam's written approval (requested, not yet given). Found while writing vehicle docs/technical/ev-deals-flow.md (commit ec670b0).",
       "where": "Chat-review sweep · 2026-09-30 (vehicle docs filing)",
       "assigned_to": "Bandhu"
     }
