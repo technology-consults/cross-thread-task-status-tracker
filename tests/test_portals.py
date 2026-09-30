@@ -41,20 +41,20 @@ def fetch_nofollow(url, timeout=20):
     parts = r.stdout.decode().split(" ", 1)
     return int(parts[0]), (parts[1] if len(parts) > 1 else "")
 
-# --- bandhu-portal: main hub ("The Intelligently Artificial", v3) ---
+# --- bandhu-portal: main hub ("The Intelligently Artificial", v4) ---
 try:
     status, body = fetch("https://portal.technology-consults.workers.dev/")
     check("bandhu-portal: hub serves 200", status == 200, f"got {status}")
     check("bandhu-portal: hub is HTML", b"<html" in body[:500].lower())
     check("bandhu-portal: hub shows new name", b"The Intelligently Artificial" in body)
     check("bandhu-portal: hub has hamburger menu", b"menu-btn" in body and b'id="drawer"' in body)
-    check("bandhu-portal: hub has artifacts section", b'id="artifacts"' in body)
-    check("bandhu-portal: hub version is v3", b">v3<" in body)
+    check("bandhu-portal: hub has documents list", b'id="documents"' in body)
+    check("bandhu-portal: hub version is v4", b">v4<" in body)
     check("bandhu-portal: no canonical /p/ links in hub", b'href="/p/' not in body and b"href='/p/" not in body)
 except Exception as e:
     for n in ["bandhu-portal: hub serves 200", "bandhu-portal: hub is HTML",
               "bandhu-portal: hub shows new name", "bandhu-portal: hub has hamburger menu",
-              "bandhu-portal: hub has artifacts section", "bandhu-portal: hub version is v3",
+              "bandhu-portal: hub has documents list", "bandhu-portal: hub version is v4",
               "bandhu-portal: no canonical /p/ links in hub"]:
         check(n, False, str(e)[:100])
 
@@ -99,12 +99,12 @@ try:
     check("bandhu-portal: /p/ev-deals/ redirects to GitHub Pages",
           s == 302 and loc == "https://technology-consults.github.io/vehicle/ev-deals/", f"{s} -> {loc}")
     s, loc = fetch_nofollow("https://portal.technology-consults.workers.dev/p/artifacts/")
-    check("bandhu-portal: /p/artifacts/ redirects to /#artifacts", s == 302 and loc.endswith("/#artifacts"), f"{s} -> {loc}")
+    check("bandhu-portal: /p/artifacts/ redirects to /", s == 302 and loc.endswith("/") and "#" not in loc, f"{s} -> {loc}")
 except Exception as e:
     for n in ["bandhu-portal: /p/board redirects to /board",
               "bandhu-portal: /p/ redirects to /",
               "bandhu-portal: /p/ev-deals/ redirects to GitHub Pages",
-              "bandhu-portal: /p/artifacts/ redirects to /#artifacts"]:
+              "bandhu-portal: /p/artifacts/ redirects to /"]:
         check(n, False, str(e)[:100])
 
 # --- bandhu-portal: EV deals on GitHub Pages ---
