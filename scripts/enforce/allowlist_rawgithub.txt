@@ -1,0 +1,2 @@
+# Deliberate-act escape for its gate: one repo-relative path per line,
+# or directory prefixes ending in "/". Empty means no exemptions.
