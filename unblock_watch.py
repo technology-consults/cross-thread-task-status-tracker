@@ -56,6 +56,8 @@ def load(path, default):
 
 def blockers_clear(t, byid, today):
     for b in t.get("blockedBy") or []:
+        if isinstance(b, str):
+            b = {"kind": "task", "id": b}  # legacy bare task-id entries (2026-09-30)
         kind = b.get("kind")
         if kind == "task":
             ref = byid.get(b.get("id"))
