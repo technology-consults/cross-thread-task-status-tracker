@@ -20,7 +20,7 @@ Created 2026-09-27 · Last updated 2026-09-29
 | `scripts/sync_holiday_copies.py` | Validates the NYSE holiday JSON and mirrors it one-way to `holidays/nyse_holidays.json` |
 | `crons/` | Versioned mirror of every saved cron definition |
 | `holidays/nyse_holidays.json` | The shared NYSE full-day closure list (rolling next four months) |
-| `docs/scheduled-jobs.md` | The current list of every scheduled job |
+| `docs/technical/scheduled-jobs.md` | The current list of every scheduled job |
 | `docs/workspace-directory-guide.md` | Plain-words map of the agent's workspace |
 | `artifacts/` | Thin copies of user-facing artifacts (Artifact Index) |
 
