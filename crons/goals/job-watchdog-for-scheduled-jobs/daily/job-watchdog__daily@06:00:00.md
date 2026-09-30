@@ -5,13 +5,11 @@ enabled: true
 owner: goal:job-watchdog-for-scheduled-jobs
 mode: task
 schedule:
-  kind: interval
+  kind: daily
   timezone: America/Toronto
-  at: 2026-09-25T20:28:44
-  every: 1h
+  time: 06:00:00
 timeout_secs: 300
 metadata:
-  tags: [cron:automatic-interval-anchor]
   originating_chat_context_json: '{"chat_id":"1ea4c688-3d31-4f06-a369-180fd5e00405","origin_provider":"main","chat_kind":"direct","event_kind":"message","require_mention":false,"device_id":"5cd90c63bc608a44"}'
   presentation_locale: en-US
 ---
@@ -24,9 +22,9 @@ Frequent:
 2. etf-signal-intraday-market — hourly. Missed if no completed run in 3h.
 3. etf-price-updates — every 2h. Missed if no completed run in 3h.
 4. etf-signal-intraday-offhours — every 6h. Missed if no completed run in 8h.
-5. repo-pull-hourly — hourly. Missed if no completed run in 3h.
 
 Daily:
+5. repo-pull — daily ~06:00 ET. Missed if no completed run in 30h.
 6. etf-trading-signals — daily ~07:30 ET. Missed if no completed run in 30h.
 7. phev-ev-suv-deal-watch — daily ~08:00 ET. Missed if no completed run in 30h.
 8. signal-scorecard — daily ~08:42 ET. Missed if no completed run in 30h.
