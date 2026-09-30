@@ -94,7 +94,16 @@ def was_gated(t):
 
 def main():
     import argparse
-    from datetime import date, timedelta
+    from datetime import datetime, timedelta
+    from zoneinfo import ZoneInfo
+
+    # The VM runs on UTC; BalRam's day (America/Toronto) is what "today",
+    # staleness, and date gates mean. Using the VM date made every task
+    # completed between 20:00-23:59 EDT look a day stale (false
+    # completed_stalled) and let date gates open up to a day early.
+    now_local = datetime.now(ZoneInfo("America/Toronto")).date()
+    today = now_local.isoformat()
+    stall_cutoff = (now_local - timedelta(days=STALL_DAYS)).isoformat()
 
     ap = argparse.ArgumentParser()
     ap.add_argument("--thread", default=None, help="only consider tasks with this thread value (e.g. sv, tr, vh)")
@@ -107,8 +116,6 @@ def main():
     byid = {t.get("id"): t for t in items}
     state = load(STATE, {})
     handled = set(state.get("handled", []))
-    today = date.today().isoformat()
-    stall_cutoff = (date.today() - timedelta(days=STALL_DAYS)).isoformat()
 
     fields = ("id", "thread", "title", "status", "due", "detail", "where", "assigned_to")
     out = []
