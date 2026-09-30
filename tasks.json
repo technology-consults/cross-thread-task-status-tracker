@@ -1630,6 +1630,18 @@
         "sv.enforce-rules-review.2026-09-30",
         "sv.enforce-rules-review-publisher.2026-09-30"
       ]
+    },
+    {
+      "id": "vh.evap-cap-discrepancy.2026-09-30",
+      "thread": "vh",
+      "title": "Reconcile EVAP transaction-value cap between the two EV crons",
+      "status": "todo",
+      "created": "2026-09-30",
+      "updated": "2026-09-30",
+      "due": null,
+      "detail": "The two EV-deals cron bodies disagree on the EVAP cap: rate scan (phev-ev-suv-deal-watch 8:00 ET) uses <=$50,000 with no cap for Canadian-made EVs; payment watch (phev-ev-suv-payment-watch 8:42 ET) uses <=$55,000 for SUVs. Found while writing vehicle docs/technical/ev-deals-flow.md (commit ec670b0). Pick one cap and align both cron bodies.",
+      "where": "Chat-review sweep · 2026-09-30 (vehicle docs filing)",
+      "assigned_to": "Bandhu"
     }
   ]
 }
