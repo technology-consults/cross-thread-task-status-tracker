@@ -344,7 +344,7 @@ Local git clones of the six project repos (cloned 2026-09-28) — the live sourc
 | `holidays/nyse_holidays.json` | The shared NYSE holiday list |
 | `docs/technical/scheduled-jobs.md` | Current list of every scheduled job |
 | `docs/workspace-directory-guide.md` | This guide |
-| `docs/redesign-spec.md` | Board redesign specification |
+| `docs/technical/redesign-spec.md` | Board redesign specification |
 | `artifacts/index.html` | The Artifact Index page |
 | `tests/synthetic_matrix.js` | Board test matrix |
 | `hidden_files/task_status_snapshot.json` | Last-known task statuses |
