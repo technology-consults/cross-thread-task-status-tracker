@@ -41,21 +41,25 @@ def fetch_nofollow(url, timeout=20):
     parts = r.stdout.decode().split(" ", 1)
     return int(parts[0]), (parts[1] if len(parts) > 1 else "")
 
-# --- bandhu-portal: main hub ("The Intelligently Artificial", v4) ---
+# --- bandhu-portal: dashboard home page (v1, BalRam 2026-09-30) ---
 try:
     status, body = fetch("https://portal.technology-consults.workers.dev/")
-    check("bandhu-portal: hub serves 200", status == 200, f"got {status}")
-    check("bandhu-portal: hub is HTML", b"<html" in body[:500].lower())
-    check("bandhu-portal: hub shows new name", b"The Intelligently Artificial" in body)
-    check("bandhu-portal: hub has hamburger menu", b"menu-btn" in body and b'id="drawer"' in body)
-    check("bandhu-portal: hub has documents list", b'id="documents"' in body)
-    check("bandhu-portal: hub version is v4", b">v4<" in body)
-    check("bandhu-portal: no canonical /p/ links in hub", b'href="/p/' not in body and b"href='/p/" not in body)
+    check("bandhu-portal: dashboard serves 200", status == 200, f"got {status}")
+    check("bandhu-portal: dashboard is HTML", b"<html" in body[:500].lower())
+    check("bandhu-portal: dashboard shows program status", b"Program status" in body)
+    check("bandhu-portal: dashboard has hamburger menu", b"menu-btn" in body and b'id="drawer"' in body)
+    check("bandhu-portal: dashboard has milestones", b'id="dashboard"' in body and b"Milestones" in body)
+    check("bandhu-portal: dashboard version is v1", b">v1<" in body)
+    check("bandhu-portal: no canonical /p/ links in dashboard", b'href="/p/' not in body and b"href='/p/" not in body)
+    status2, body2 = fetch("https://portal.technology-consults.workers.dev/docs")
+    check("bandhu-portal: /docs serves 200", status2 == 200, f"got {status2}")
+    check("bandhu-portal: /docs shows documentation index", b"Documentation Index" in body2)
 except Exception as e:
-    for n in ["bandhu-portal: hub serves 200", "bandhu-portal: hub is HTML",
-              "bandhu-portal: hub shows new name", "bandhu-portal: hub has hamburger menu",
-              "bandhu-portal: hub has documents list", "bandhu-portal: hub version is v4",
-              "bandhu-portal: no canonical /p/ links in hub"]:
+    for n in ["bandhu-portal: dashboard serves 200", "bandhu-portal: dashboard is HTML",
+              "bandhu-portal: dashboard shows program status", "bandhu-portal: dashboard has hamburger menu",
+              "bandhu-portal: dashboard has milestones", "bandhu-portal: dashboard version is v1",
+              "bandhu-portal: no canonical /p/ links in dashboard",
+              "bandhu-portal: /docs serves 200", "bandhu-portal: /docs shows documentation index"]:
         check(n, False, str(e)[:100])
 
 # --- bandhu-portal: board (canonical /board) ---
