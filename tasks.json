@@ -455,11 +455,11 @@
       "id": "sv.visual-identity.2026-09-27",
       "thread": "sv",
       "title": "4. Avatar, profile photos, banners",
-      "status": "todo",
+      "status": "in_progress",
       "created": "2026-09-27",
-      "updated": "2026-09-29",
+      "updated": "2026-09-30",
       "due": null,
-      "detail": "Avatar, profile photos, banners. Words locked (tagline 2026-09-27, caption style 2026-09-29). BalRam deciding avatar style direction with real-channel references; original artwork to be created after his pick.",
+      "detail": "Avatar direction A (abstract mark) approved 2026-09-30 in colorful Vortex form. Final file set: avatar-master-1600.png, youtube-banner-v7-clean-2560x1440.png, facebook-cover-v7-clean-1640x924.png. He uploads the finished brand files to the channels himself (manual step, program item 2.9).",
       "where": "Short Video thread · date unrecorded",
       "blockedBy": [
         {
@@ -890,13 +890,13 @@
       "id": "sv.caption-style.2026-09-28",
       "thread": "sv",
       "title": "Caption / hashtag style approval (yours)",
-      "status": "pending_review_post_discussion",
+      "status": "done",
       "created": "2026-09-28",
-      "updated": "2026-09-29",
+      "updated": "2026-09-30",
       "due": null,
       "where": "Short AI videos project side chat · 2026-09-28",
       "blockedBy": [],
-      "detail": "His step: written approval of caption/hashtag style. Blocks sv.visual-identity.2026-09-27 (avatar, profile photos, banners).",
+      "detail": "Option A (Telegraphic) locked 2026-09-30 on his delegation (\"Go with your best choices and i will mark my review task done\"); hashtag sets, CTA rotation, house rules in place. His step complete.",
       "assigned_to": "BalRam"
     },
     {
