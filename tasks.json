@@ -1735,11 +1735,11 @@
       "id": "shared.cronarch-sync-protect.2026-09-30",
       "thread": "shared",
       "title": "Remove superseded bulk _pre_migration_snapshot/ (was: protect it from sync)",
-      "status": "in_progress",
+      "status": "done",
       "created": "2026-09-30",
       "updated": "2026-09-30",
       "due": "2026-10-01",
-      "detail": "Bulk snapshot superseded by BalRam's per-job cron_backup/ rule \u2014 protection no longer needed. Worker redirected: delete crons/_pre_migration_snapshot/ via GitHub API in one commit ('Revert: drop superseded bulk _pre_migration_snapshot/ \u2014 per-job cron_backup/ rule replaces it'); git history retains the files.",
+      "detail": "Bulk snapshot superseded by BalRam's per-job cron_backup/ rule \u2014 protection no longer needed. Worker redirected: delete crons/_pre_migration_snapshot/ via GitHub API in one commit ('Revert: drop superseded bulk _pre_migration_snapshot/ \u2014 per-job cron_backup/ rule replaces it'); git history retains the files. DONE 2026-09-30: bulk dir removed in one atomic Trees-API commit c0735816 (56 blobs); API-verified 0 paths remain, 78 live crons/ entries intact, sync script untouched. Recoverable from git history (989496ea).",
       "where": "Main chat \u00b7 2026-09-30",
       "assigned_to": "Bandhu"
     }
