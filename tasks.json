@@ -1679,7 +1679,7 @@
       "created": "2026-09-30",
       "updated": "2026-09-30",
       "due": null,
-      "detail": "Phase 1e. Pull EVERY live definition from the scheduler API (cron.list incl. disabled + cron.view per id \u2014 not the mirror, not memory) and commit byte-for-byte to cross-thread-task-status-tracker crons/_pre_migration_snapshot/<id>.md in the existing mirror frontmatter+body format. This snapshot is the initial-go-live revert source of truth; retained through a 7-day soak per job. Must land BEFORE any live body is touched. Verify: every active id present, bodies byte-identical to cron.view output. DONE 2026-09-30: tracker@989496ea: 56/56 live definitions in crons/_pre_migration_snapshot/, blob-SHA verified. Drift found: failure-log-weekly + phev-ev-suv-payment-watch local copies stale; 23 jobs transcribed-from-view.",
+      "detail": "Phase 1e. Pull EVERY live definition from the scheduler API (cron.list incl. disabled + cron.view per id \u2014 not the mirror, not memory) and commit byte-for-byte to cross-thread-task-status-tracker crons/_pre_migration_snapshot/<id>.md in the existing mirror frontmatter+body format. This snapshot is the initial-go-live revert source of truth; retained through a 7-day soak per job. Must land BEFORE any live body is touched. Verify: every active id present, bodies byte-identical to cron.view output. DONE 2026-09-30: tracker@989496ea: 56/56 live definitions in crons/_pre_migration_snapshot/, blob-SHA verified. Drift found: failure-log-weekly + phev-ev-suv-payment-watch local copies stale; 23 jobs transcribed-from-view. SUPERSEDED 2026-09-30 (BalRam): bulk snapshot replaced by the per-job rule \u2014 deploy script captures each job's live definition into cron_backup/<job>.md at migration time. Bulk dir removed via API (git history retains it).",
       "where": "Main chat \u00b7 2026-09-30",
       "assigned_to": "Bandhu"
     },
@@ -1734,12 +1734,12 @@
     {
       "id": "shared.cronarch-sync-protect.2026-09-30",
       "thread": "shared",
-      "title": "URGENT: protect _pre_migration_snapshot from the daily mirror sync",
+      "title": "Remove superseded bulk _pre_migration_snapshot/ (was: protect it from sync)",
       "status": "in_progress",
       "created": "2026-09-30",
       "updated": "2026-09-30",
       "due": "2026-10-01",
-      "detail": "scripts/sync_crons_to_git.py deletes remote crons/ paths not present locally; the 06:42 ET cron-definitions-sync run would delete crons/_pre_migration_snapshot/ (the revert source of truth). Add PROTECTED_PREFIXES to the deletion pass + test, commit via API before 2026-10-01 06:42 ET.",
+      "detail": "Bulk snapshot superseded by BalRam's per-job cron_backup/ rule \u2014 protection no longer needed. Worker redirected: delete crons/_pre_migration_snapshot/ via GitHub API in one commit ('Revert: drop superseded bulk _pre_migration_snapshot/ \u2014 per-job cron_backup/ rule replaces it'); git history retains the files.",
       "where": "Main chat \u00b7 2026-09-30",
       "assigned_to": "Bandhu"
     }
