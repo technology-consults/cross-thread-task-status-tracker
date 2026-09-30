@@ -15,7 +15,7 @@ metadata:
   originating_chat_context_json: '{"chat_id":"1ea4c688-3d31-4f06-a369-180fd5e00405","origin_provider":"main","chat_kind":"direct","event_kind":"message","require_mention":false,"device_id":"5cd90c63bc608a44"}'
   presentation_locale: en-US
 ---
-Cron definitions backup. Run `python3 ~/workspace/repos/cross-thread-task-status-tracker/scripts/sync_crons_to_git.py` — it copies every saved cron definition (`~/workspace/cron.d` and `~/workspace/goals/*/crons`) into the `crons/` directory of the `technology-consults/cross-thread-task-status-tracker` repo and commits via the GitHub API as a single commit, but only when something changed.
+Cron definitions backup + crons review page. Run `python3 ~/workspace/repos/cross-thread-task-status-tracker/scripts/sync_crons_to_git.py` — it copies every saved cron definition (`~/workspace/cron.d` and `~/workspace/goals/*/crons`) into the `crons/` directory of the `technology-consults/cross-thread-task-status-tracker` repo, rebuilds the review page `crons/index.html` (served by GitHub Pages at https://technology-consults.github.io/cross-thread-task-status-tracker/crons/), and commits via the GitHub API as a single commit, but only when something changed.
 
 - On a no-change run, reply with exactly: no changes.
 - If it committed, reply with one line: the commit sha and how many files changed.
