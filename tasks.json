@@ -1264,12 +1264,12 @@
   {
    "id": "sv.review-regression-suite.2026-09-28",
    "title": "Review: board regression suite (tests/regression.py)",
-   "status": "pending_review",
+   "status": "done",
    "thread": "sv",
    "assigned_to": "BalRam",
    "created": "2026-09-28",
-   "updated": "2026-09-28",
-   "detail": "Review the regression suite (12 checks) pushed as fbee7224. Covers: tasks.json validity, push_board.py safety, CSS rules, HTML fallbacks, digest generation. Retroactive review — file already in repo.",
+   "updated": "2026-09-29",
+   "detail": "Review the regression suite (12 checks) pushed as fbee7224. Covers: tasks.json validity, push_board.py safety, CSS rules, HTML fallbacks, digest generation. Retroactive review — file already in repo. Approved by BalRam in writing 2026-09-29 ([REVIEW] verdict: approved).",
    "summary": "Retroactive review of regression suite (pushed without prior approval — process violation owned)."
   },
   {
