@@ -1599,7 +1599,7 @@
       "created": "2026-09-30",
       "updated": "2026-09-30",
       "due": null,
-      "detail": "Review every enforced rule before the lock: scripts/enforce/coding_standards.py, security.py, owner_guidelines.py, scripts/enforce/gates.json (inventory), scripts/commit.py orchestration, scripts/enforce/remediation.py protocol (13 gates + remediation procedure). Your approval finalizes them; after that neither of us changes rules/gates/mechanisms alone -- only by discussion and agreement. Update 2026-09-30: remediation.py branch (3) now differentiates critical vs non-critical exceptions per owner's definition -- hourly poke only when video publishing is affected (blocked landings/builds/deploys/publishing/code-fetch failures); non-critical approvals ride the normal board review stream.",
+      "detail": "Review every enforced rule before the lock: scripts/enforce/coding_standards.py, security.py, owner_guidelines.py, scripts/enforce/gates.json (inventory), scripts/commit.py orchestration, scripts/enforce/remediation.py protocol (13 gates + remediation procedure). Your approval finalizes them; after that neither of us changes rules/gates/mechanisms alone -- only by discussion and agreement. Update 2026-09-30: remediation.py branch (3) now differentiates critical vs non-critical exceptions per owner's definition -- hourly poke only when video publishing is affected (blocked landings/builds/deploys/publishing/code-fetch failures); non-critical approvals ride the normal board review stream. Ruleset versioning added 2026-09-30: gates.json carries ruleset_version 1.0.0; the enforcement content hash is pinned in the version test and commit.py refuses to run unless the version is present and the content matches -- so the agreed v1.0.0 is exactly what gets enforced.",
       "where": "Short Video thread · 2026-09-30",
       "assigned_to": "BalRam"
     },
@@ -1611,7 +1611,7 @@
       "created": "2026-09-30",
       "updated": "2026-09-30",
       "due": null,
-      "detail": "Same review for the publisher repo (flagged highly critical): scripts/enforce/ trio, gates.json, commit.py orchestration, remediation.py protocol. Your approval finalizes them under the same bilateral lock -- no unilateral changes after. Update 2026-09-30: remediation.py branch (3) now differentiates critical vs non-critical exceptions per owner's definition -- hourly poke only when video publishing is affected (blocked landings/builds/deploys/publishing/code-fetch failures); non-critical approvals ride the normal board review stream.",
+      "detail": "Same review for the publisher repo (flagged highly critical): scripts/enforce/ trio, gates.json, commit.py orchestration, remediation.py protocol. Your approval finalizes them under the same bilateral lock -- no unilateral changes after. Update 2026-09-30: remediation.py branch (3) now differentiates critical vs non-critical exceptions per owner's definition -- hourly poke only when video publishing is affected (blocked landings/builds/deploys/publishing/code-fetch failures); non-critical approvals ride the normal board review stream. Ruleset versioning added 2026-09-30: gates.json carries ruleset_version 1.0.0; the enforcement content hash is pinned in the version test and commit.py refuses to run unless the version is present and the content matches -- so the agreed v1.0.0 is exactly what gets enforced.",
       "where": "Short Video thread · 2026-09-30",
       "assigned_to": "BalRam"
     },
