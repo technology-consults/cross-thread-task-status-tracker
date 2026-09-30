@@ -342,7 +342,7 @@ Local git clones of the six project repos (cloned 2026-09-28) — the live sourc
 | `scripts/sync_holiday_copies.py` | Validates + mirrors the NYSE holiday JSON |
 | `crons/` | Versioned mirror of every saved cron definition |
 | `holidays/nyse_holidays.json` | The shared NYSE holiday list |
-| `docs/scheduled-jobs.md` | Current list of every scheduled job |
+| `docs/technical/scheduled-jobs.md` | Current list of every scheduled job |
 | `docs/workspace-directory-guide.md` | This guide |
 | `docs/redesign-spec.md` | Board redesign specification |
 | `artifacts/index.html` | The Artifact Index page |
