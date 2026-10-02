@@ -12,7 +12,7 @@ delivery:
   - chat_id: 1ff0cb94-8438-4900-8c47-a39846cbf1a3
 metadata:
   tags: [cron:automatic-interval-anchor]
-  originating_chat_context_json: '{"chat_id":"1ea4c688-3d31-4f06-a369-180fd5e00405","origin_provider":"main","chat_kind":"direct","event_kind":"message","require_mention":false,"device_id":"5cd90c63bc608a44"}'
+  originating_chat_context_json: '{"chat_id":"1ff0cb94-8438-4900-8c47-a39846cbf1a3","origin_provider":"main","chat_kind":"direct","event_kind":"message","require_mention":false,"device_id":"5cd90c63bc608a44"}'
   presentation_locale: en-US
 ---
 Board unblock watch for Trading tasks. Run `python3 ~/workspace/repos/cross-thread-task-status-tracker/unblock_watch.py --thread tr` — it prints a JSON list of trading board tasks that newly became actionable (blockers cleared or start date reached) and were never handled before.
@@ -30,7 +30,7 @@ Pickup sweep (idle + stalled + stuck-completed tasks). After the unblock check, 
 For each task in the sweep list:
 - reason idle and the work is yours: do it now, report the result briefly in this chat (the Trading task tracker), then mark handled.
 - reason idle and the step is BalRam's: send him one concise message naming the task and his step, then mark handled.
-- reason stalled: do NOT start or change anything. Send a brief note here naming the task, its last-update date, and the owner hint, then mark handled.
+- reason stalled: do NOT start or change anything, and NEVER mark stalled ids handled — they stay visible so the watcher keeps reminding until a decision (a status change) resolves them. Send the brief note (task name, last-update date, owner hint) at most once per 24h per task: keep a "stalled_reminded" map of id → ISO timestamp in ~/workspace/repos/cross-thread-task-status-tracker/hidden_files/unblock_watch_state.json; if the id was reminded within the last 24h, stay silent for it; otherwise send the note and record the current UTC timestamp. Read-modify-write carefully to preserve existing entries.
 - reason completed_stalled: do NOT start or change anything. Send a brief note here naming the task and its last-update date, then mark handled.
 
 Append handled ids to ~/workspace/repos/cross-thread-task-status-tracker/hidden_files/unblock_watch_state.json with the same read-modify-write care.
