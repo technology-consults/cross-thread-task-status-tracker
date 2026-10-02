@@ -11,9 +11,11 @@ schedule:
 delivery:
   - chat_id: 3c672068-efb2-446c-9e50-aa0a3d02adf1
 metadata:
-  originating_chat_context_json: '{"chat_id":"1ea4c688-3d31-4f06-a369-180fd5e00405","origin_provider":"main","chat_kind":"direct","event_kind":"message","require_mention":false,"device_id":"5cd90c63bc608a44"}'
+  originating_chat_context_json: '{"chat_id":"de5d7ab8-9709-4e7c-a556-fd5f582b2f7e","origin_provider":"main","chat_kind":"direct","event_kind":"message","require_mention":false,"device_id":"5cd90c63bc608a44"}'
   presentation_locale: en-US
 ---
+BROWSER FORM-SUBMIT RULE (standing user rule, 2026-10-02): never submit an HTML form or issue a POST request inside the live browser during this run — doing so fires an approval prompt to the user's phone, and a scheduled run must never surface an approval prompt. Do all searching and discovery with the web-search and page-fetch tools (browser_search, browser_open), never by typing into a site's search box and submitting it. Inside the live browser, navigate only by entering URLs directly and clicking links; payment-calculator configuration via URL-encoded options is fine. If a check genuinely requires a form submission, skip it and mark that check unverified instead of triggering the prompt. If a prompt appears anyway, do not wait on it — treat that step as blocked, mark it unverified, and continue the run.
+
 Pre-close price update for QQQ, SPY, and GLD at 15:30 ET (30 minutes before the regular-session close), with per-symbol charts. Same standing format as the etf-price-updates alerts: three stacked theme-aware cards, one per symbol (see step 4) — keep this format for all future alerts. Chat delivery only — the email step was removed 2026-09-22 per BalRam; do not email.
 
 First, decide whether this run should report. Get the current local date and time in America/Toronto. This job fires daily at 15:15, about 15 minutes before the 15:30 pre-close slot, so data prep finishes near 15:30 (average prep time measured 2026-09-22..28 was ~10 minutes; the 15-minute lead leaves a few minutes of slack for delivery). Only report if ALL of these hold:
