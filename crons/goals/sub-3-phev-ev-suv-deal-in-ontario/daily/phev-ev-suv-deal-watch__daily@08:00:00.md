@@ -11,11 +11,13 @@ schedule:
 delivery:
   - chat_id: de5d7ab8-9709-4e7c-a556-fd5f582b2f7e
 metadata:
-  originating_chat_context_json: '{"chat_id":"1ea4c688-3d31-4f06-a369-180fd5e00405","origin_provider":"main","chat_kind":"direct","event_kind":"message","require_mention":false,"device_id":"5cd90c63bc608a44"}'
+  originating_chat_context_json: '{"chat_id":"de5d7ab8-9709-4e7c-a556-fd5f582b2f7e","origin_provider":"main","chat_kind":"direct","event_kind":"message","require_mention":false,"device_id":"5cd90c63bc608a44"}'
   presentation_locale: en-US
 ---
 WORKER CONDUCT (mandatory — read first):
 Do ALL research in this run yourself with your own tools: web search, page fetch/open, live browser tasks for site navigation and payment-calculator configuration, shell commands for local scripts, widget tools for the HTML panel, chat/artifact tools for delivery. NEVER spawn subagents and NEVER delegate any part of this run to another agent: the scheduler-side worker has no durable chat owner for subagent follow-ups, and delegating kills the run ("failed while waiting for descendant subagents before resolution: follow-up has no durable chat owner") before any report is produced. This exact failure killed the 2026-09-29 morning run. If the work feels like a lot for one pass, break it into sequential tool calls yourself — do not hand it off.
+
+BROWSER FORM-SUBMIT RULE (standing user rule, 2026-10-02): never submit an HTML form or issue a POST request inside the live browser during this run — doing so fires an approval prompt to the user's phone, and a scheduled run must never surface an approval prompt. Do all searching and discovery with the web-search and page-fetch tools (browser_search, browser_open), never by typing into a site's search box and submitting it. Inside the live browser, navigate only by entering URLs directly and clicking links; payment-calculator configuration via URL-encoded options is fine. If a check genuinely requires a form submission, skip it and mark that check unverified instead of triggering the prompt. If a prompt appears anyway, do not wait on it — treat that step as blocked, mark it unverified, and continue the run.
 
 Daily Ontario EV SUV deal scan for BalRam. Research current manufacturer lease and finance special offers in ONTARIO, Canada for fully electric (BEV) SUVs/crossovers.
 
