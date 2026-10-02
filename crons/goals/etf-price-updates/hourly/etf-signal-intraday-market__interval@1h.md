@@ -12,7 +12,7 @@ schedule:
 delivery:
   - chat_id: 3c672068-efb2-446c-9e50-aa0a3d02adf1
 metadata:
-  originating_chat_context_json: '{"chat_id":"1ea4c688-3d31-4f06-a369-180fd5e00405","origin_provider":"main","chat_kind":"direct","event_kind":"message","require_mention":false,"device_id":"5cd90c63bc608a44"}'
+  originating_chat_context_json: '{"chat_id":"3c672068-efb2-446c-9e50-aa0a3d02adf1","origin_provider":"main","chat_kind":"direct","event_kind":"message","require_mention":false,"device_id":"5cd90c63bc608a44"}'
   presentation_locale: en-US
 ---
 Intraday strong-signal watch for QQQ, SPY, and GLD during market hours, delivered to the Trading chat. Chat delivery only — never email. DEFAULT IS SILENCE: only send when a genuinely strong new signal fires. Signals are rule-based and informational only, not financial advice.
@@ -33,4 +33,4 @@ Phase 2 — full analysis (only when triggered):
 1. Fetch ~6 months of daily closes per symbol via Nasdaq historical tables (6M range), dropping SPY phantom holiday rows (diff vs QQQ/GLD dates). Never invent data.
 2. Gather the full macro factor set (same 5 searches as the morning job: Fed/FOMC, CPI + upcoming dates from ~/workspace/repos/trading/src/econ_events.json, jobs, market trend/VIX, gold: war/geopolitics + safe-haven + dollar + yields + central-bank buying). Flag major=true only for genuinely market-moving events.
 3. Write /tmp/etf_signal_input.json (same shape as the morning job, session "Pre-market", "Market open" or "After hours") and run: python3 ~/workspace/repos/trading/src/build_signals.py /tmp/etf_signal_input.json /tmp/etf_signal_out.json --mode intraday --state ~/workspace/goals/etf-price-updates/hidden_files/etf_signal_state.json
-4. If the output's "send" is true: your final chat message is EXACTLY the "message" string from the output JSON, verbatim — then re-run the script with --update-state appended to record the published signals. If "send" is false: stay silent, no message, no state change.
+4. If the output's "send" is true: build the PDF report with python3 ~/workspace/repos/trading/src/build_signals_pdf.py /tmp/etf_signal_out.json ~/workspace/goals/etf-price-updates/files/etf-signals-<YYYY-MM-DD>-<HHMM>-ET.pdf (filename from the run's local date and asof time, e.g. etf-signals-2026-10-01-1200-ET.pdf) — one bullet per symbol (signal, confidence, target, support/resistance, reasoning) plus key factors. Then your final chat message is exactly two lines: the one-line header "⚡ Signal update · <Day Mon DD> · <~h:MM AM/PM TZ> · <session>" (copy the asof from /tmp/etf_signal_out.json), then the PDF as an own-line sandbox link, e.g. [etf-signals-2026-10-01-1200-ET.pdf](sandbox://workspace/goals/etf-price-updates/files/etf-signals-2026-10-01-1200-ET.pdf). No signal text in the chat message — it lives in the PDF. Then re-run the build_signals.py command from step 3 with --update-state appended to record the published signals. If "send" is false: stay silent, no message, no state change.
