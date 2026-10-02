@@ -1,6 +1,6 @@
 # Scheduled Jobs
 
-**Created:** 2026-09-28 12:18 EDT · **Last modified:** 2026-09-29 09:00 EDT
+**Created:** 2026-09-28 12:18 EDT · **Last modified:** 2026-10-02 14:42 EDT
 
 Every scheduled job (cron) currently saved, compiled from the live scheduler on 2026-09-29. Regular cron tasks are not board items — only status-change flow items go on the board (rule confirmed 2026-09-28).
 
@@ -24,6 +24,7 @@ Every scheduled job (cron) currently saved, compiled from the live scheduler on 
 | phev-ev-suv-deal-watch | Daily 08:00 ET | Ontario EV SUV deal scan (sub-3% rate, $150–$200 bi-weekly) | Vehicle |
 | phev-ev-suv-payment-watch | Daily 08:42 ET | Payment-only scan for the SUV goal | Vehicle |
 | task-due-date-watch | Daily 08:42 ET | Flags board tasks due soon or overdue; stays quiet when nothing is flagged | The three task trackers |
+| sv-chat-review | Daily 10:42 ET | Sweeps every Hatch chat; files decisions/tasks to docs/git/board. Capture-only, never pokes. Since 2026-10-02 also builds a PDF digest (missed/needs-attention, tasks filed, key decisions) delivered with the text digest | Main chat |
 | cron-definitions-sync | Daily 06:42 ET | Mirrors every cron definition into this repo's `crons/` | Silent — commits to git |
 | portal-links-watch | Daily 07:42 ET | Re-verifies every portal URL live; posts only when something changed | Portal links chat |
 | regression-watchdog | Daily 07:42 ET | Regression watchdog | Main chat |

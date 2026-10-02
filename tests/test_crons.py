@@ -37,6 +37,7 @@ CRONS = [
     "workspace/cron.d/hourly/board-unblock-watch-tr__interval@1h.md",
     "workspace/cron.d/hourly/board-unblock-watch-vh__interval@1h.md",
     "workspace/goals/all-threads-status-board-upkeep/crons/daily/cron-definitions-sync__daily@06:42:00.md",
+    "workspace/goals/all-threads-status-board-upkeep/crons/daily/sv-chat-review__daily@10:42:00_user_current.md",
     "workspace/goals/all-threads-status-board-upkeep/crons/daily/task-due-date-watch__daily@08:42:00_user_current.md",
     "workspace/goals/all-threads-status-board-upkeep/crons/hourly/repo-pull-hourly__interval@1h.md",
     "workspace/goals/etf-price-updates/crons/daily/etf-price-preclose__daily@15:15:00.md",
@@ -69,6 +70,7 @@ SCRIPTS = [
     ("workspace/repos/cross-thread-task-status-tracker/push_board.py", "board-publish"),
     ("workspace/repos/cross-thread-task-status-tracker/scripts/pending_digest.py", "digest-generator"),
     ("workspace/repos/cross-thread-task-status-tracker/scripts/sync_crons_to_git.py", "cron-definitions-sync"),
+    ("workspace/goals/all-threads-status-board-upkeep/hidden_files/sweep_digest_pdf.py", "chat-sweep-pdf-digest"),
     ("workspace/repos/bandhu-portal/scripts/push_ev_deals.py", "phev-ev-suv-deal-watch"),
 ]
 for path, name in SCRIPTS:
