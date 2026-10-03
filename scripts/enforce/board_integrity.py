@@ -35,7 +35,7 @@ GATE_DEFS = [
     ("tasks-schema",
      "tasks.json must stay valid JSON with the board's task shape: "
      "required fields, unique string ids, known statuses, threads "
-     "that exist",
+     "that exist, blockedBy as task id(s) or reference objects",
      "scripts/enforce/allowlist_board.txt"),
 ]
 
@@ -99,6 +99,23 @@ def known_statuses(repo_root):
     return found or set(_FALLBACK_STATUSES)
 
 
+def _blocked_by_entry_ok(x):
+    """One blockedBy entry is valid when it is a non-empty task-id string
+    or a reference object the board reader resolves: {"kind": "task",
+    "id": "<task id>"} or {"kind": "external", "note": "<text>"}.
+    (index.html computes blockers via b.id; the unblock watcher
+    tolerates both the string and object forms, so the gate must too.)"""
+    if isinstance(x, str):
+        return bool(x)
+    if isinstance(x, dict):
+        kind = x.get("kind")
+        if kind == "task":
+            return isinstance(x.get("id"), str) and bool(x.get("id"))
+        if kind == "external":
+            return isinstance(x.get("note"), str) and bool(x.get("note"))
+    return False
+
+
 def check_tasks_schema(diff, repo_root, allow):
     """Validate the whole new tasks.json when it is in the diff."""
     if TASKS_JSON not in diff["files"]:
@@ -160,12 +177,14 @@ def check_tasks_schema(diff, repo_root, allow):
         if isinstance(thread, str) and thread not in threads:
             blocked(0, "%s references unknown thread %r" % (where, thread))
         blocked_by = task.get("blockedBy")
-        if blocked_by is not None and not (
-                isinstance(blocked_by, str) or (
-                    isinstance(blocked_by, list) and all(
-                        isinstance(x, str) for x in blocked_by))):
-            blocked(0, "%s has a malformed blockedBy (want id or list "
-                       "of ids)" % where)
+        if blocked_by is not None:
+            entries = (blocked_by if isinstance(blocked_by, list)
+                       else [blocked_by])
+            if not all(_blocked_by_entry_ok(x) for x in entries):
+                blocked(0, "%s has a malformed blockedBy (want a task id, "
+                           "a list of task ids, or reference objects "
+                           '{"kind": "task", "id": ...} / '
+                           '{"kind": "external", "note": ...})' % where)
     return out
 
 

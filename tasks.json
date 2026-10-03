@@ -577,7 +577,7 @@
       "created": "2026-09-25",
       "updated": "2026-10-02",
       "due": null,
-      "detail": "Your call. Verdict 2026-10-01 (Trading chat): approved by BalRam; silver added alongside oil + Nasdaq Composite in the pre-market gauges.",
+      "detail": "Your call. Verdict 2026-10-02 (Trading chat, formal review): approved — \"Add ONLY oil to morning report\". Supersedes 2026-10-01 note (oil + Nasdaq Composite + silver).",
       "where": "Trading thread · 2026-09-25",
       "assigned_to": "BalRam"
     },
@@ -601,7 +601,7 @@
       "created": "2026-09-25",
       "updated": "2026-10-02",
       "due": null,
-      "detail": "Research-only vs second-opinion line vs bands-only. Verdict 2026-10-01 (Trading chat): approved as bands-only (second-opinion/design decision for the future unified engine; nothing changes in live signals).",
+      "detail": "Research-only vs second-opinion line vs bands-only. Verdict 2026-10-02 (Trading chat, formal review): approved — \"Second Opinion; Bands\". Supersedes 2026-10-01 bands-only note (nothing changes in live signals).",
       "where": "Trading thread · 2026-09-25",
       "assigned_to": "BalRam"
     },

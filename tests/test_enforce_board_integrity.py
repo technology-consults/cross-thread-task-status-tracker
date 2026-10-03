@@ -148,6 +148,39 @@ def test_blocked_by_string_ok():
     check("tasks-schema: string blockedBy passes", out == [])
 
 
+def test_blocked_by_task_ref_ok():
+    diff = mdiff({"tasks.json": (False, [(1, "{")])})
+    out = run_with(board_text([good_task(
+        blockedBy=[{"kind": "task", "id": "sv.y"}])]), diff)
+    check("tasks-schema: {kind:task,id} blockedBy passes", out == [])
+
+
+def test_blocked_by_external_ref_ok():
+    diff = mdiff({"tasks.json": (False, [(1, "{")])})
+    out = run_with(board_text([good_task(
+        blockedBy=[{"kind": "external", "note": "waiting on vendor"}])]),
+        diff)
+    check("tasks-schema: {kind:external,note} blockedBy passes", out == [])
+
+
+def test_blocked_by_ref_missing_id_blocked():
+    diff = mdiff({"tasks.json": (False, [(1, "{")])})
+    out = run_with(board_text([good_task(
+        blockedBy=[{"kind": "task"}])]), diff)
+    check("tasks-schema: task ref without id blocked",
+          any(v[0] == "tasks-schema" and "blockedBy" in v[3]
+              for v in out))
+
+
+def test_blocked_by_unknown_kind_blocked():
+    diff = mdiff({"tasks.json": (False, [(1, "{")])})
+    out = run_with(board_text([good_task(
+        blockedBy=[{"kind": "mystery", "id": "sv.y"}])]), diff)
+    check("tasks-schema: unknown blockedBy kind blocked",
+          any(v[0] == "tasks-schema" and "blockedBy" in v[3]
+              for v in out))
+
+
 def test_optional_fields_ok():
     task = good_task(due=None, where="here", assigned_to="Bandhu",
                      priority="prod-critical", blockedBy=["sv.y"])

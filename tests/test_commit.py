@@ -48,8 +48,10 @@ def test_diff_added_unchanged():
 
 
 def test_load_ruleset_version():
+    sys.path.insert(0, HERE)
+    import test_ruleset_version as trv
     check("commit: ruleset version loads and is semver",
-          mod.load_ruleset_version() == "1.0.0"
+          mod.load_ruleset_version() == trv.RULESET_VERSION
           and bool(re.match(r"^\d+\.\d+\.\d+$",
                             mod.load_ruleset_version())))
 
