@@ -43,8 +43,8 @@ BUILD_SHA_PLACEHOLDER = "__BUILD_SHA__"
 def main_head_sha():
     """Short SHA of the repo's main branch HEAD, read via the GitHub API
     (never local git). This is the version of the deployed build."""
-    commits = api("GET", f"/repos/{REPO}/commits/main?per_page=1")
-    return commits[0]["sha"][:7]
+    commit = api("GET", f"/repos/{REPO}/commits/main")
+    return commit["sha"][:7]
 
 
 def stamp_build_sha(data: bytes, sha: str) -> bytes:
