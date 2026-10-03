@@ -9,7 +9,7 @@
 <body>
 <div class="wrap">
 <header class="top">
-<div class="topbar"><div class="brand">Status Board</div><span class="ver" id="buildVer" title="deployed build (git commit)">__BUILD_SHA__</span></div>
+<div class="topbar"><div class="brand">Status Board</div><span class="ver" id="buildVer" title="board version">—</span></div>
 <h1>All Threads Status Board</h1>
 <p>Every tracked item across all threads, grouped by state.</p>
 <p class="updated-line">Board data last updated: <span id="lastUpdated">…</span> — refreshed by Bandhu on every status change.</p>
@@ -487,17 +487,9 @@ function init(){
   $("showDates").addEventListener("change",e=>{state.showDates=e.target.checked;render();saveFilters();});
   $("vFlat").addEventListener("click",()=>{state.view="flat";$("vFlat").classList.add("on");$("vGroup").classList.remove("on");render();saveFilters();});
   $("vGroup").addEventListener("click",()=>{state.view="grouped";$("vGroup").classList.add("on");$("vFlat").classList.remove("on");render();saveFilters();});
-  // Build version: the publish stamps __BUILD_SHA__ with the deployed commit
-  // SHA. If this copy was never stamped (opened from the repo directly),
-  // resolve the current main SHA at runtime so the label is never a lie.
-  (function(){
-    var el=document.getElementById("buildVer");
-    if(!el||el.textContent!=="__BUILD_SHA__")return;
-    fetch("https://api.github.com/repos/technology-consults/cross-thread-task-status-tracker/commits/main?per_page=1")
-      .then(function(r){if(!r.ok)throw 0;return r.json();})
-      .then(function(j){el.textContent=j[0].sha.slice(0,7);})
-      .catch(function(){el.textContent="dev";});
-  })();
+  // Board version: shown top-right, read from the live tasks.json meta
+  // (meta.boardVersion). It travels with the data, so the label always
+  // matches what is on screen. Bump it on every board change.
   // Live data: fetch tasks.json from the repo's main branch on every page
   // load, so the board always shows current data instead of a stale
   // published snapshot. Falls back to the bundled snapshot (portal KV)
@@ -515,6 +507,8 @@ function init(){
   ).then(data=>{
     state.data=data;
     state.byId={}; data.tasks.forEach(t=>state.byId[t.id]=t);
+    var bv=document.getElementById("buildVer");
+    if(bv&&data.meta&&data.meta.boardVersion)bv.textContent="v"+data.meta.boardVersion;
     compute(state.byId, data.meta.asOf||data.meta.lastUpdated);
     const ts=$("threadSel");
     for(const k of Object.keys(data.threads)){const o=document.createElement("option");o.value=k;o.textContent=data.threads[k].name;ts.appendChild(o);}

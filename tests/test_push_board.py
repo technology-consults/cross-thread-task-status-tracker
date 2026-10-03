@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
-"""Unit tests for push_board.py build-version stamping (pure helpers only --
+"""Unit tests for push_board.py board-version check (pure helpers only --
 no network).
+
+The board shows meta.boardVersion (semver, e.g. 1.0.0) top-right, read
+live with the data. Bump it on every board change.
 
 Convention: a main() printing "<N> passed, <M> failed", exit 0 on
 success, 1 on failure.
@@ -30,35 +33,30 @@ def check(name, cond):
         print("FAIL: %s" % name)
 
 
-def test_stamp_replaces_placeholder():
-    out = mod.stamp_build_sha(
-        b'<span class="ver" id="buildVer">__BUILD_SHA__</span>', "c587ec0")
-    check("push_board: placeholder replaced with SHA",
-          out == b'<span class="ver" id="buildVer">c587ec0</span>')
+def test_valid_version_passes():
+    check("push_board: valid semver passes",
+          mod.check_board_version({"meta": {"boardVersion": "1.0.0"}}) is None)
+    check("push_board: multi-digit semver passes",
+          mod.check_board_version({"meta": {"boardVersion": "12.3.45"}}) is None)
 
 
-def test_stamp_no_placeholder_unchanged():
-    data = b"<html>no marker here</html>"
-    check("push_board: bytes without placeholder unchanged",
-          mod.stamp_build_sha(data, "c587ec0") == data)
+def test_missing_version_fails():
+    check("push_board: missing meta fails",
+          mod.check_board_version({}) is not None)
+    check("push_board: missing boardVersion fails",
+          mod.check_board_version({"meta": {}}) is not None)
 
 
-def test_stamp_keeps_rest_of_file():
-    data = b"AAA__BUILD_SHA__BBB__BUILD_SHA__CCC"
-    check("push_board: all occurrences stamped, rest intact",
-          mod.stamp_build_sha(data, "c587ec0") == b"AAAc587ec0BBBc587ec0CCC")
-
-
-def test_placeholder_constant():
-    check("push_board: placeholder constant is the agreed marker",
-          mod.BUILD_SHA_PLACEHOLDER == "__BUILD_SHA__")
+def test_malformed_version_fails():
+    for bad in ("1.0", "v1.0.0", "1.0.0-beta", "", 123, None):
+        check("push_board: malformed version %r fails" % (bad,),
+              mod.check_board_version({"meta": {"boardVersion": bad}}) is not None)
 
 
 def main():
-    test_stamp_replaces_placeholder()
-    test_stamp_no_placeholder_unchanged()
-    test_stamp_keeps_rest_of_file()
-    test_placeholder_constant()
+    test_valid_version_passes()
+    test_missing_version_fails()
+    test_malformed_version_fails()
     print("%d passed, %d failed" % (_passed, _failed))
     sys.exit(1 if _failed else 0)
 

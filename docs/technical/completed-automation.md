@@ -75,7 +75,7 @@ exists only after its mechanism proved out on a real call:
 
 | Profile | Target | Mechanism (proven) | Gate |
 |---|---|---|---|
-| `board-push` | board files | Root `push_board.py --publish`: GitHub API commit of board files + KV PUT to the portal namespace (`p:board`, `p:tasks.json`, `p:assets/board.css`). The board page loads `tasks.json` live from the repo's main branch on every page view (KV snapshot is the fallback). At publish, the `__BUILD_SHA__` placeholder in `index.html` is stamped with the short SHA of the deployed main HEAD, shown top-right as the build version. | `tests/regression.py` (run manually before every publish) |
+| `board-push` | board files | Root `push_board.py --publish`: GitHub API commit of board files + KV PUT to the portal namespace (`p:board`, `p:tasks.json`, `p:assets/board.css`). The board page loads `tasks.json` live from the repo's main branch on every page view (KV snapshot is the fallback). The top-right shows `meta.boardVersion` (semver, e.g. 1.0.0) — bump it on every board change; the publish validates its presence and shape. | `tests/regression.py` (run manually before every publish) |
 | `github-repo-push-tag` | script repos (trading, short-video, vehicle) | GitHub API commit + release tag | changed `.py` files must compile |
 | `trading-portal-pages` | trading-portal site | API push → Pages auto-deploy → live URL check | **missing** — stays manual until a suite exists |
 | `portal-kv-content` | portal content pages | project's KV push scripts → live URL check | **missing** — stays manual until a suite exists |

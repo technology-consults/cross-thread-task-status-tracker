@@ -34,23 +34,18 @@ KV_FILES = [
     ("p:assets/board.css", "board.css"),
 ]
 
-# Placeholder in index.html replaced at publish time with the short SHA of
-# the deployed build (the repo's main HEAD). The repo copy keeps the
-# placeholder; only the portal (KV) copy is stamped.
-BUILD_SHA_PLACEHOLDER = "__BUILD_SHA__"
 
-
-def main_head_sha():
-    """Short SHA of the repo's main branch HEAD, read via the GitHub API
-    (never local git). This is the version of the deployed build."""
-    commit = api("GET", f"/repos/{REPO}/commits/main")
-    return commit["sha"][:7]
-
-
-def stamp_build_sha(data: bytes, sha: str) -> bytes:
-    """Replace the build-SHA placeholder with the deployed commit SHA."""
-    return data.replace(BUILD_SHA_PLACEHOLDER.encode("utf-8"),
-                        sha.encode("utf-8"))
+def check_board_version(data):
+    """The board shows meta.boardVersion top-right (e.g. 1.0.0), read live
+    with the data. Return an error string when it is missing or malformed,
+    else None. Bump it on every board change."""
+    import re
+    meta = data.get("meta") if isinstance(data, dict) else None
+    ver = meta.get("boardVersion") if isinstance(meta, dict) else None
+    if not isinstance(ver, str) or not re.match(r"^\d+\.\d+\.\d+$", ver):
+        return ("meta.boardVersion must be a semver string like 1.0.0 "
+                "(bump on every board change)")
+    return None
 
 
 def api(method, path, body=None):
@@ -99,13 +94,12 @@ CF_ACCT = "f5ab3d8595f37065d333e639f56926c2"
 CF_NS = "85718c092905432bbb8501d4a5f78520"
 
 
-def kv_put(key, local, dry_run, data=None):
+def kv_put(key, local, dry_run):
     if dry_run:
         print(f"DRY-RUN: would KV PUT {key} <- {local}")
         return
-    if data is None:
-        with open(local, "rb") as f:
-            data = f.read()
+    with open(local, "rb") as f:
+        data = f.read()
     import urllib.parse
     req = urllib.request.Request(
         f"https://api.cloudflare.com/client/v4/accounts/{CF_ACCT}/storage/kv/namespaces/{CF_NS}/values/{urllib.parse.quote(key, safe='')}",
@@ -139,6 +133,10 @@ def validate():
         print(f"FATAL: {len(bad)} task(s) with statuses outside the board's STATUS map: {bad}",
               file=sys.stderr)
         print("Add a proper label/rank/color to STATUS in index.html first.", file=sys.stderr)
+        sys.exit(1)
+    ver_err = check_board_version(data)
+    if ver_err:
+        print(f"FATAL: {ver_err}", file=sys.stderr)
         sys.exit(1)
     # every pushed file must exist locally
     for _, local, _ in FILES:
@@ -174,22 +172,8 @@ def main():
             put_file(repo_path, f"{BUILD}/{local}", msg, dry_run)
 
     if not args.skip_kv:
-        # Stamp the deployed build's version into the portal board copy.
-        # Read the SHA after any repo push above, so it names the build
-        # that is actually deployed.
-        sha = main_head_sha()
-        print(f"build version stamp: {sha}")
         for key, local in KV_FILES:
-            if key == "p:board":
-                with open(f"{BUILD}/{local}", "rb") as f:
-                    stamped = stamp_build_sha(f.read(), sha)
-                if dry_run:
-                    print(f"DRY-RUN: would KV PUT {key} <- {local} "
-                          f"(stamped {sha})")
-                else:
-                    kv_put(key, f"{BUILD}/{local}", dry_run, data=stamped)
-            else:
-                kv_put(key, f"{BUILD}/{local}", dry_run)
+            kv_put(key, f"{BUILD}/{local}", dry_run)
 
     if dry_run:
         print("dry-run complete: nothing was published")
