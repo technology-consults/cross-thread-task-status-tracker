@@ -34,6 +34,24 @@ KV_FILES = [
     ("p:assets/board.css", "board.css"),
 ]
 
+# Placeholder in index.html replaced at publish time with the short SHA of
+# the deployed build (the repo's main HEAD). The repo copy keeps the
+# placeholder; only the portal (KV) copy is stamped.
+BUILD_SHA_PLACEHOLDER = "__BUILD_SHA__"
+
+
+def main_head_sha():
+    """Short SHA of the repo's main branch HEAD, read via the GitHub API
+    (never local git). This is the version of the deployed build."""
+    commits = api("GET", f"/repos/{REPO}/commits/main?per_page=1")
+    return commits[0]["sha"][:7]
+
+
+def stamp_build_sha(data: bytes, sha: str) -> bytes:
+    """Replace the build-SHA placeholder with the deployed commit SHA."""
+    return data.replace(BUILD_SHA_PLACEHOLDER.encode("utf-8"),
+                        sha.encode("utf-8"))
+
 
 def api(method, path, body=None):
     data = json.dumps(body).encode() if body is not None else None
@@ -81,12 +99,13 @@ CF_ACCT = "f5ab3d8595f37065d333e639f56926c2"
 CF_NS = "85718c092905432bbb8501d4a5f78520"
 
 
-def kv_put(key, local, dry_run):
+def kv_put(key, local, dry_run, data=None):
     if dry_run:
         print(f"DRY-RUN: would KV PUT {key} <- {local}")
         return
-    with open(local, "rb") as f:
-        data = f.read()
+    if data is None:
+        with open(local, "rb") as f:
+            data = f.read()
     import urllib.parse
     req = urllib.request.Request(
         f"https://api.cloudflare.com/client/v4/accounts/{CF_ACCT}/storage/kv/namespaces/{CF_NS}/values/{urllib.parse.quote(key, safe='')}",
@@ -155,8 +174,22 @@ def main():
             put_file(repo_path, f"{BUILD}/{local}", msg, dry_run)
 
     if not args.skip_kv:
+        # Stamp the deployed build's version into the portal board copy.
+        # Read the SHA after any repo push above, so it names the build
+        # that is actually deployed.
+        sha = main_head_sha()
+        print(f"build version stamp: {sha}")
         for key, local in KV_FILES:
-            kv_put(key, f"{BUILD}/{local}", dry_run)
+            if key == "p:board":
+                with open(f"{BUILD}/{local}", "rb") as f:
+                    stamped = stamp_build_sha(f.read(), sha)
+                if dry_run:
+                    print(f"DRY-RUN: would KV PUT {key} <- {local} "
+                          f"(stamped {sha})")
+                else:
+                    kv_put(key, f"{BUILD}/{local}", dry_run, data=stamped)
+            else:
+                kv_put(key, f"{BUILD}/{local}", dry_run)
 
     if dry_run:
         print("dry-run complete: nothing was published")
