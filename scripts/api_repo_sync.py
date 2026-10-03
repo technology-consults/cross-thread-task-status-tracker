@@ -120,6 +120,27 @@ def download_tarball(owner, repo, sha, dest_path):
     _get_tarball("%s/%s" % (owner, repo), sha, dest_path)
 
 
+def clean_bytecode(repo_dir):
+    """Remove regenerable Python bytecode caches.
+
+    These must never affect the tree comparison: `git add -A` would stage
+    them in repos whose .gitignore doesn't cover them, producing a tree SHA
+    that can never match the remote tree.
+    """
+    for _root, dirs, files in os.walk(repo_dir):
+        if ".git" in dirs:
+            dirs.remove(".git")
+        for d in [d for d in dirs if d == "__pycache__"]:
+            shutil.rmtree(os.path.join(_root, d), ignore_errors=True)
+            dirs.remove(d)
+        for f in files:
+            if f.endswith((".pyc", ".pyo")):
+                try:
+                    os.unlink(os.path.join(_root, f))
+                except OSError:
+                    pass
+
+
 def sync_worktree_from_tarball(repo_dir, tarball_path):
     """Replace the working tree (minus .git) with the tarball content."""
     tmp = tempfile.mkdtemp(prefix="api-sync-")
@@ -143,17 +164,7 @@ def sync_worktree_from_tarball(repo_dir, tarball_path):
             capture_output=True, text=True, timeout=300)
         if r.returncode != 0:
             raise RuntimeError("rsync failed: %s" % r.stderr.strip()[:200])
-        # Drop regenerable bytecode caches: `git add -A` below must not
-        # stage them, or the tree SHA will never match the remote tree.
-        for _root, dirs, files in os.walk(repo_dir):
-            if ".git" in dirs:
-                dirs.remove(".git")
-            for d in [d for d in dirs if d == "__pycache__"]:
-                shutil.rmtree(os.path.join(_root, d), ignore_errors=True)
-                dirs.remove(d)
-            for f in files:
-                if f.endswith((".pyc", ".pyo")):
-                    os.unlink(os.path.join(_root, f))
+        clean_bytecode(repo_dir)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
 
@@ -192,7 +203,9 @@ def main(argv):
 
     # Stage the worktree and read its tree SHA. This distinguishes phantoms
     # (worktree content == remote tree, local HEAD just stale) from real
-    # local changes, without touching the remote.
+    # local changes, without touching the remote. Bytecode caches are
+    # dropped first so they can't poison the tree comparison.
+    clean_bytecode(repo_dir)
     rc, _, err = run_git(repo_dir, "add", "-A")
     if rc != 0:
         return fail(name, "git add failed: %s" % err[:150])

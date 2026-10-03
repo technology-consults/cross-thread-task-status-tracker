@@ -202,5 +202,26 @@ check("unparseable remote -> rc 0", rc == 0)
 check("unparseable remote -> SKIP line", out.startswith("SKIP fake:"))
 
 
+# --- clean_bytecode --------------------------------------------------------
+import tempfile
+_td = tempfile.mkdtemp()
+os.makedirs(os.path.join(_td, "pkg", "__pycache__"))
+os.makedirs(os.path.join(_td, ".git", "objects"))
+open(os.path.join(_td, "pkg", "__pycache__", "m.cpython-312.pyc"), "w").write("x")
+open(os.path.join(_td, "pkg", "stray.pyc"), "w").write("x")
+open(os.path.join(_td, "pkg", "keep.py"), "w").write("x")
+open(os.path.join(_td, ".git", "objects", "cached.pyc"), "w").write("x")
+m.clean_bytecode(_td)
+check("clean_bytecode: removes __pycache__",
+      not os.path.exists(os.path.join(_td, "pkg", "__pycache__")))
+check("clean_bytecode: removes stray .pyc",
+      not os.path.exists(os.path.join(_td, "pkg", "stray.pyc")))
+check("clean_bytecode: keeps .py source",
+      os.path.exists(os.path.join(_td, "pkg", "keep.py")))
+check("clean_bytecode: never touches .git",
+      os.path.exists(os.path.join(_td, ".git", "objects", "cached.pyc")))
+import shutil as _shutil
+_shutil.rmtree(_td, ignore_errors=True)
+
 print("%d passed, %d failed" % (passed, failed))
 sys.exit(0 if failed == 0 else 1)
