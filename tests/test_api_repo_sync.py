@@ -130,9 +130,9 @@ check("behind -> mentions tarball", "API tarball" in out)
 FAKE_DIRTY = dict(FAKE_CLEAN)
 FAKE_DIRTY["tree_is_clean"] = lambda d: False
 rc, out = run_main_with(FAKE_DIRTY)
-check("dirty tree -> rc 1", rc == 1)
-check("dirty tree -> FAIL line", out.startswith("FAIL fake:"))
-check("dirty tree -> refusal reason", "refusing" in out)
+check("dirty tree -> rc 0", rc == 0)
+check("dirty tree -> SKIP line", out.startswith("SKIP fake:"))
+check("dirty tree -> untouched reason", "leaving untouched" in out)
 
 
 def fake_git_bad_tree(repo_dir, *args):
@@ -163,8 +163,8 @@ check("tree mismatch -> no commit attempted",
 FAKE_BAD_REMOTE = dict(FAKE_CLEAN)
 FAKE_BAD_REMOTE["run_git"] = lambda d, *a: (0, "not a url", "")
 rc, out = run_main_with(FAKE_BAD_REMOTE)
-check("unparseable remote -> rc 1", rc == 1)
-check("unparseable remote -> FAIL line", out.startswith("FAIL fake:"))
+check("unparseable remote -> rc 0", rc == 0)
+check("unparseable remote -> SKIP line", out.startswith("SKIP fake:"))
 
 
 print("%d passed, %d failed" % (passed, failed))

@@ -338,7 +338,7 @@ Local git clones of the six project repos (cloned 2026-09-28) — the live sourc
 | `scripts/unblock_watch.py` | Unblock-watcher script |
 | `scripts/pending_digest.py` | Per-thread task-digest builder |
 | `scripts/sync_crons_to_git.py` | Mirrors cron definitions into `crons/` |
-| `scripts/pull_all_repos.sh` | Pulls all project repos to latest (API fallback via `scripts/api_repo_sync.py` for private repos without fetch credentials) |
+| `scripts/pull_all_repos.sh` | Pulls all project repos to latest via the GitHub API (`scripts/api_repo_sync.py` — the single sync mechanism, public and private repos) |
 | `scripts/sync_holiday_copies.py` | Validates + mirrors the NYSE holiday JSON |
 | `crons/` | Versioned mirror of every saved cron definition |
 | `holidays/nyse_holidays.json` | The shared NYSE holiday list |

@@ -1,20 +1,22 @@
 #!/usr/bin/env python3
-"""API fallback sync for workbench clones whose `git fetch` fails on auth.
+"""Workbench sync: bring a local repo clone to origin/main via the GitHub API.
 
-A clone pointing at a private GitHub repo with no credentials makes
-`git fetch` die with "could not read Username". This helper syncs the
-working tree through the GitHub API instead, using this repo's established
-API auth (the same `api()` helper `scripts/commit.py` uses).
+GitHub operations are API-only (standing rule): git is used here only for
+local operations (status, rev-parse, add, commit). The network path is
+always the GitHub API, using this repo's established auth (the same `api()`
+helper `scripts/commit.py` uses). This is the single sync mechanism used by
+scripts/pull_all_repos.sh for every repo, public or private.
 
 Usage: python3 api_repo_sync.py <repo-dir> <name>
 Prints exactly one status line, in pull_all_repos.sh vocabulary:
-  OK <name>: already current (<sha>, verified via API - no fetch credentials)
+  OK <name>: already current (<sha>, verified via API)
   PULLED <name>: -> <sha> (working tree synced via API tarball)
+  SKIP <name>: <reason>   (not a git repo / local changes / unparseable remote)
   FAIL <name>: <error text>
 
 Safety rules (all enforced, fail closed):
 - The working tree must be clean (no `git status --porcelain` output
-  outside `__pycache__`); otherwise refuse immediately.
+  outside `__pycache__`); otherwise the repo is SKIPPED, never touched.
 - The remote is never touched. The sync commit is local-only and is
   never pushed (workbench clones never push, by standing rule).
 - After staging the tarball content, the index tree SHA must equal the
@@ -168,6 +170,11 @@ def fail(name, reason):
     return 1
 
 
+def skip(name, reason):
+    print("SKIP %s: %s" % (name, reason))
+    return 0
+
+
 def main(argv):
     if len(argv) != 3:
         print("usage: api_repo_sync.py <repo-dir> <name>")
@@ -175,13 +182,13 @@ def main(argv):
     repo_dir, name = argv[1], argv[2]
 
     if not tree_is_clean(repo_dir):
-        return fail(name, "working tree has local changes; refusing API sync")
+        return skip(name, "local changes present, leaving untouched")
 
     _, remote_url, _ = run_git(repo_dir, "config", "--get",
                                "remote.origin.url")
     parsed = parse_owner_repo(remote_url)
     if not parsed:
-        return fail(name, "cannot parse owner/repo from remote %r"
+        return skip(name, "cannot parse owner/repo from remote %r"
                     % remote_url)
     owner, repo = parsed
 
@@ -192,8 +199,8 @@ def main(argv):
 
     local_tree = local_tree_sha(repo_dir)
     if local_tree == remote_tree:
-        print("OK %s: already current (%s, verified via API - "
-              "no fetch credentials)" % (name, commit_sha[:8]))
+        print("OK %s: already current (%s, verified via API)"
+              % (name, commit_sha[:8]))
         return 0
 
     # Behind: refresh the working tree from the API tarball, then make a
