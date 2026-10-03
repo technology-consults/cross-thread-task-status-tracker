@@ -487,7 +487,21 @@ function init(){
   $("showDates").addEventListener("change",e=>{state.showDates=e.target.checked;render();saveFilters();});
   $("vFlat").addEventListener("click",()=>{state.view="flat";$("vFlat").classList.add("on");$("vGroup").classList.remove("on");render();saveFilters();});
   $("vGroup").addEventListener("click",()=>{state.view="grouped";$("vGroup").classList.add("on");$("vFlat").classList.remove("on");render();saveFilters();});
-  fetch("tasks.json").then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.json();}).then(data=>{
+  // Live data: fetch tasks.json from the repo's main branch on every page
+  // load, so the board always shows current data instead of a stale
+  // published snapshot. Falls back to the bundled snapshot (portal KV)
+  // when the API is unreachable.
+  const LIVE_URL="https://api.github.com/repos/technology-consults/cross-thread-task-status-tracker/contents/tasks.json?ref=main";
+  function decodeB64(b64){
+    const bin=atob(b64.replace(/\s/g,""));
+    const bytes=Uint8Array.from(bin,c=>c.charCodeAt(0));
+    return JSON.parse(new TextDecoder().decode(bytes));
+  }
+  fetch(LIVE_URL,{headers:{"Accept":"application/vnd.github+json"}}).then(r=>{
+    if(!r.ok)throw new Error("live API HTTP "+r.status);return r.json();
+  }).then(j=>decodeB64(j.content)).catch(
+    ()=>fetch("tasks.json").then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.json();})
+  ).then(data=>{
     state.data=data;
     state.byId={}; data.tasks.forEach(t=>state.byId[t.id]=t);
     compute(state.byId, data.meta.asOf||data.meta.lastUpdated);
