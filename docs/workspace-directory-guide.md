@@ -1,6 +1,6 @@
 # Workspace Directory Guide
 
-**Created:** 2026-09-28 11:53 EDT · **Last modified:** 2026-09-29 09:05 EDT
+**Created:** 2026-09-28 11:53 EDT · **Last modified:** 2026-10-03 09:05 EDT
 
 A plain-words map of everything in the workspace: what each directory is for, and what each file underneath it does. Machine-generated bulk (caches, logs, snapshots) is grouped by pattern with counts instead of one row per file — those rows would add noise, not information.
 
@@ -338,7 +338,7 @@ Local git clones of the six project repos (cloned 2026-09-28) — the live sourc
 | `scripts/unblock_watch.py` | Unblock-watcher script |
 | `scripts/pending_digest.py` | Per-thread task-digest builder |
 | `scripts/sync_crons_to_git.py` | Mirrors cron definitions into `crons/` |
-| `scripts/pull_all_repos.sh` | Pulls all project repos to latest |
+| `scripts/pull_all_repos.sh` | Pulls all project repos to latest (API fallback via `scripts/api_repo_sync.py` for private repos without fetch credentials) |
 | `scripts/sync_holiday_copies.py` | Validates + mirrors the NYSE holiday JSON |
 | `crons/` | Versioned mirror of every saved cron definition |
 | `holidays/nyse_holidays.json` | The shared NYSE holiday list |
