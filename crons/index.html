@@ -23,7 +23,7 @@ th{background:#1e1e1e}td,th{border-color:#333}pre{background:#1e1e1e}
 </style></head><body>
 <h1>Scheduled jobs</h1>
 <div class="meta">Every saved cron, regenerated from the scheduler on each sync.
-Generated: 2026-10-02 16:11 EDT &middot; 56 jobs, 53 enabled.</div>
+Generated: 2026-10-03 06:42 EDT &middot; 56 jobs, 53 enabled.</div>
 <h2>all-threads-status-board-upkeep (5)</h2>
 <table><tr><th>Job</th><th>Schedule</th><th>Status</th><th>Delivers to</th></tr>
 <tr><td><b>Repo workbench pull</b><div class="id">repo-pull</div><details><summary>job instructions</summary><pre>Repo workbench sync. Run `bash ~/workspace/repos/cross-thread-task-status-tracker/scripts/pull_all_repos.sh` — it fetches origin/main for every clone under ~/workspace/repos/ and fast-forwards the clean ones. Repos with uncommitted local changes are SKIPPED, never overwritten; repos that cannot fast-forward are reported, not forced.
@@ -1007,4 +1007,4 @@ PORTAL UPDATE (EV deals page on GitHub Pages, moved 2026-09-30): after posting t
 1. Open ~/workspace/repos/vehicle/ev-deals/index.html and prepend a new &lt;article class=&quot;day&quot; id=&quot;dYYYY-MM-DD&quot;&gt; entry DIRECTLY BELOW the &lt;!-- NEWEST ENTRY GOES DIRECTLY BELOW THIS LINE --&gt; marker (newest first). Mirror today&#x27;s chat report in HTML: an &lt;h2&gt; with the full date (e.g. Tuesday, September 29, 2026), a verdict line (how many deals met the payment criteria), a &lt;details class=&quot;static&quot;&gt;&lt;summary&gt;Match Criteria&lt;/summary&gt; block with the match-criteria table, then one .deal block per deal — group header line (&lt;div class=&quot;deal-head&quot;&gt;&lt;strong&gt;Deal:&lt;/strong&gt; model/trim · MSRP · rebate · net&lt;/div&gt;) followed by a &lt;table class=&quot;opts&quot;&gt; per-option table (Option | Rate → bi-weekly payment), qualifying payment wrapped in &lt;span class=&quot;qual&quot;&gt;. Copy the existing 2026-09-29 entry&#x27;s markup exactly as the template. NOTE: the push script lives at ~/workspace/repos/bandhu-portal/scripts/push_ev_deals.py and commits the page to the technology-consults/vehicle repo — GitHub Pages serves it from there (no portal KV involved).
 2. Run `python3 ~/workspace/repos/bandhu-portal/scripts/push_ev_deals.py` — it commits the page to the vehicle repo. GitHub Pages rebuilds in about 1-2 minutes. Then open the live page and confirm the new entry is on top before finishing.</pre></details></td><td>Daily 08:42<div class="id">America/Toronto</div></td><td><span class="badge on">enabled</span></td><td>de5d7ab8…</td></tr>
 </table>
-<div class="meta" style="margin-top:32px">Page generated 2026-10-02 16:11 EDT from the scheduler's saved definitions. The scheduler is the source of truth.</div></body></html>
+<div class="meta" style="margin-top:32px">Page generated 2026-10-03 06:42 EDT from the scheduler's saved definitions. The scheduler is the source of truth.</div></body></html>
