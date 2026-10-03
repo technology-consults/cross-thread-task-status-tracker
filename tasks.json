@@ -1,5 +1,6 @@
 {
   "meta": {
+    "boardVersion": "1.0.0",
     "boardTitle": "All Threads Status Board",
     "lastUpdated": "2026-10-01",
     "note": "Entries describe where each discussion lives; the board cannot deep-link into individual chat messages.",
