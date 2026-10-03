@@ -1,6 +1,6 @@
 {
   "meta": {
-    "boardVersion": "1.0.0",
+    "boardVersion": "1.0.1",
     "boardTitle": "All Threads Status Board",
     "lastUpdated": "2026-10-01",
     "note": "Entries describe where each discussion lives; the board cannot deep-link into individual chat messages.",
@@ -1799,6 +1799,42 @@
       "detail": "His 2026-10-01 (Trading chat): if the enforcement-audit/watchdog job is fully developed and tested and there is nothing for him to review or approve, deploy it through the enforced path. Related: shared.cronarch-ops.2026-09-30 (watchdog) is in_progress. His 2026-10-01 note: the enforcement-audit job is staged, not published.",
       "where": "Trading thread · 2026-10-01",
       "assigned_to": "Bandhu"
+    },
+    {
+      "id": "shared.workspace-to-git-consolidation.2026-10-03",
+      "thread": "shared",
+      "title": "Decide: single workspace-to-git cron + stale-change auto-commit rule",
+      "status": "pending_review",
+      "created": "2026-10-03",
+      "updated": "2026-10-03",
+      "due": null,
+      "detail": "His 2026-10-03 (Main chat): consolidate into ONE workspace-to-git cron that scans every workspace folder with code/docs/artifacts (except videos) — replaces commit-check, cron-definitions-sync, and agent-working-files-backup. Awaiting his answers: (1) 24-hour rule for auto-committing stale changes vs report-only; (2) remove commit-check vs switch on the staged enforcement-audit; (3) build the auto-create-repo mechanism (repo from a workspace folder, commit, wire into daily sync). Note: enforcement-audit is read-only (reports only, changes nothing) so it cannot cover the writing jobs — it stays as the separate detective layer.",
+      "where": "Main chat · 2026-10-03",
+      "assigned_to": "BalRam"
+    },
+    {
+      "id": "tr.premarket-gauge-list.2026-10-03",
+      "thread": "tr",
+      "title": "Decide final gauge list for 09:05 pre-market report",
+      "status": "pending_review",
+      "created": "2026-10-03",
+      "updated": "2026-10-03",
+      "due": null,
+      "detail": "tr.oil-nasdaq.2026-09-25 verdict approved and recorded (done) — the decision to add oil stands. The refinement is still open: since the verdict he said \"oil and silver\", then \"VIX\", then \"oil and USD\" (oil and USD are already in the report). The report currently carries 8 gauges: S&P 500 futures, Nasdaq 100 futures, VIX, dollar index, 10Y yield, WTI crude oil, Nasdaq Composite, silver. He owes the final gauge list before the change is made.",
+      "where": "Trading · 2026-10-03",
+      "assigned_to": "BalRam"
+    },
+    {
+      "id": "shared.shared-alert-route.2026-10-03",
+      "thread": "shared",
+      "title": "Decide where shared-thread due-date alerts go",
+      "status": "pending_review",
+      "created": "2026-10-03",
+      "updated": "2026-10-03",
+      "due": null,
+      "detail": "2026-10-03 morning due-watch: the shared thread has no tracker chat, so shared-thread overdue items have no alert route. The instance cited (shared.cronarch-sync-protect.2026-09-30) is now done, but the routing question for future shared items is still open.",
+      "where": "AI Videos Project · 2026-10-03",
+      "assigned_to": "BalRam"
     }
   ]
 }
