@@ -59,5 +59,11 @@ import hashlib
 check("blob_sha matches git",
       m.blob_sha(b"hi") == hashlib.sha1(b"blob 2\0hi").hexdigest())
 
+# --- parse_repo_spec ---------------------------------------------------------
+check("parse plain repo",
+      m.parse_repo_spec("agent-tools") == ("agent-tools", None))
+check("parse repo:subdir",
+      m.parse_repo_spec("tracker:crons") == ("tracker", "crons"))
+
 print("%d passed, %d failed" % (passed, failed))
 sys.exit(0 if failed == 0 else 1)

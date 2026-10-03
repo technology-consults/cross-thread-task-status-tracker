@@ -48,6 +48,11 @@ FOLDER_MAP = {
     "repos/trading": "trading",
     "repos/trading-portal": "trading-portal",
     "repos/vehicle": "vehicle",
+    # Cron definitions -> tracker repo's crons/ directory (replaces
+    # cron-definitions-sync). The sync_crons_to_git.py logic is preserved:
+    # definitions are mirrored, not just committed in place.
+    "cron.d": "cross-thread-task-status-tracker:crons",
+    "system-cron.d": "cross-thread-task-status-tracker:crons",
 }
 
 # File extensions that count as "work product" (code, docs, configs).
@@ -174,17 +179,31 @@ def commit_files_to_repo(repo_name, files, message):
     return new_commit["sha"]
 
 
+def parse_repo_spec(spec):
+    """Parse 'repo' or 'repo:subdir' into (repo_name, subdir)."""
+    if ":" in spec:
+        repo_name, subdir = spec.split(":", 1)
+        return repo_name, subdir
+    return spec, None
+
+
 def sync_folder(rel_path, dry_run=False):
     """Ensure one workspace folder is fully in git. Returns (action, detail)."""
     abs_path = os.path.join(WORKSPACE, rel_path)
     if not os.path.isdir(abs_path):
         return ("skip", "not a directory")
 
-    repo_name = FOLDER_MAP.get(rel_path)
-    if not repo_name:
-        # Auto-name: workspace-<basename>
-        basename = os.path.basename(rel_path.rstrip("/")).replace("_", "-")
-        repo_name = "workspace-%s" % basename
+    spec = FOLDER_MAP.get(rel_path)
+    if not spec:
+        # Goals' cron definitions -> tracker repo's crons/ directory.
+        if rel_path.startswith("goals/") and rel_path.endswith("/crons"):
+            repo_name, subdir = "cross-thread-task-status-tracker", "crons"
+        else:
+            # Auto-name: workspace-<basename>
+            basename = os.path.basename(rel_path.rstrip("/")).replace("_", "-")
+            repo_name, subdir = "workspace-%s" % basename, None
+    else:
+        repo_name, subdir = parse_repo_spec(spec)
 
     work_files = find_work_files(abs_path)
     if not work_files:
@@ -215,40 +234,43 @@ def sync_folder(rel_path, dry_run=False):
         return ("committed", "%d files -> %s" % (len(to_commit), sha[:8]))
     else:
         # Not a git repo.
-        # If mapped to an existing repo, stage files into the local clone
-        # under a subdirectory named for the folder, then commit.
+        # If mapped to an existing repo (via FOLDER_MAP or goals/crons rule),
+        # stage files into the local clone under the target subdir.
         # If not mapped, create a new GitHub repo.
-        is_mapped = rel_path in FOLDER_MAP
+        is_mapped = (rel_path in FOLDER_MAP or
+                     (rel_path.startswith("goals/") and rel_path.endswith("/crons")))
         if is_mapped:
             # Find the local clone for this repo.
             clone_path = None
             for k, v in FOLDER_MAP.items():
-                if v == repo_name and k.startswith("repos/"):
+                v_repo, _ = parse_repo_spec(v)
+                if v_repo == repo_name and k.startswith("repos/"):
                     clone_path = os.path.join(WORKSPACE, k)
                     break
             if clone_path and os.path.isdir(os.path.join(clone_path, ".git")):
-                # Copy files into clone under subdir.
-                subdir = os.path.basename(rel_path.rstrip("/"))
-                dest_base = os.path.join(clone_path, subdir)
+                # Copy files into clone under subdir (from spec, or folder
+                # basename if not specified).
+                dest_subdir = subdir or os.path.basename(rel_path.rstrip("/"))
+                dest_base = os.path.join(clone_path, dest_subdir)
                 to_commit = []
                 for fp in work_files:
                     rel_fp = os.path.relpath(fp, abs_path)
                     dest = os.path.join(dest_base, rel_fp)
                     if dry_run:
-                        to_commit.append((os.path.join(subdir, rel_fp), fp))
+                        to_commit.append((os.path.join(dest_subdir, rel_fp), fp))
                     else:
                         os.makedirs(os.path.dirname(dest), exist_ok=True)
                         with open(fp, "rb") as src, open(dest, "wb") as dst:
                             dst.write(src.read())
-                        to_commit.append((os.path.join(subdir, rel_fp), dest))
+                        to_commit.append((os.path.join(dest_subdir, rel_fp), dest))
                 if dry_run:
                     return ("would-commit",
-                            "%d files to %s/%s/" % (len(to_commit), repo_name, subdir))
+                            "%d files to %s/%s/" % (len(to_commit), repo_name, dest_subdir))
                 sha = commit_files_to_repo(
                     repo_name, to_commit,
                     "backup: import %s (%d files)" % (rel_path, len(to_commit)))
                 return ("committed",
-                        "%d files -> %s/%s/ (%s)" % (len(to_commit), repo_name, subdir, sha[:8]))
+                        "%d files -> %s/%s/ (%s)" % (len(to_commit), repo_name, dest_subdir, sha[:8]))
         # Not mapped or no clone: create new repo.
         if dry_run:
             return ("would-create", "%s with %d files"
@@ -270,6 +292,16 @@ def main(argv):
     # catches venvs, caches, and runtime dirs. New folders are added to
     # FOLDER_MAP deliberately, not by accident.
     to_scan = list(FOLDER_MAP.keys())
+
+    # Goals' cron definitions: <workspace>/goals/<goal>/crons/ -> tracker crons/
+    goals_dir = os.path.join(WORKSPACE, "goals")
+    if os.path.isdir(goals_dir):
+        for goal in sorted(os.listdir(goals_dir)):
+            crons_dir = os.path.join(goals_dir, goal, "crons")
+            if os.path.isdir(crons_dir):
+                rel = os.path.join("goals", goal, "crons")
+                # Map dynamically (not in FOLDER_MAP).
+                to_scan.append(rel)
 
     # Loose .py files in workspace root go to workspace-root-scripts.
     root_py = [f for f in os.listdir(WORKSPACE)
