@@ -93,13 +93,6 @@ def run_git(repo_dir, *args):
     return r.returncode, r.stdout.strip(), r.stderr.strip()
 
 
-def tree_is_clean(repo_dir):
-    """Clean = no porcelain output outside __pycache__."""
-    _, out, _ = run_git(repo_dir, "status", "--porcelain")
-    lines = [ln for ln in out.splitlines() if "__pycache__" not in ln]
-    return not lines
-
-
 def remote_head(owner, repo):
     """(commit_sha, tree_sha) of origin/main via the API."""
     ref = api("GET", "/repos/%s/%s/git/ref/heads/main" % (owner, repo))
@@ -181,8 +174,8 @@ def main(argv):
         return 2
     repo_dir, name = argv[1], argv[2]
 
-    if not tree_is_clean(repo_dir):
-        return skip(name, "local changes present, leaving untouched")
+    if not os.path.isdir(os.path.join(repo_dir, ".git")):
+        return skip(name, "not a git repo")
 
     _, remote_url, _ = run_git(repo_dir, "config", "--get",
                                "remote.origin.url")
@@ -197,14 +190,47 @@ def main(argv):
     except Exception as e:  # noqa: BLE001 - report, don't crash
         return fail(name, "API error reading remote head: %s" % str(e)[:150])
 
-    local_tree = local_tree_sha(repo_dir)
-    if local_tree == remote_tree:
-        print("OK %s: already current (%s, verified via API)"
-              % (name, commit_sha[:8]))
+    # Stage the worktree and read its tree SHA. This distinguishes phantoms
+    # (worktree content == remote tree, local HEAD just stale) from real
+    # local changes, without touching the remote.
+    rc, _, err = run_git(repo_dir, "add", "-A")
+    if rc != 0:
+        return fail(name, "git add failed: %s" % err[:150])
+    rc, index_tree, err = run_git(repo_dir, "write-tree")
+    if rc != 0:
+        run_git(repo_dir, "reset", "-q")
+        return fail(name, "git write-tree failed: %s" % err[:150])
+
+    head_tree = local_tree_sha(repo_dir)
+
+    if index_tree == remote_tree:
+        # Worktree content matches remote. If HEAD is stale (phantom flags),
+        # record a local-only sync commit so the clone stops crying wolf.
+        if head_tree == remote_tree:
+            print("OK %s: already current (%s, verified via API)"
+                  % (name, commit_sha[:8]))
+            return 0
+        rc, _, err = run_git(
+            repo_dir, "-c", "user.name=Bandhu",
+            "-c", "user.email=bandhu@technology-consults",
+            "commit", "-q", "-m",
+            "sync: align working tree with GitHub main %s (via API)" %
+            commit_sha[:8])
+        if rc != 0:
+            run_git(repo_dir, "reset", "-q")
+            return fail(name, "sync commit failed: %s" % err[:150])
+        print("OK %s: already current (%s, verified via API; "
+              "cleared phantom flags)" % (name, commit_sha[:8]))
         return 0
 
-    # Behind: refresh the working tree from the API tarball, then make a
-    # LOCAL-ONLY sync commit (never pushed; workbench clones never push).
+    if head_tree != index_tree:
+        # Real local changes (worktree matches neither HEAD nor remote).
+        run_git(repo_dir, "reset", "-q")
+        return skip(name, "local changes present, leaving untouched")
+
+    # Clean but behind: refresh the working tree from the API tarball, then
+    # make a LOCAL-ONLY sync commit (never pushed; workbench clones never
+    # push). The index is already staged from above.
     tmp_tar = None
     try:
         fd, tmp_tar = tempfile.mkstemp(prefix="api-sync-", suffix=".tgz")
